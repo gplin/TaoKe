@@ -28,8 +28,8 @@ def JSON(request,page):
                                            pic_height_second
                                     From share_taobaoke_item
                                     Order by rec_num asc
-                                    Limit 10 * (%s-1) ,10 ''',[page])
-        return HttpResponse(serialize('json',item,fields=('rec_num','nick','click_url','title',
+                                    Limit 20 * (%s-1) ,20 ''',[page])
+        return HttpResponse(serialize('json',item,fields=('rec_num','nick','price','click_url','title',
                                                       'pic_local_url_second',
                                                       'pic_width_second',
                                                       'pic_height_second')

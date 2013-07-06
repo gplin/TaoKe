@@ -35,6 +35,9 @@ body{
 	width: 32px;
 }
 
+.u_m140_f{
+  margin-left: 40px;
+}
 /* end base style*/
 
 
@@ -44,18 +47,19 @@ body{
   background: none repeat scroll 0 0 #FFFFFF;
   border: 1px solid #E6E4E4;
   box-shadow: 0 0 1px rgba(34, 25, 25, 0.1);
-  margin: 5px 0;
-  /*padding: 10px 13px 10px 13px;*/
+  margin: 5px 6px 15px 6px;
+  /*padding: 10px 6px 0  6px;*/
   padding-top: 10px;
   /*width: 200px;*/
-  word-wrap: break-word;
-  position: relative;
+  /*word-wrap: break-word;*/
+  /*position: relative;*/
+  display: inline;
 }
 
 .container .images_wall .img_grid .img_pic{
-  position: relative;
-  position: relative;
-  text-align: center;
+  /*position: relative;*/
+  /*position: relative;*/
+  /*text-align: center;*/
 /*  width: 200px;
   margin: 0  13px;*/
 }
