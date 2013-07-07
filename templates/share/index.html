@@ -3,9 +3,10 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Share Image</title>
           <!-- CSS Reset -->
-        <link rel="stylesheet" href="/static/style/reset.css">
+        <!-- <link rel="stylesheet" href="/static/style/reset.css"> -->
         <!-- Styling for your grid blocks -->
         <link rel="stylesheet" href="/static/style/style.css?=1">
+          <!-- <link href="/static/style/bootstrap.css" rel="stylesheet"> -->
         <script type="text/javascript" src="/static/js/jquery-1.9.1.min.js?v=1" ></script>
         <script type="text/javascript" src="/static/js/jquery.wookmark.js?=1" ></script>
 	</head>
@@ -103,7 +104,8 @@
       if (data.length>0){
           for( var i in data){
             image = data[i];
-            html += '<li>';
+            html +='<li>';
+            html += '<div class="cell">';
 
             // Image tag (preview in Wookmark are 200px wide, so we calculate the height based on that).
             html += '<a href="'+image.pk+'"> \
@@ -114,6 +116,7 @@
             // Image title.
             html += '<p>'+image.fields.title+'</p>';
 
+            html += '</div>';
             html += '</li>';
           }
           // Add image HTML to the page.

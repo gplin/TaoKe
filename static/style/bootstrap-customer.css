@@ -27,12 +27,14 @@ body{
 	float:  left;
 	height: 32px;
 	width: 32px;	
+  /*position: relative;*/
 }
 
 .u_s_icon_32 img{
 	float: left;
 	height: 32px;
 	width: 32px;
+  /*position: relative;*/
 }
 
 .u_m140_f{
@@ -40,28 +42,23 @@ body{
 }
 /* end base style*/
 
+.images_wall{
+  position:relative;
+  margin: 0;
+}
 
 /*image wall syltes*/
 .container .images_wall .img_grid{
-  float: left;
+  /*float: left;*/
   background: none repeat scroll 0 0 #FFFFFF;
   border: 1px solid #E6E4E4;
   box-shadow: 0 0 1px rgba(34, 25, 25, 0.1);
-  margin: 5px 6px 15px 6px;
+  /*margin: 5px 6px 15px 6px;*/
   /*padding: 10px 6px 0  6px;*/
-  padding-top: 10px;
-  /*width: 200px;*/
-  /*word-wrap: break-word;*/
+  padding: 15px 0;
+  word-wrap: break-word;
   /*position: relative;*/
-  display: inline;
-}
-
-.container .images_wall .img_grid .img_pic{
-  /*position: relative;*/
-  /*position: relative;*/
-  /*text-align: center;*/
-/*  width: 200px;
-  margin: 0  13px;*/
+  /*display: none;*/
 }
 
 .container .images_wall .img_grid .img_pic .price {
@@ -75,25 +72,17 @@ body{
     right: 13px;
 }
 
-.container .images_wall .img_grid .img_remark, .img_pic, .img_share, .img_comment{
-  /*background: #E8E8E8;*/
+.img_pic, .img_remark, .img_share, .img_comment{
+  background: #E8E8E8;
    width: 200px;
-   padding: 0 13px;
+   margin: 0 13px;
    position: relative;
+   word-wrap: break-word;
 }
 
 .img_remark .desc {
   line-height: 18px;
   margin-top: 5px;
-  /*background: #E0FFFF;*/
-}
-
-.img_remark .comm_num{
-	position: relative;
-}
-
-.img_remark .comm_num .likes{
-	position: relative;
 }
 
 .container .images_wall .img_grid .img_remark span{
@@ -102,7 +91,6 @@ body{
 
 .container .images_wall .img_grid .img_remark .review{
 	color: #FF6699;
-	position: relative;
 }
 
 .container .images_wall .img_grid .img_share{
@@ -110,6 +98,6 @@ body{
     color: #999999;
     line-height: 18px;
     overflow: hidden;
-    padding: 10px 13px;
+    /*padding: 10px 13px;*/
     margin-top: 5px;
 }

@@ -23,6 +23,12 @@ display: none; /** Hide items initially to avoid a flicker effect **/
 padding: 4px;
 }
 
+.cell{
+	float:left;
+	position: relative;
+	width: 240;
+}
+
 #tiles li img {
 display: block;
 }

@@ -3,46 +3,91 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>jQuery DEMO</title>
         <script type="text/javascript" src="/static/js/jquery-1.9.1.min.js?v=1" ></script>
-		<script type="text/javascript">
-        $(document).ready(function(){
-            $('.fact').bind('click',function(){
-                $.ajax({
-                    url:'/share/Demo1/',
-                    type: "GET",
-                    async: true,
-                    dataType:"json",
-                    error: function(XMLHttpRequest,textStatus,errorThrown){
-                        var s = textStatus + " " + errorThrown;
-                    },
-                    statusCode:{404:function(){
-                        alert("page not found");
-                    }},
-                    success:function(data,testStatus){
-                        var s ="";
-                        for (var key in data)
-                        {
-                            var obj = data[key];
-                            s +=obj.fields.nick+"&nbsp;&nbsp;&nbsp;<a href='"+obj.fields.click_url+"'>"+obj.fields.title+"</a></br>"
-                        }
-                        $('#result')[0].innerHTML=s;
-                   
-                    }
-                });
-            });
-        });
-		</script>
+        <script type="text/javascript" src="/static/js/taoke.waterfall.js"></script>
+		<style type="text/css">
+        .waterfall div{
+            float: left; 
+            height: auto;
+            width: 30px;
+            background: #000;
+            margin: 10px;
+            position: relative;
+        }
+        </style>
 	</head>
 	<body>
+
  <div class="fact">LOVE BUGS</div>
+ 
+     <div class="waterfall" style="width:600px; height:300px; background: #625239;">
+
+         <div>dfsf<br/>asasfd</div>
+         <div>dfsfas<br/><br/><br/><br/><<br/><br/>d<br/><br/></div>
+         <div>dfsfasasfd</div>
+         <div>dfsfasasfd</div>
+        
+         <div>dfsf<br/>asasfd</div>
+         <div>dfsfas<br/><br/><br/><br/><<br/><br/>d<br/><br/></div>
+         <div>dfsfasasfd</div>
+         <div>dfsfasasfd</div>
+         <div>dfsf<br/>asasfd</div>
+         <div>dfsfas<br/><br/><br/><br/><<br/><br/>d<br/><br/></div>
+         <div>dfsfasasfd</div>
+         <div>dfsfasasfd</div>
+         <div>dfsf<br/>asasfd</div>
+         <div>dfsfas<br/><br/><br/><br/><<br/><br/>d<br/><br/></div>
+         <div>dfsfasasfd</div>
+         <div>dfsfasasfd</div>
+     </div>
+
+ 
  <div id="menu_container"></div>
  
+<br/><br/>
+<br/> <br/><br/><br/><br/><br/><br/>
+<br/> <br/><br/><br/><br/><br/><br/>
+<br/> <br/><br/><br/><br/><br/><br/>
+<br/> <br/><br/><br/><br/><br/><br/>
+<br/> <br/><br/><br/><br/><br/><br/>
+<br/> <br/><br/><br/><br/>
+   <div id ="result">Click on the lie!</div>
 
-    <div id ="result">Click on the lie!</div>
 
- 
- 
+ <script type="text/javascript">
+        $(document).ready(function(){
+            $('#result').bind('click',function(){
+                // alert(document.documentElement.scrollTop || document.body.scrollTop);
+                var elemt=document.getElementById("result");
+                alert(elemt.offsetTop)
+                // $.ajax({
+                //     url:'/share/Demo1/',
+                //     type: "GET",
+                //     async: true,
+                //     dataType:"json",
+                //     error: function(XMLHttpRequest,textStatus,errorThrown){
+                //         var s = textStatus + " " + errorThrown;
+                //     },
+                //     statusCode:{404:function(){
+                //         alert("page not found");
+                //     }},
+                //     success:function(data,testStatus){
+                //         var s ="";
+                //         for (var key in data)
+                //         {
+                //             var obj = data[key];
+                //             s +=obj.fields.nick+"&nbsp;&nbsp;&nbsp;<a href='"+obj.fields.click_url+"'>"+obj.fields.title+"</a></br>"
+                //         }
+                //         $('#result')[0].innerHTML=s;
+                   
+                //     }
+                // }
+                //);
+            });
+
+            //waterfall
+            $(".waterfall").setwaterfall();
+        });
+        </script>
 	</body>
-   <div>
-   </div>
 </html>
 
