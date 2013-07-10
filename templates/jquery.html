@@ -1,9 +1,5 @@
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>jQuery DEMO</title>
-        <script type="text/javascript" src="/static/js/jquery-1.9.1.min.js?v=1" ></script>
-        <script type="text/javascript" src="/static/js/taoke.waterfall.js"></script>
+{% extends "base.html" %}
+{% block style %}
 		<style type="text/css">
         .waterfall div{
             float: left; 
@@ -14,12 +10,13 @@
             position: relative;
         }
         </style>
-	</head>
-	<body>
 
+{% endblock %}
+
+{% block content %}
  <div class="fact">LOVE BUGS</div>
  
-     <div class="waterfall" style="width:600px; height:300px; background: #625239;">
+     <div class="waterfall" style="width:600px; height:6000px; background: #625239;">
 
          <div>dfsf<br/>asasfd</div>
          <div>dfsfas<br/><br/><br/><br/><<br/><br/>d<br/><br/></div>
@@ -52,7 +49,9 @@
 <br/> <br/><br/><br/><br/>
    <div id ="result">Click on the lie!</div>
 
+{% endblock %}
 
+{% block footer_javascript %}
  <script type="text/javascript">
         $(document).ready(function(){
             $('#result').bind('click',function(){
@@ -89,5 +88,6 @@
         });
         </script>
 	</body>
-</html>
+{% endblock %}
+
 

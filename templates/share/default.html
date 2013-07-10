@@ -1,112 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>TaoKe</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+{% extends "base.html" %}
+{% block content %}
+<div class="category_title"></div>
+<div class="clearfix"></div>
+<div class="images_wall">
 
-    <!-- Le styles -->
-    <link href="/static/style/bootstrap.css" rel="stylesheet">
-    <!-- <link href="/static/style/bootstrap-responsive.css" rel="stylesheet"> -->
-    <link href="/static/style/bootstrap-customer.css" rel="stylesheet">
-     <!-- <link rel="stylesheet" href="/static/style/style.css?=1"> -->
+  <!-- <div class="img_grid">
+  <div class="img_pic">
+    <div class="price">¥125</div>
+    <a href="2" target="_blank">
+      <img width="200" height="200" alt="" title="" src="/media/img/2nd/f34c8870b2da11e2b610000c298c19cc.jpg"></a>
+  </div>
 
-    <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-    </style>
-     <script type="text/javascript" src="/static/js/jquery-1.9.1.min.js?v=1" ></script>
-     <script type="text/javascript" src="/static/js/jquery.wookmark.js?=1" ></script>
-    <!-- Fav and touch icons -->
-    <!-- <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/style/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/style/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/style/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="/static/style/ico/apple-touch-icon-57-precomposed.png">
-    <link rel="shortcut icon" href="/static/style/ico/favicon.png"> -->
-  </head>
+  <div class="img_remark">
+    <P class="desc">
+      <small>desc desc desc desc desc desc desc desc desc</small>
+    </p>
 
-  <body>
+    <p class="comm_num f12_f">
+      <a href="javascript:void(0)" class="likes"> <b class="btn btn-mini likes_status" >喜欢</b>
+        <span class="red_f">480</span>
+      </a>
+      <a href="javascript:void(0)" class="pull-right review"> <b>评论</b>
+        <span>20</span>
+      </a>
+    </p>
+  </div>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+  <div class="clearfix"></div>
 
-          <div class="nav-collapse collapse">
-            <p class="navbar-text pull-right">
-              <a href="#" class="navbar-link">登录</a>
-            </p>
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
+  <div class="img_share">
+    <a class="u_s_icon_32 trans07" target="_blank" href="/persion/">
+      <img src="/media/icon/u_s_0123456.jpg"></a>
+    <p class="u_m140_f">gdsfdsdfsdfdsfdsfasdfasdfasdafdsa</p>
+    <div class="clearfix"></div>
+  </div>
 
-    <div class="container">
-      <div class="category_title"></div>
-      
-      <div class="images_wall">
+  <div class="img_comment"></div>
+</div>
+-->
+</div>
+<!-- / image_wall -->
 
-        <!-- <div class="img_grid">
-          <div class="img_pic">
-              <div class="price">¥125</div>
-              <a href="2" target="_blank"><img width="200" height="200" alt="" title="" src="/media/img/2nd/f34c8870b2da11e2b610000c298c19cc.jpg"></a>
-          </div>
+<div id="loader">
+<div id="loaderCircle"></div>
+</div>
+<div class="clearfix"></div>
+<footer id="nodatafound"></footer>
+{% endblock %}
 
-          <div class="img_remark">
-            <P class="desc"><small>desc desc desc desc desc desc desc desc desc</small></p>
-
-            <p class="comm_num f12_f">
-              <a href="javascript:void(0)" class="likes">
-                <b class="btn btn-mini likes_status" >喜欢</b>
-                <span class="red_f">480</span>
-              </a>
-              <a href="javascript:void(0)" class="pull-right review">
-                <b>评论</b>
-                <span>20</span>
-              </a>
-            </p>
-          </div>
-
-          <div class="clearfix"></div>
-
-          <div class="img_share">
-              <a class="u_s_icon_32 trans07" target="_blank" href="/persion/">
-                  <img src="/media/icon/u_s_0123456.jpg">
-              </a>
-              <p class="u_m140_f">gdsfdsdfsdfdsfdsfasdfasdfasdafdsa</p>
-              <div class="clearfix"></div>
-          </div>
-
-          <div class="img_comment">
-
-          </div>
-        </div> -->
-
-      </div><!-- / image_wall -->
-
-
-      <div id="loader">
-          <div id="loaderCircle"></div>
-      </div>
-      <div class="clearfix"></div>
-      <footer id="nodatafound">
-      </footer>
-    </div> <!-- /container -->
-
-    <!-- Once the page is loaded, initalize the plug-in. -->
-  <script type="text/javascript">
+{% block footer_javascript %}
+<!-- Once the page is loaded, initalize the plug-in. -->
+<script type="text/javascript">
     var handler = null;
     var page = 1;
     var isLoading = false;
@@ -172,33 +116,19 @@
 
       // Create HTML for the images.
       var html = '';
-      var image;
-      if (data.length>0){
-          for( var i in data){
-            image = data[i];
-            // html += '<li>';
+      var pk;
+      var m;
+      $.each(data,function(k,v){
+           m=v.fields;
 
-            // Image tag (preview in Wookmark are 200px wide, so we calculate the height based on that).
-            // html += '<a href="'+image.pk+'"> \
-            //             <img src="/'+image.fields.pic_local_url_second+'" \
-            //                  width="'+image.fields.pic_width_second+'" \
-            //                  height="'+image.fields.pic_height_second+'" />\
-            //          </a>';
-            // // Image title.
-            // html += '<p>'+image.fields.title+'</p>';
-
-            // html += '</li>';
-
-            //
-            // html +="<li>";
-            html += '<div class="img_grid">'
-            // img pic
-            html += '<div class="img_pic">'
-            html += '<div class="price">'+image.fields.price+'</div>' 
-            html += '<a href="'+image.pk+'" target="_blank">'
-            html += '<img width="'+image.fields.pic_width_second+'" height="'+image.fields.pic_height_second+'" alt="'+image.fields.title+'" title="'+image.fields.title+'"  src="/'+image.fields.pic_local_url_second+'">'                      
-            html += '</a>'
-            html += '</div>'
+         
+            html += '<div class="img_grid">';
+            html += '<div class="img_pic">';
+            html += '<div class="price">'+m.price+'</div>';
+            html += '<a href="'+v.pk+'" target="_blank">';
+            html += '<img width="'+m.pic_width_second+'" height="'+m.pic_height_second+'" alt="'+m.title+'" title="'+m.title+'"  src="/'+m.pic_local_url_second+'">';
+            html += '</a>';
+            html += '</div>';
             // img remark
             html += '<div class="img_remark">\
                     <P class="desc"><small>desc desc desc desc desc desc desc desc desc</small></p>\
@@ -215,20 +145,17 @@
           </div>';
             html +='<div class="clearfix"></div><div class="img_share"><a class="u_s_icon_32 trans07" target="_blank" href="/persion/"><img src="/media/icon/u_s_0123456.jpg"></a><p class="u_m140_f">fdsdfsdfdsfdsfasdfasdfasdafdsa</p><div class="clearfix"></div></div>';
             html += '</div>';
-            // html+='</li>';
-            // end img_grid
-
-          
-          }
+            
+           });
 
           // Add image HTML to the page.
            $('.images_wall').append(html);
           applyLayout();
-      }else
-      {
-        isStop = true;
-         $('#nodatafound').append("<div><h2 style='text-align: center;'>No More Data Found</h2></div>");
-      }
+      // }else
+      // {
+      //   isStop = true;
+      //    $('#nodatafound').append("<div><h2 style='text-align: center;'>No More Data Found</h2></div>");
+      // }
     };
 
     $(document).ready(new function() {
@@ -239,25 +166,21 @@
       loadData();
     });
   </script>
-
-
-    <!-- Le javascript
+{% endblock %}
+<!-- Le javascript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-   <!-- 
+<!-- Placed at the end of the document so the pages load faster -->
+<!-- 
      <script src="/static/js/bootstrap-transition.js"></script>
-     <script src="/static/js/bootstrap-alert.js"></script>
-     <script src="/static/js/bootstrap-modal.js"></script>
-     <script src="/static/js/bootstrap-dropdown.js"></script>
-     <script src="/static/js/bootstrap-scrollspy.js"></script>
-     <script src="/static/js/bootstrap-tab.js"></script>
-     <script src="/static/js/bootstrap-tooltip.js"></script>
-     <script src="/static/js/bootstrap-popover.js"></script>
-     <script src="/static/js/bootstrap-button.js"></script>
-     <script src="/static/js/bootstrap-collapse.js"></script>
-     <script src="/static/js/bootstrap-carousel.js"></script>
-     <script src="/static/js/bootstrap-typeahead.js"></script>
-      -->
-
-  </body>
-</html>
+<script src="/static/js/bootstrap-alert.js"></script>
+<script src="/static/js/bootstrap-modal.js"></script>
+<script src="/static/js/bootstrap-dropdown.js"></script>
+<script src="/static/js/bootstrap-scrollspy.js"></script>
+<script src="/static/js/bootstrap-tab.js"></script>
+<script src="/static/js/bootstrap-tooltip.js"></script>
+<script src="/static/js/bootstrap-popover.js"></script>
+<script src="/static/js/bootstrap-button.js"></script>
+<script src="/static/js/bootstrap-collapse.js"></script>
+<script src="/static/js/bootstrap-carousel.js"></script>
+<script src="/static/js/bootstrap-typeahead.js"></script>
+-->
