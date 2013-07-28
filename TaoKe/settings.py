@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'polls',
+    'account',
     'share',
 )
 
@@ -159,3 +160,12 @@ LOGGING = {
         },
     }
 }
+
+#debug output
+import logging
+logging.basicConfig(
+    level = logging.DEBUG,
+    format = '%(asctime)s %(levelname)s %(message)s',
+    fileName = 'app.log',
+    filemode ='w'
+)

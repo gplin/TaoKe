@@ -126,7 +126,7 @@
             html += '<div class="img_pic">';
             html += '<div class="price">'+m.price+'</div>';
             html += '<a href="'+v.pk+'" target="_blank">';
-            html += '<img width="'+m.pic_width_second+'" height="'+m.pic_height_second+'" alt="'+m.title+'" title="'+m.title+'"  src="/'+m.pic_local_url_second+'">';
+            html += '<img width="'+m.pic_width_grid+'" height="'+m.pic_height_grid+'" alt="'+m.title+'" title="'+m.title+'"  src="/'+m.pic_url_grid+'">';
             html += '</a>';
             html += '</div>';
             // img remark
@@ -135,7 +135,7 @@
             <p class="comm_num f12_f">\
               <a href="javascript:void(0)" class="likes">\
                 <b class="btn btn-mini likes_status" >喜欢</b>\
-                <span class="red_f">480</span>\
+                <span class="red_f">'+m.add_up_love+'</span>\
               </a>\
               <a href="javascript:void(0)" class="pull-right review">\
                 <b>评论</b>\
@@ -167,20 +167,3 @@
     });
   </script>
 {% endblock %}
-<!-- Le javascript
-    ================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<!-- 
-     <script src="/static/js/bootstrap-transition.js"></script>
-<script src="/static/js/bootstrap-alert.js"></script>
-<script src="/static/js/bootstrap-modal.js"></script>
-<script src="/static/js/bootstrap-dropdown.js"></script>
-<script src="/static/js/bootstrap-scrollspy.js"></script>
-<script src="/static/js/bootstrap-tab.js"></script>
-<script src="/static/js/bootstrap-tooltip.js"></script>
-<script src="/static/js/bootstrap-popover.js"></script>
-<script src="/static/js/bootstrap-button.js"></script>
-<script src="/static/js/bootstrap-collapse.js"></script>
-<script src="/static/js/bootstrap-carousel.js"></script>
-<script src="/static/js/bootstrap-typeahead.js"></script>
--->

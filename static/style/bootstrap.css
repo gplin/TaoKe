@@ -2909,19 +2909,20 @@ table th[class*="span"],
   left: 0;
   z-index: 1000;
   display: none;
-  float: left;
-  min-width: 160px;
+  /*float: left;*/
+  /*min-width: 500px;*/
   padding: 5px 0;
-  margin: 2px 0 0;
+  margin: 1px 0 0;
+  /*margin 0;*/
   list-style: none;
   background-color: #ffffff;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  /*border: 1px solid #ccc;*/
+  /*border: 1px solid rgba(0, 0, 0, 0.2);*/
   *border-right-width: 2px;
   *border-bottom-width: 2px;
-  -webkit-border-radius: 6px;
+ /* -webkit-border-radius: 6px;
      -moz-border-radius: 6px;
-          border-radius: 6px;
+          border-radius: 6px;*/
   -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
      -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
           box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
@@ -4700,7 +4701,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 .navbar .nav > li > .dropdown-menu:before {
-  position: absolute;
+  /*position: absolute;
   top: -7px;
   left: 9px;
   display: inline-block;
@@ -4708,18 +4709,18 @@ input[type="submit"].btn.btn-mini {
   border-bottom: 7px solid #ccc;
   border-left: 7px solid transparent;
   border-bottom-color: rgba(0, 0, 0, 0.2);
-  content: '';
+  content: '';*/
 }
 
 .navbar .nav > li > .dropdown-menu:after {
-  position: absolute;
+ /* position: absolute;
   top: -6px;
   left: 10px;
   display: inline-block;
   border-right: 6px solid transparent;
   border-bottom: 6px solid #ffffff;
   border-left: 6px solid transparent;
-  content: '';
+  content: '';*/
 }
 
 .navbar-fixed-bottom .nav > li > .dropdown-menu:before {
@@ -5202,7 +5203,7 @@ input[type="submit"].btn.btn-mini {
   top: 10%;
   left: 50%;
   z-index: 1050;
-  width: 560px;
+  width: 500px;
   margin-left: -280px;
   background-color: #ffffff;
   border: 1px solid #999;
@@ -5229,7 +5230,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 .modal.fade.in {
-  top: 10%;
+  top: 30%;
 }
 
 .modal-header {
@@ -5249,7 +5250,8 @@ input[type="submit"].btn.btn-mini {
 .modal-body {
   position: relative;
   max-height: 400px;
-  padding: 15px;
+  padding: 15px 33px;
+
   overflow-y: auto;
 }
 

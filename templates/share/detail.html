@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% block title %}
+  {{ model.title }}
+{% endblock%}
+
+{% block content %}
+<!-- begin left -->
+<div class="detail-left pull-left">
+  <!-- 1. info -->
+  <div class="detail-info">
+    <!-- 1.1 image -->
+    <span class="hide2" id="category_id">{{ model.category.category_id }}</span>
+    <div class="detail-pic pull-left text-center">
+      <a href="/share/{{ model.uuid }}" target="_bank" alt="{{ model.title }}">
+        <img src="/{{ model.pic_url_detail }}" alt="{{ model.title }}" title="{{ model.title }}"></a>
+    </div>
+    <!-- 1.2 title -->
+    <div class="detail-title">
+      <h5>
+        <a href="/share/{{ model.uuid }}" target="_bank"> <strong>{{ model.title }}</strong>
+        </a>
+      </h5>
+      <p class="" >价格：¥{{ model.price }}</p>
+      <p>
+        <a href="/share/{{ model.uuid }}" target="_bank" class="price-go btn">去购买>></a>
+      </p>
+      <p>
+        <a href="">美丽公主</a>
+        分享到
+        <a href="">精美蕾丝情</a>
+        <br/>
+        <br/>
+        <span class="btn">喜欢</span>
+        &nbsp;&nbsp;
+        <span class="btn">收藏</span>
+      </p>
+    </div>
+    <div class="clearfix"></div>
+    <!-- 1.3 comment -->
+    <div class="detail-comment">评论</div>
+    <!-- end comment --> 
+  </div>
+  <!-- end detail info -->
+
+  <!-- 2. 相关推荐 -->
+  <div class="clearfix"></div>
+  <p></p>
+  <div class="maybe"> <strong>也许您还喜欢</strong>
+
+  </div>
+<p></p>
+  <div class="images_wall">
+    <!-- ajax load data -->
+
+  </div>
+
+<div id="loaderCircle"></div>
+<div id="nodatafound"></div>
+  <!-- /推荐 -->
+</div>
+<!-- /end detail left -->
+
+<!--begin right -->
+<div class="detail-aside pull-right">
+  {% for row in relate_u %}
+  <p>{{ row.title }}</p>
+  {% endfor %}
+</div>
+<!-- end right -->
+{% endblock %}
+
+{% block footer_javascript %}
+<script type="text/javascript">
+    var category = {{ model.category.category_id }}
+    var handler = null;
+    var page = 1;
+    var isLoading = false;
+    var isStop = false;
+    var apiURL = '/share/c/'+ category
+
+
+    // Prepare layout options.
+    var options = {
+      autoResize: true, // This will auto-update the layout when the browser window is resized.
+      container: $('.images_wall'), // Optional, used for some extra CSS styling
+      offset: 10, // Optional, the distance between grid items
+      itemWidth: 226 // Optional, the width of a grid item
+    };
+
+    /**
+     * When scrolled all the way to the bottom, add more tiles.
+     */
+    function onScroll(event) {
+      // Only check when we're not still waiting for data.
+      if(!isLoading && !isStop) {
+        // Check if we're within 100 pixels of the bottom edge of the broser window.
+        var closeToBottom = ($(window).scrollTop() + $(window).height() > $(document).height() - 100);
+        if(closeToBottom) {
+          loadData();
+        }
+      }
+    };
+
+    /**
+     * Refreshes the layout.
+     */
+    function applyLayout() {
+      // Create a new layout handler.
+      handler = $('.images_wall .img_grid');
+      handler.wookmark(options);
+    };
+
+    /**
+     * Loads data from the API.
+     */
+    function loadData() {
+      isLoading = true;
+      $('#loaderCircle').show();
+
+      // alert(apiURL+'/'+page);
+      $.ajax({
+        type:'GET',
+        url: apiURL+'/'+page,
+        dataType: 'json',
+        //data: {page: page}, // Page parameter to make sure we load new data
+        success: onLoadData
+      });
+    };
+
+    /**
+     * Receives data from the API, creates HTML for images and updates the layout
+     */
+    function onLoadData(data) {
+      isLoading = false;
+      $('#loaderCircle').hide();
+
+      // Increment page index for future calls.
+      page++;
+      if (data.length==0 )
+      {
+        isStop = true;
+       $('#nodatafound').append("<div><h2 style='text-align: center;'>No More Data Found</h2></div>");
+       return
+      } 
+      // Create HTML for the images.
+      var html = '';
+      var pk;
+      var m;
+      $.each(data,function(k,v){
+           m=v.fields;
+
+         
+            html += '<div class="img_grid">';
+            html += '<div class="img_pic">';
+            html += '<div class="price">'+m.price+'</div>';
+            html += '<a href="'+v.pk+'" target="_blank">';
+            html += '<img width="'+m.pic_width_grid+'" height="'+m.pic_height_grid+'" alt="'+m.title+'" title="'+m.title+'"  src="/'+m.pic_url_grid+'">';
+            html += '</a>';
+            html += '</div>';
+            // img remark
+            html += '<div class="img_remark">\
+                    <P class="desc"><small>desc desc desc desc desc desc desc desc desc</small></p>\
+            <p class="comm_num f12_f">\
+              <a href="javascript:void(0)" class="likes">\
+                <b class="btn btn-mini likes_status" >喜欢</b>\
+                <span class="red_f">480</span>\
+              </a>\
+              <a href="javascript:void(0)" class="pull-right review">\
+                <b>评论</b>\
+                <span>20</span>\
+              </a>\
+            </p>\
+          </div>';
+            html +='<div class="clearfix"></div><div class="img_share"><a class="u_s_icon_32 trans07" target="_blank" href="/persion/"><img src="/media/icon/u_s_0123456.jpg"></a><p class="u_m140_f">fdsdfsdfdsfdsfasdfasdfasdafdsa</p><div class="clearfix"></div></div>';
+            html += '</div>';
+            
+           });
+
+          // Add image HTML to the page.
+           $('.images_wall').append(html);
+          applyLayout();
+    };
+
+    $(document).ready(new function() {
+      // Capture scroll event.
+      $(document).bind('scroll', onScroll);
+      // Load first data from the API.
+      loadData();
+    });
+  </script>
+{% endblock %}
