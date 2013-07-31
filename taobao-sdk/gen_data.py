@@ -14,7 +14,6 @@ import top.api
 '''
 这边可以设置一个默认的appkey和secret，当然也可以不设置
 注意：默认的只需要设置一次就可以了
-
 '''
 top.setDefaultAppInfo("1021039194", "sandboxa7f002adf21ae4ec28f4fdb65")
 
