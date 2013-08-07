@@ -76,6 +76,8 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_DIR,'static/'),
 )
 
+GENERATE_TEMPLATE_DIR = os.path.join(PROJECT_DIR,r"templates\admin\\")
+
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
@@ -130,6 +132,7 @@ INSTALLED_APPS = (
     'polls',
     'account',
     'share',
+    'utils'
 )
 
 # A sample logging configuration. The only tangible logging
@@ -160,6 +163,8 @@ LOGGING = {
         },
     }
 }
+
+
 
 #debug output
 import logging

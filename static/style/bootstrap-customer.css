@@ -40,9 +40,21 @@ body{
 .u_m140_f{
   margin-left: 40px;
 }
+span.is-hot{
+    background-color: #e5e5e5;
+}
+
 /* end base style*/
 
 /*menu */
+.dropdown-menu .divider {
+  width:500px;
+  height: 1px;
+  margin: 0 50px;
+  overflow: hidden;
+  background-color: #e5e5e5;
+  border-bottom: 1px solid #ffffff;
+}
 .cate-menu{
   width: 600px;
   height: auto;
@@ -52,8 +64,15 @@ body{
    min-height: 20px;
    /*background: #F45843;*/
  }
+ .cate-list a{
+    padding:0 5px;
+ }
 .cate-header{
   margin-right: 30px;
+  margin-left: -5px;
+}
+.navbar-text  a{
+   padding:0 3px; 
 }
 
 /*end menu*/

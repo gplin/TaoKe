@@ -25,4 +25,5 @@ if settings.DEBUG:
         url(r'^kissy/$',TemplateView.as_view(template_name='kissy.html')),
         url(r'^jquery/$',TemplateView.as_view(template_name='jquery.html')),
         url(r'^Bootstrap/$',TemplateView.as_view(template_name='bootstrap/Bootstrap.html')),
+        url(r'^test/$',TemplateView.as_view(template_name='test.html')),
         )

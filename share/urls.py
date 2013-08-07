@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^c/(?P<category_id>\d{4})/(?P<page>\d{1,5})/$', views.get_item_by_category_id, name="c"),
     url(r'^(?P<uuid>[A-Za-z0-9]{32})/$',views.goto_taobao,name='goto_taobao'), 
     url(r'^JSON/(?P<page>.*$)$',views.JSON,name='JSON'),
+    url(r'^gen/$',views.execute_generate_menu,name='execute_generate_menu'),
 )
 
 

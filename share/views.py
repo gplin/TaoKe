@@ -7,9 +7,11 @@ from django.core.urlresolvers import reverse
 from django.core.serializers import serialize,deserialize
 from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext
+from django.conf import settings
 
-# from polls.models import Poll, Choice
-from share.models import Taobaoke_Item
+# import Taoke.settings
+from share.models import Taobaoke_Item,Category
+from utils.common import generate_menu
 
 def default(request):
     """
@@ -51,3 +53,11 @@ def JSON(request,page):
 
 
 # @csrf_exempt
+
+def execute_generate_menu(request):
+    import os
+    xmlPath = os.path.join(settings.GENERATE_TEMPLATE_DIR,'menu.xml')
+    xslPath = os.path.join(settings.GENERATE_TEMPLATE_DIR,'menu.xsl')
+    menuPath = os.path.join(settings.GENERATE_TEMPLATE_DIR,'menu.html')
+    generate_menu(Category.objects.get_category_tree(True),xmlPath,xslPath,menuPath)
+    return HttpResponse("generate menu done: "+menuPath)

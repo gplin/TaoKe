@@ -5,10 +5,34 @@ from django.contrib.auth.models import User
 from django.core.serializers import serialize,deserialize
 from account.models import Account
 
+class CategoryManager(models.Manager):
+    def get_category_tree(self,enable): 
+        li = []
+        cate = list(self.filter(enable=enable).values('category_id','name','parent_id','enable','display_seq','add_up','is_hot','type'))
+        for c in filter(lambda x:x['parent_id']==0,cate):
+            c['items']=filter(lambda x:x['parent_id']==c['category_id'],cate)
+            li.append(c)
+        return li
+
+
 class Category(models.Model):
     """
     宝贝类别: 衣服；包包；家居
     """
+    CLOTHES = "CL"
+    SHOES = "SH"
+    BAGS = "BA"  #包包
+    ACCESSORIES = "AC" #配饰
+    HOME = "HO" #家居
+    CREATIVE = "CR" #创意
+    TYPE_CHOICES = (
+        (CLOTHES,'Clothes'),
+        (SHOES,'Shoes'),
+        (BAGS,'Bags'),
+        (ACCESSORIES,'Accessories'),
+        (HOME,'Home'),
+        (CREATIVE,'Creative'),
+    )
     category_id = models.AutoField(primary_key=True,null=False,unique=True)
     name = models.CharField(max_length=20,blank=False,unique=True,help_text='分类名称')
     parent_id = models.IntegerField(default=0)
@@ -17,15 +41,18 @@ class Category(models.Model):
     display_seq =models.IntegerField(default=0)
     add_up = models.IntegerField(default=0)
     is_hot= models.BooleanField(default=False)
+    type = models.CharField(max_length=2,choices=TYPE_CHOICES)
+
+    objects = CategoryManager()
 
     class Meta():
         ordering = ['display_seq','enable','init_date','name']
 
     def __unicode__(self):
-        return self.name
+        return u'%s' % unicode(self.name)
 
     def __str__(self):
-        return self.name
+        return self.__unicode__()
 
 
 class Style(models.Model):
