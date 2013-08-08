@@ -25,15 +25,14 @@
                   
                   <xsl:for-each select="categories/clothes">
                     <div class="cate-list">
-                        <a href="#" class="cate-header">
-                            <xsl:value-of select="name"/>
-                        </a>
+                        <a href="#" class="cate-header"><xsl:value-of select="name"/></a>
                        <xsl:for-each select="items/item">
                          <xsl:element name="a">
                             <xsl:attribute name="href">/cate/<xsl:value-of select="id"/></xsl:attribute>
                             <xsl:choose>
                                 <xsl:when test="ishot=1">
                                     <xsl:element name="span" >
+                                        <xsl:attribute name="class">is-hot</xsl:attribute>
                                         <xsl:value-of select="name"/>
                                     </xsl:element>
                                 </xsl:when>
@@ -47,33 +46,53 @@
                   </xsl:for-each>
                   
                   <div class="divider"></div>
-                 
+                 <xsl:for-each select="categories/category">
+                    <div class="cate-list">
+                        <a href="#" class="cate-header"><xsl:value-of select="name"/></a>
+                       <xsl:for-each select="items/item">
+                         <xsl:element name="a">
+                            <xsl:attribute name="href">/cate/<xsl:value-of select="id"/></xsl:attribute>
+                            <xsl:choose>
+                                <xsl:when test="ishot=1">
+                                    <xsl:element name="span" >
+                                    <xsl:attribute name="class">is-hot</xsl:attribute>
+                                        <xsl:value-of select="name"/>
+                                    </xsl:element>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:value-of select="name"/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                         </xsl:element>
+                       </xsl:for-each>
+                    </div>   
+                  </xsl:for-each>
                 </li>
               </ul>
             </li>
             <li>
-              <a href="#">衣服</a>
+              <a href="/share/CL">衣服</a>
             </li>
             <li>
-              <a href="#about">鞋子</a>
+              <a href="/share/SH">鞋子</a>
             </li>
             <li>
-              <a href="#about">配饰</a>
+              <a href="/share/AC">配饰</a>
             </li>
             <li>
-              <a href="#about">包包</a>
+              <a href="/share/BA">包包</a>
             </li>
             <li>
-              <a href="#contact">家居</a>
+              <a href="/share/HO">家居</a>
             </li>
             <li>
-              <a href="#about">创意</a>
+              <a href="/share/CR">创意</a>
             </li>
           </ul>
           <p class="navbar-text pull-right">
             <a href="#myModal" role="button" data-toggle="modal" class="navbar-link" >+分享</a>
-            <a href="#" class="navbar-link">登录</a>
-            <a href="#" class="navbar-link">注册</a>
+            <a href="/login" class="navbar-link">登录</a>
+            <a href="/logout" class="navbar-link">注册</a>
           </p>
         </div>
         <!--/.nav-collapse -->

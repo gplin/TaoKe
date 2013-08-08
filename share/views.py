@@ -38,7 +38,16 @@ def get_item_by_category_id(request,category_id,page):
         json = Taobaoke_Item.objects.get_relate_by_category_id(category_id,page)
         return HttpResponse(json,mimetype='appliction/json')
 
-
+def get_item_by_category_type(request,type,page=None):
+    """
+    获取分类宝贝
+    """
+    if request.is_ajax():
+        json = Taobaoke_Item.objects.get_item_by_category_type(type,page)
+        return HttpResponse(json,mimetype='appliction/json')
+    else:
+        if request.method == 'GET':
+            return render_to_response('share/category.html',context_instance=RequestContext(request))
 
 def goto_taobao(request,uuid):
     """跳转到淘宝"""

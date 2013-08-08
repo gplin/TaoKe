@@ -10,9 +10,10 @@ class CategoryManager(models.Manager):
         li = []
         cate = list(self.filter(enable=enable).values('category_id','name','parent_id','enable','display_seq','add_up','is_hot','type'))
         for c in filter(lambda x:x['parent_id']==0,cate):
-            c['items']=filter(lambda x:x['parent_id']==c['category_id'],cate)
+            items = filter(lambda x:x['parent_id']==c['category_id'],cate)
+            c['items']=sorted(items,key=lambda x:x['display_seq'])
             li.append(c)
-        return li
+        return sorted(li,key=lambda x:x['display_seq'])
 
 
 class Category(models.Model):
@@ -199,6 +200,25 @@ class Taobaoke_Item_Manager(models.Manager):
                             Limit 20 * (%s-1), 20
                         """,[user_id,page])
         return item
+    
+    def get_item_by_category_type(self,type,page,page_size=20):
+        """
+        获取分类TYPE属性获取分享的宝贝
+        """
+        page = page if page else 1
+        item = self.raw(''' Select cate.[type], cate.[category_id],cate.name,
+                                   item.item_id,item.title,item.price, item.pic_url_grid,
+                                   item.pic_width_grid,item.pic_height_grid,
+                                   add_up_love, add_up_comment, item.desc
+                            From share_taobaoke_item item
+                            inner join
+                                 share_category cate on item.[category_id] = cate.[category_id]
+                            where cate.[type] = %s
+                            Order by add_up_love desc, add_up_bookmark desc, add_up_comment desc
+                            Limit %s * (%s-1), %s
+                        ''',[type,page_size,page,page_size])
+        
+        return serialize(JSON,item,fields=fields)
 
 
 class Taobaoke_Item(models.Model):
