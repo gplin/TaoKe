@@ -1,93 +1,181 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{ LANGUAGE_CODE|default:"zh-cn"}}" lang="{{ LANGUAGE_CODE|default:"zh-cn"}}">
 <head>
-	<title>Bootstrap 101 Template</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" >
-	<!-- Bootstrap -->
-	<link rel="stylesheet" media="screen" href="/static/style/bootstrap.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="">
+	<title>{% block title %}{% endblock%}</title>
 
+	<link href="/static/style/bootstrap.css" rel="stylesheet">
+	<link href="/static/style/bootstrap-customer.css" rel="stylesheet">
+	<style>
+	      body {
+	        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+	      }
+	    </style>
+	<script type="text/javascript" src="/static/js/jquery-1.9.1.min.js?v=1" ></script>
+	<script type="text/javascript" src="/static/js/jquery.wookmark.js?=1" ></script>
+	{% block style %}{% endblock %}
+		{% block javascript %}{% endblock %}
 </head>
 <body>
-	<ul class="nav nav-tabs">
-		<li class="active"><a href="#">Index</a></li>
-		<li><a href="#">Profile</a></li>
-		<li><a href="#">Messages</a></li>
+	<!-- menu -->
+	<!-- <div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
 
-		<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-				Dropdown
-				<b class="caret"></b>
-			</a>
-			<ul class="dropdown-menu">
-				<li> <a href="#">Action</a> </li>
-			</ul>
-		</li>
-	</ul>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li class="active">
+							<a href="/share">首页</a>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								衣服&nbsp; <b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu cate-menu">
+								<li>
+									<div class="cate-list">
+										<a href="#" class="cate-header" >上装</a>
+										<a href="#">雪纺衫</a>
+										<a href="#">T恤</a>
+										<a href="#">衬衫</a>
+										<a href="#">打底衫</a>
+										<a href="#">卫衣</a>
+										<a href="#">风衣</a>
+										<a href="#">西装</a>
+										<a href="#">毛衣</a>
+									</div>
+									<div class="cate-list">
+										<a href="#" class="cate-header">裤子</a>
+										<a href="#">打底裤</a>
+										<a href="#">牛仔裤</a>
+										<a href="#">背带裤</a>
+										<a href="#">短裤</a>
+										<a href="#">七分裤</a>
+										<a href="#">9分裤</a>
+										<a href="#">小脚裤</a>
+										<a href="#">阔腿裤</a>
+										<a href="#">连体裤</a>
+										<a href="#">西装裤</a>
+									</div>
+									<div class="cate-list">
+										<a href="#" class="cate-header">裙子</a>
+										<a href="#">连衣裙</a>
+										<a href="#">短裙</a>
+										<a href="#">长裤</a>
+										<a href="#">半裙</a>
+										<a href="#">吊带裙</a>
+										<a href="#">裹胸裙</a>
+										<a href="#">背带裙</a>
+										<a href="#">背心裙</a>
+										<a href="#">百褶裙</a>
+									</div>
+								</li>
+								<li class="divider"></li>
+								<li class="nav-header">Nav header</li>
+								<li>
+									<a href="#">Separated link</a>
+								</li>
+								<li>
+									<a href="#">One more separated link</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#about">鞋子</a>
+						</li>
+						<li>
+							<a href="#about">配饰</a>
+						</li>
+						<li>
+							<a href="#about">包包</a>
+						</li>
+						<li>
+							<a href="#contact">家居</a>
+						</li>
+						<li>
+							<a href="#about">创意</a>
+						</li>
+					</ul>
+					<p class="navbar-text pull-right">
+						<a href="#myModal" role="button" data-toggle="modal" class="navbar-link" >+分享</a>
+						&nbsp;
+						<a href="#" class="navbar-link">登录</a>
+						&nbsp;
+						<a href="#" class="navbar-link">注册</a>
+					</p>
+				</div>
+			</div>
 
-	<div class="container" >
-	<div class="row">
-		<div class="span1" style="background:#DcDCDC;">ds 1</div>
-		<div class="span1" style="background:#DcDCDC;">ds 2</div>
-		<div class="span1" style="background:#DcDCDC;">ds 3</div>
-		<div class="span1" style="background:#DcDCDC;">ds 4</div>
-		<div class="span1" style="background:#DcDCDC;">ds 5</div>
-		<div class="span1" style="background:#DcDCDC;">ds 6</div>
-		<div class="span1" style="background:#DcDCDC;">ds 7</div>
-		<div class="span1" style="background:#DcDCDC;">ds 8</div>
-		<div class="span1" style="background:#DcDCDC;">ds 9</div>
-		<div class="span1" style="background:#DcDCDC;">ds 10</div>
-		<div class="span1" style="background:#DcDCDC;">ds 11</div>
-		<div class="span1" style="background:#DcDCDC;">ds 12</div>
+		</div>
+	</div> -->
+	{% include 'admin\menu.html' %}
+	<!-- end menu -->
+		<!-- share model -->
+			<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+					<h5 id="myModalLabel">分享宝贝</h5>
+				</div>
+				<div class="modal-body">
+					<p>请输入宝贝的网址</p>
+					<div class="input-append">
+						<input type="text" class="span5" id="appendedInputButton"/>
+						<button class="btn" type="button">确定</button>
+					</div>
+					<p class="text-warning">目前仅支持淘宝</p>
+				</div>
+				<!-- <div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+					<button class="btn btn-primary">Save</button>
+				</div> -->
+			</div>
+			<!-- end share model -->
+
+
+	<div class="clearfix"></div>
+	<!--container-->
+	<div class= "container">
+		{% block content %}
+		<h1>base common page</h1>
+		{% endblock%}
+		<!-- ========================================= -->
+		<!--Footer-->
+		<div class="clearfix"></div>
+		<footer>
+			{% block footer %}
+			<p>&copy; Company 2013</p>
+			{% endblock %}
+		</footer>
+		<!--End Footer-->
+
 	</div>
-	<p></p>
-	<div class="row">
-		<div class="span1" style="background:#DcDCDC;">ds</div>
-		<div class="span1" style="background:#DcDCDC;">ds</div>
-		<div class="span1 offset4" style="background:#DcDCDC;">ds</div>
+	<!--End container-->
+
+	<div class="clearfix"></div>
+	{% block footer_javascript %}
+		{% endblock %}
+	<div data-widget='backtop'>
+		<script src="/static/js/backtop-green.js" charset="utf-8"></script>
 	</div>
 
-	<p></p>
-
-	<div class="row-fluid" style="background:#F8F8ff;">
-		<div class="span2" style="background:#DcDCDC;">ds</div>
-		<div class="span5" style="background:#DcDCDC;">ds</div>
-		<div class="span1 offset2" style="background:#DcDCDC;">ds</div>
-	</div>
-	<p></p>
-	<div class="row">
-		<div class="span2" style="background:#DcDCDC;">ds 1</div>
-		<div class="span2" style="background:#DcDCDC;">ds 2</div>
-		<div class="span2" style="background:#DcDCDC;">ds 3</div>
-		<div class="span2" style="background:#DcDCDC;">ds 4</div>
-		<div class="span2" style="background:#DcDCDC;">ds 5</div>
-		<div class="span2" style="background:#DcDCDC;">ds 6</div>
-	</div>
-	<p></p>
-	<div class="row-fluid">
-		<div class="span2" style="background:#DcDCDC;">ds 1</div>
-		<div class="span2" style="background:#DcDCDC;">ds 2</div>
-		<div class="span2" style="background:#DcDCDC;">ds 3</div>
-		<div class="span2" style="background:#DcDCDC;">ds 4</div>
-		<div class="span2" style="background:#DcDCDC;">ds 5</div>
-		<div class="span2" style="background:#DcDCDC;">ds 6</div>
-	</div>
-
-	</div><!-- /container  --> 
-
-	<div class="container-fluid">
-		<div class="row">
-		<div class="span2" style="background:#DcDCDC;">ds 1</div>
-		<div class="span2" style="background:#DcDCDC;">ds 2</div>
-		<div class="span2" style="background:#DcDCDC;">ds 3</div>
-		<div class="span2" style="background:#DcDCDC;">ds 4</div>
-		<div class="span2" style="background:#DcDCDC;">ds 5</div>
-		<div class="span2" style="background:#DcDCDC;">ds 6</div>
-	</div>
-	</div> 
-	<!-- / container-fluid -->
-
-	<!-- javascript -->
-	<script type="text/javascript" src="/static/js/jquery-1.9.1.min.js"></script>
-	<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/bootstrap-transition.js"></script>
+    <!-- // <script src="/static/js/bootstrap-alert.js"></script> -->
+    <script src="/static/js/bootstrap-modal.js"></script>
+    <script src="/static/js/bootstrap-dropdown.js"></script>
+<!--     // <script src="/static/js/bootstrap-scrollspy.js"></script>
+    // <script src="/static/js/bootstrap-tab.js"></script>
+    // <script src="/static/js/bootstrap-tooltip.js"></script>
+    // <script src="/static/js/bootstrap-popover.js"></script>
+    // <script src="/static/js/bootstrap-button.js"></script>
+    // <script src="/static/js/bootstrap-collapse.js"></script>
+    // <script src="/static/js/bootstrap-carousel.js"></script> -->
 </body>
 </html>

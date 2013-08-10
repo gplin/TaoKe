@@ -1,0 +1,91 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>artTemplate Demo</title>
+    <script type="text/javascript" src="/static/js/template.js" ></script>
+    <script type="text/javascript" src="/static/js/template-syntax.js"></script>
+</head>
+<body>
+
+    <div id="container">
+        <h1>artTemplate test</h1>
+        <div id="content"></div>
+
+    </div>
+    <!--tempate-->
+    <script id="test" type="text/template">
+    {each items as item index}
+
+     <div class="img_grid">
+         <div class="img_pic">
+             <div class="price">{echo item.fields.price}</div>
+             <a href="/share/{echo item.pk}" target="_blank">
+                 <img width="{echo item.fields.pic_width_grid" height="{echo item.fields.pic_height_grid}" alt="{echo item.fields.title}" title="{echo item.fields.title}"  src="/{echo item.fields.pic_url_grid}"></a>
+         </div>
+         <div class="img_remark">
+             <P class="desc">
+                 <small>desc desc desc desc desc desc desc desc desc</small>
+             </p>
+             <p class="comm_num f12_f">
+                 <a href="javascript:void(0)" class="likes"> <b class="btn btn-mini likes_status" >喜欢</b>
+                     <span class="red_f">{echo item.fields.add_up_love}</span>
+                 </a>
+                 <a href="javascript:void(0)" class="pull-right review"> <b>评论</b>
+                     <span>20</span>
+                 </a>
+             </p>
+         </div>
+         <div class="clearfix"></div>
+         <div class="img_share">
+             <a class="u_s_icon_32 trans07" target="_blank" href="/persion/">
+                 <img src="/media/icon/u_s_0123456.jpg"></a>
+             <p class="u_m140_f">fdsdfsdfdsfdsfasdfasdfasdafdsa</p>
+             <div class="clearfix"></div>
+         </div>
+     </div>
+     
+    {/each}
+ </script>
+
+    <script>
+    var data =[{
+        fields:{ 
+                add_up_comment: 0,
+                add_up_love: 0,
+                desc: null,
+                pic_height_grid: 119,
+                pic_url_grid: "media/img/g/346a5b00ef0011e28822c80aa91ad69c.jpg",
+                pic_width_grid: 200,
+                price: "400",
+                title: "沙箱测试钓鱼岛是我们的"
+            },
+        model: "share.taobaoke",
+        pk: 1
+    },
+    {
+        fields:{ 
+                add_up_comment: 0,
+                add_up_love: 0,
+                desc: null,
+                pic_height_grid: 119,
+                pic_url_grid: "media/img/g/346a5b00ef0011e28822c80aa91ad69c.jpg",
+                pic_width_grid: 200,
+                price: "400",
+                title: "test"
+            },
+        model: "dd",
+        pk: 1
+    }
+    ];
+
+    var dt={
+        items:data
+    }
+
+      var   html= template.render('test',dt);
+
+    document.getElementById('content').innerHTML=html;
+ </script>
+
+</body>
+</html>

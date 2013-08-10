@@ -22,7 +22,7 @@ urlpatterns += static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     urlpatterns += patterns('',
-        url(r'^kissy/$',TemplateView.as_view(template_name='kissy.html')),
+        url(r'^artTemplate/$',TemplateView.as_view(template_name='demo/artTemplate.html')),
         url(r'^jquery/$',TemplateView.as_view(template_name='jquery.html')),
         url(r'^Bootstrap/$',TemplateView.as_view(template_name='bootstrap/Bootstrap.html')),
         url(r'^test/$',TemplateView.as_view(template_name='test.html')),

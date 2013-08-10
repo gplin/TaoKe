@@ -76,7 +76,7 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_DIR,'static/'),
 )
 
-GENERATE_TEMPLATE_DIR = os.path.join(PROJECT_DIR,r"templates\admin\\")
+GENERATE_TEMPLATE_DIR = os.path.join(PROJECT_DIR,r"templates\admin")
 
 # List of finder classes that know how to find static files in
 # various locations.

@@ -13,19 +13,23 @@
 
         <div class="nav-collapse collapse">
           <ul class="nav">
-            <li class="dropdown active">
+            <li class="dropdown">
               <a href="/share" class="dropdown-toggle" data-toggle="dropdown">
                 所有宝贝分类<b class="caret"></b>
               </a>
               <ul class="dropdown-menu cate-menu">
                 <li>
                   <div class="cate-list">
-                    <a href="#" class="cate-header" >衣服</a>
+                    <a href="/share/CL" class="cate-header" >衣服</a>
                   </div>
                   
                   <xsl:for-each select="categories/clothes">
                     <div class="cate-list">
-                        <a href="#" class="cate-header"><xsl:value-of select="name"/></a>
+                       <xsl:element name="a">
+                          <xsl:attribute name="href">/cate/<xsl:value-of select="id"/></xsl:attribute>
+                          <xsl:attribute name="class">cate-header</xsl:attribute>
+                          <xsl:value-of select="name"/>
+                       </xsl:element>
                        <xsl:for-each select="items/item">
                          <xsl:element name="a">
                             <xsl:attribute name="href">/cate/<xsl:value-of select="id"/></xsl:attribute>
@@ -48,7 +52,11 @@
                   <div class="divider"></div>
                  <xsl:for-each select="categories/category">
                     <div class="cate-list">
-                        <a href="#" class="cate-header"><xsl:value-of select="name"/></a>
+                       <xsl:element name="a">
+                          <xsl:attribute name="href">/cate/<xsl:value-of select="id"/></xsl:attribute>
+                          <xsl:attribute name="class">cate-header</xsl:attribute>
+                          <xsl:value-of select="name"/>
+                       </xsl:element>
                        <xsl:for-each select="items/item">
                          <xsl:element name="a">
                             <xsl:attribute name="href">/cate/<xsl:value-of select="id"/></xsl:attribute>

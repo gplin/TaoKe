@@ -15,13 +15,52 @@
 {% endblock %}
 
 {% block footer_javascript %}
-<!-- Once the page is loaded, initalize the plug-in. -->
+  <script type="text/javascript" src="/static/js/template.js" ></script>
+  <script type="text/javascript" src="/static/js/template-syntax.js"></script>
+
+ <!--tempate-->
+ <script id="itemTemplate" type="text/template">
+    {each items as item index}
+
+     <div class="img_grid">
+         <div class="img_pic">
+             <div class="price">{echo item.fields.price}</div>
+             <a href="/share/{echo item.pk}" target="_blank">
+                 <img width="{echo item.fields.pic_width_grid" height="{echo item.fields.pic_height_grid}" alt="{echo item.fields.title}" title="{echo item.fields.title}"  src="/{echo item.fields.pic_url_grid}"></a>
+         </div>
+         <div class="img_remark">
+             <P class="desc">
+                 <small>desc desc desc desc desc desc desc desc desc</small>
+             </p>
+             <p class="comm_num f12_f">
+                 <a href="javascript:void(0)" class="likes"> <b class="btn btn-mini likes_status" >喜欢</b>
+                     <span class="red_f">{echo item.fields.add_up_love}</span>
+                 </a>
+                 <a href="javascript:void(0)" class="pull-right review"> <b>评论</b>
+                     <span>20</span>
+                 </a>
+             </p>
+         </div>
+         <div class="clearfix"></div>
+         <div class="img_share">
+             <a class="u_s_icon_32 trans07" target="_blank" href="/persion/">
+                 <img src="/media/icon/u_s_0123456.jpg"></a>
+             <p class="u_m140_f">fdsdfsdfdsfdsfasdfasdfasdafdsa</p>
+             <div class="clearfix"></div>
+         </div>
+     </div>
+     
+    {/each}
+ </script>
+
+
+
 <script type="text/javascript">
     var handler = null;
     var page = 1;
     var isLoading = false;
     var isStop = false;
-    var apiURL = '/share/CL/'
+    var apiURL = window.location.pathname
 
     // Prepare layout options.
     var options = {
@@ -76,52 +115,15 @@
     function onLoadData(data) {
       isLoading = false;
       $('#loaderCircle').hide();
-
-      // Increment page index for future calls.
+      if (data.length==0 )
+      {
+        isStop = true;
+       $('#nodatafound').append("<div><h2 style='text-align: center;'>No More Data Found</h2></div>");
+       return
+      } 
       page++;
-
-      // Create HTML for the images.
-      var html = '';
-      var pk;
-      var m;
-      $.each(data,function(k,v){
-           m=v.fields;
-
-         
-            html += '<div class="img_grid">';
-            html += '<div class="img_pic">';
-            html += '<div class="price">'+m.price+'</div>';
-            html += '<a href="'+v.pk+'" target="_blank">';
-            html += '<img width="'+m.pic_width_grid+'" height="'+m.pic_height_grid+'" alt="'+m.title+'" title="'+m.title+'"  src="/'+m.pic_url_grid+'">';
-            html += '</a>';
-            html += '</div>';
-            // img remark
-            html += '<div class="img_remark">\
-                    <P class="desc"><small>desc desc desc desc desc desc desc desc desc</small></p>\
-            <p class="comm_num f12_f">\
-              <a href="javascript:void(0)" class="likes">\
-                <b class="btn btn-mini likes_status" >喜欢</b>\
-                <span class="red_f">'+m.add_up_love+'</span>\
-              </a>\
-              <a href="javascript:void(0)" class="pull-right review">\
-                <b>评论</b>\
-                <span>20</span>\
-              </a>\
-            </p>\
-          </div>';
-            html +='<div class="clearfix"></div><div class="img_share"><a class="u_s_icon_32 trans07" target="_blank" href="/persion/"><img src="/media/icon/u_s_0123456.jpg"></a><p class="u_m140_f">fdsdfsdfdsfdsfasdfasdfasdafdsa</p><div class="clearfix"></div></div>';
-            html += '</div>';
-            
-           });
-
-          // Add image HTML to the page.
-           $('.images_wall').append(html);
-          applyLayout();
-      // }else
-      // {
-      //   isStop = true;
-      //    $('#nodatafound').append("<div><h2 style='text-align: center;'>No More Data Found</h2></div>");
-      // }
+      $('.images_wall').append(template.render('itemTemplate', {items:data}));
+      applyLayout();
     };
 
     $(document).ready(new function() {

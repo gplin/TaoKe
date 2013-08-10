@@ -170,12 +170,32 @@
     <!-- // <script src="/static/js/bootstrap-alert.js"></script> -->
     <script src="/static/js/bootstrap-modal.js"></script>
     <script src="/static/js/bootstrap-dropdown.js"></script>
-<!--     // <script src="/static/js/bootstrap-scrollspy.js"></script>
+<!--// <script src="/static/js/bootstrap-scrollspy.js"></script>
     // <script src="/static/js/bootstrap-tab.js"></script>
     // <script src="/static/js/bootstrap-tooltip.js"></script>
     // <script src="/static/js/bootstrap-popover.js"></script>
     // <script src="/static/js/bootstrap-button.js"></script>
     // <script src="/static/js/bootstrap-collapse.js"></script>
     // <script src="/static/js/bootstrap-carousel.js"></script> -->
+    <script>
+    $(function(){
+        function stripTrailingSlash(str){
+            if(str.substr(-1)=='/'){
+                return str.substr(0,str.length-1);
+            }
+            return str;
+        }
+    
+        $(".nav-collapse .nav").find("li").each(function(){
+            var a = $(this).find("a:first")[0];
+            var currentURL = stripTrailingSlash(window.location.pathname)
+            if($(a).attr("href")==currentURL){
+                $(this).addClass("active");
+            }else{
+                $(this).removeClass("active")
+            }
+        });
+    })
+    </script>
 </body>
 </html>
