@@ -56,7 +56,7 @@ span.is-hot{
   border-bottom: 1px solid #ffffff;
 }
 .cate-menu{
-  width: 600px;
+  width: 940px;
   height: auto;
 }
 .cate-list{
@@ -99,26 +99,31 @@ span.is-hot{
 
 .images_wall .img_grid .img_pic .price {
     background: none repeat scroll 0 0 #F45843;
-    bottom: 2px;
+    bottom: 4px;
     height: 18px;
     line-height: 18px;
     opacity: 0.8;
-    padding: 0 5px;
+    padding:0 5px;
     position: absolute;
-    right: 13px;
+    right: 3px;
 }
 
 .img_pic, .img_remark, .img_share, .img_comment{
-  background: #E8E8E8;
+  /*background: #E8E8E8;*/
    width: 200px;
    margin: 0 13px;
    position: relative;
    word-wrap: break-word;
 }
 
-.img_remark .desc {
+.img_remark p{
   line-height: 18px;
-  margin-top: 5px;
+  padding: 5px 0;
+}
+
+.img_remark .desc {
+  /*line-height: 18px;*/
+  /*margin-top: 5px;*/
 }
 
 .images_wall .img_grid .img_remark span{
@@ -130,7 +135,7 @@ span.is-hot{
 }
 
 .images_wall .img_grid .img_share{
-	background: none repeat scroll 0 0 #F9F9F9;
+	  background: none repeat scroll 0 0 #F9F9F9;
     color: #999999;
     line-height: 18px;
     overflow: hidden;

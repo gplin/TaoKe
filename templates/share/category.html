@@ -24,26 +24,28 @@
 
      <div class="img_grid">
          <div class="img_pic">
-             <div class="price">{echo item.fields.price}</div>
+             <div class="price">¥{echo item.fields.price}</div>
              <a href="/share/{echo item.pk}" target="_blank">
-                 <img width="{echo item.fields.pic_width_grid" height="{echo item.fields.pic_height_grid}" alt="{echo item.fields.title}" title="{echo item.fields.title}"  src="/{echo item.fields.pic_url_grid}"></a>
+                 <img width="{echo item.fields.pic_width_grid}" height="{echo item.fields.pic_height_grid}" alt="{echo item.fields.title}" title="{echo item.fields.title}"  src="/{echo item.fields.pic_url_grid}"></a>
          </div>
          <div class="img_remark">
-             <P class="desc">
-                 <small>desc desc desc desc desc desc desc desc desc</small>
-             </p>
-             <p class="comm_num f12_f">
-                 <a href="javascript:void(0)" class="likes"> <b class="btn btn-mini likes_status" >喜欢</b>
+             {if item.fields.desc}
+               <P class="desc">
+                   <small>{echo item.fields.desc}</small>
+               </p>
+             {/if}
+             <p class="f12_f">
+                 <a href="javascript:void(0)" class="likes"><b class="btn btn-mini likes_status" >喜欢</b>
                      <span class="red_f">{echo item.fields.add_up_love}</span>
                  </a>
                  <a href="javascript:void(0)" class="pull-right review"> <b>评论</b>
-                     <span>20</span>
+                     <span>{echo item.fields.add_up_comment}</span>
                  </a>
              </p>
          </div>
          <div class="clearfix"></div>
          <div class="img_share">
-             <a class="u_s_icon_32 trans07" target="_blank" href="/persion/">
+             <a class="u_s_icon_32 trans07" target="_blank" href="/account/">
                  <img src="/media/icon/u_s_0123456.jpg"></a>
              <p class="u_m140_f">fdsdfsdfdsfdsfasdfasdfasdafdsa</p>
              <div class="clearfix"></div>

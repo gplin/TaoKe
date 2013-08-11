@@ -91,6 +91,9 @@
               <a href="/share/BA">包包</a>
             </li>
             <li>
+              <a href="/share/MY">美容</a>
+            </li>
+            <li>
               <a href="/share/HO">家居</a>
             </li>
             <li>
@@ -99,8 +102,8 @@
           </ul>
           <p class="navbar-text pull-right">
             <a href="#myModal" role="button" data-toggle="modal" class="navbar-link" >+分享</a>
-            <a href="/login" class="navbar-link">登录</a>
-            <a href="/logout" class="navbar-link">注册</a>
+            <a href="/account/login" class="navbar-link">登录</a>
+            <a href="/account/logout" class="navbar-link">注册</a>
           </p>
         </div>
         <!--/.nav-collapse -->

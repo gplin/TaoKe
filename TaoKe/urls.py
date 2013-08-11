@@ -11,6 +11,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^polls/', include('polls.urls',namespace="polls")),
     url(r'^share/', include('share.urls',namespace='share')),
+    url(r'^account/',include('account.urls',namespace='account')),
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^adminq/doc/', include('django.contrib.admindocs.urls')),
     # Uncomment the next line to enable the admin:

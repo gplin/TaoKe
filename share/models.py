@@ -206,19 +206,27 @@ class Taobaoke_Item_Manager(models.Manager):
         获取分类TYPE属性获取分享的宝贝
         """
         page = page if page else 1
-        item = self.raw(''' Select cate.[type], cate.[category_id],cate.name,
+        item = self.raw(''' Select user.id as user_id, user.username, acc.icon,
+                                   cate.[type], cate.[category_id],cate.name,
                                    item.item_id,item.title,item.price, item.pic_url_grid,
                                    item.pic_width_grid,item.pic_height_grid,
                                    add_up_love, add_up_comment, item.desc
                             From share_taobaoke_item item
                             inner join
                                  share_category cate on item.[category_id] = cate.[category_id]
+                            inner join                             
+                                  auth_user user on user.id = item.user_id
+                            inner join                            
+                                  account_account acc on acc.[user_id] = user.id
                             where cate.[type] = %s
                             Order by add_up_love desc, add_up_bookmark desc, add_up_comment desc
                             Limit %s * (%s-1), %s
                         ''',[type,page_size,page,page_size])
-        
-        return serialize(JSON,item,fields=fields)
+
+        fields = ('item_id','title','price','pic_url_grid','pic_width_grid','pic_height_grid','add_up_love',
+                'add_up_comment','desc','user_id','username','icon','name','type')
+        return serialize(JSON,list(item),fields=fields)
+        # return item
 
 
 class Taobaoke_Item(models.Model):
