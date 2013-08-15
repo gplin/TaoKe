@@ -13,6 +13,8 @@ from django.conf import settings
 from share.models import Taobaoke_Item,Category
 from utils.common import generate_menu
 
+ResponeType='appliction/json'
+
 def default(request):
     """
     """
@@ -36,7 +38,7 @@ def get_item_by_category_id(request,category_id,page):
     page = page if page else 1
     if request.is_ajax():
         json = Taobaoke_Item.objects.get_relate_by_category_id(category_id,page)
-        return HttpResponse(json,mimetype='appliction/json')
+        return HttpResponse(json,mimetype=ResponeType)
 
 def get_item_by_category_type(request,type,page=None):
     """

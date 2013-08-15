@@ -24,22 +24,22 @@
 
      <div class="img_grid">
          <div class="img_pic">
-             <div class="price">¥{echo item.fields.price}</div>
-             <a href="/share/{echo item.pk}" target="_blank">
-                 <img width="{echo item.fields.pic_width_grid}" height="{echo item.fields.pic_height_grid}" alt="{echo item.fields.title}" title="{echo item.fields.title}"  src="/{echo item.fields.pic_url_grid}"></a>
+             <div class="price">¥{echo item.price}</div>
+             <a href="/share/{echo item.item_id}" target="_blank">
+                 <img width="{echo item.pic_width_grid}" height="{echo item.pic_height_grid}" alt="{echo item.title}" title="{echo item.title}"  src="/{echo item.pic_url_grid}"></a>
          </div>
          <div class="img_remark">
-             {if item.fields.desc}
+             {if item.desc}
                <P class="desc">
-                   <small>{echo item.fields.desc}</small>
+                   <small>{echo item.desc}</small>
                </p>
              {/if}
              <p class="f12_f">
                  <a href="javascript:void(0)" class="likes"><b class="btn btn-mini likes_status" >喜欢</b>
-                     <span class="red_f">{echo item.fields.add_up_love}</span>
+                     <span class="red_f">{echo item.add_up_love}</span>
                  </a>
                  <a href="javascript:void(0)" class="pull-right review"> <b>评论</b>
-                     <span>{echo item.fields.add_up_comment}</span>
+                     <span>{echo item.add_up_comment}</span>
                  </a>
              </p>
          </div>
@@ -101,20 +101,27 @@
     function loadData() {
       isLoading = true;
       $('#loaderCircle').show();
-
+      
       $.ajax({
         type:'GET',
         url: apiURL+''+page,
         dataType: 'json',
+        error: function(XMLHttpRequest,status,errorThrown){
+          alert(errorThrown);
+        },
         //data: {page: page}, // Page parameter to make sure we load new data
-        success: onLoadData
+        success: onLoadData,
+        complete: function(XMLHttpRequest,status){
+          // alert(status);
+        }
       });
     };
 
     /**
      * Receives data from the API, creates HTML for images and updates the layout
      */
-    function onLoadData(data) {
+    function onLoadData(data,status,jqXHR) {
+      // alert(data);
       isLoading = false;
       $('#loaderCircle').hide();
       if (data.length==0 )

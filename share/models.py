@@ -1,8 +1,11 @@
 #-*- coding:utf-8 -*-
 import datetime
+import json
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.serializers import serialize,deserialize
+from django.core.serializers.json import DjangoJSONEncoder
+from utils.json import TaokeJSONEncoder
 from account.models import Account
 
 class CategoryManager(models.Manager):
@@ -26,6 +29,7 @@ class Category(models.Model):
     ACCESSORIES = "AC" #配饰
     HOME = "HO" #家居
     CREATIVE = "CR" #创意
+    COSMETICS = "CO" #美容
     TYPE_CHOICES = (
         (CLOTHES,'Clothes'),
         (SHOES,'Shoes'),
@@ -33,6 +37,7 @@ class Category(models.Model):
         (ACCESSORIES,'Accessories'),
         (HOME,'Home'),
         (CREATIVE,'Creative'),
+        (COSMETICS,'Cosmetics'),
     )
     category_id = models.AutoField(primary_key=True,null=False,unique=True)
     name = models.CharField(max_length=20,blank=False,unique=True,help_text='分类名称')
@@ -143,15 +148,11 @@ class Occasion(models.Model):
     class Meta():
         ordering = ['name','-init_date']
 
-# 需要格式化输出的字段
-JSON = 'json'
-fields = ('item_id','title','price','pic_url_grid','pic_width_grid','pic_height_grid','add_up_love',
-                'add_up_comment','desc')
 
 class Taobaoke_Item_Manager(models.Manager):
     """
     """
-    def get_share_grid(self,page,page_size=20):
+    def get_share_item_json(self,page,page_size=20):
         """
         """
         page = page if page else 1
@@ -161,17 +162,7 @@ class Taobaoke_Item_Manager(models.Manager):
                             From share_taobaoke_item
                             Order by add_up_love desc, add_up_bookmark desc, add_up_comment desc
                             Limit %s * (%s-1) ,%s ''',[page_size,page,page_size])
-
-        return item
-
-    def get_share_item_json(self,page,page_size=20):
-        """
-        返回JSON格式
-        """
-        fields = ('item_id','title','price','pic_url_grid','pic_width_grid','pic_height_grid','add_up_love',
-                'add_up_comment','desc')
-        item = self.get_share_grid(page,page_size)
-        return serialize(JSON,item,fields=fields)
+        return self.serialize_to_json(item)
 
     def get_relate_by_category_id(self,category_id,page,page_size=20):
         """
@@ -186,7 +177,8 @@ class Taobaoke_Item_Manager(models.Manager):
                                     Where category_id =%s
                                     Order by add_up_love desc
                                     Limit %s * (%s-1) ,%s ''',[category_id,page_size,page,page_size])
-        return serialize(JSON,item,fields=fields)
+        # return serialize(JSON,item,fields=fields)
+        return self.serialize_to_json(item)
 
     def get_relate_by_user_id(self,user_id,page):
         """
@@ -199,7 +191,8 @@ class Taobaoke_Item_Manager(models.Manager):
                             Order by add_up_love desc
                             Limit 20 * (%s-1), 20
                         """,[user_id,page])
-        return item
+        # return item
+        return self.serialize_to_json(item)
     
     def get_item_by_category_type(self,type,page,page_size=20):
         """
@@ -207,7 +200,7 @@ class Taobaoke_Item_Manager(models.Manager):
         """
         page = page if page else 1
         item = self.raw(''' Select user.id as user_id, user.username, acc.icon,
-                                   cate.[type], cate.[category_id],cate.name,
+                                   cate.[type], cate.[category_id],cate.name as category_name,
                                    item.item_id,item.title,item.price, item.pic_url_grid,
                                    item.pic_width_grid,item.pic_height_grid,
                                    add_up_love, add_up_comment, item.desc
@@ -223,10 +216,22 @@ class Taobaoke_Item_Manager(models.Manager):
                             Limit %s * (%s-1), %s
                         ''',[type,page_size,page,page_size])
 
-        fields = ('item_id','title','price','pic_url_grid','pic_width_grid','pic_height_grid','add_up_love',
-                'add_up_comment','desc','user_id','username','icon','name','type')
-        return serialize(JSON,list(item),fields=fields)
+        return self.serialize_to_json(item)
         # return item
+
+    def serialize_to_json(self,data):
+        """
+        将models.Mode或RawQuerySet或QuerySet序列化为JSON格式,
+        包含Taobaoke_Item外键关联的字段:
+            user:     user_id, username,icon;
+            category: category_id,category_name,type
+        """
+        data = data if not isinstance(data,models.Model) else [data]
+        result = []
+        for item in data:
+            tmp = item.__dict__
+            result.append(tmp)
+        return json.dumps(result,separators=(',',':'),cls=TaokeJSONEncoder)
 
 
 class Taobaoke_Item(models.Model):

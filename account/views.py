@@ -17,8 +17,20 @@ def default(request):
     """
     return render_to_response('account/default.html',context_instance=RequestContext(request))
 
-def detail(request):
+def detail(request,user_id):
 	return render_to_response('account/account.html',context_instance=RequestContext(request))
+
+def register(request):
+	pass
+
+def active(request):
+	pass
 
 def login(request):
 	return render_to_response('account/login.html',context_instance=RequestContext(request))
+
+def logout(request):
+	pass
+
+def checking(request,tag):
+	pass

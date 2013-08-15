@@ -2,12 +2,21 @@ import datetime
 from django.utils import timezone
 from django.db import models
 
+class PollManager(models.Manager):
+    def get_by_natural_key(self,question):
+        return self.get(question=question)
+
 
 class Poll(models.Model):
+    objects = PollManager()
+
     question = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date pulished')
     
     def __unicode__(self):
+        return self.question
+
+    def natural_key(self):
         return self.question
     
     def was_published_recently(self):
