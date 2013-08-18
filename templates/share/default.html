@@ -55,7 +55,7 @@
     var page = 1;
     var isLoading = false;
     var isStop = false;
-    var apiURL = '/share/JSON/'
+    var apiURL = '/share'
 
     // Prepare layout options.
     var options = {
@@ -97,9 +97,9 @@
 
       $.ajax({
         type:'GET',
-        url: apiURL+''+page,
+        url: apiURL,
         dataType: 'json',
-        //data: {page: page}, // Page parameter to make sure we load new data
+        data: {page: page}, // Page parameter to make sure we load new data
         success: onLoadData
       });
     };

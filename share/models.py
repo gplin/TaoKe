@@ -23,13 +23,13 @@ class Category(models.Model):
     """
     宝贝类别: 衣服；包包；家居
     """
-    CLOTHES = "CL"
-    SHOES = "SH"
-    BAGS = "BA"  #包包
-    ACCESSORIES = "AC" #配饰
-    HOME = "HO" #家居
-    CREATIVE = "CR" #创意
-    COSMETICS = "CO" #美容
+    CLOTHES = "CL" #1
+    SHOES = "SH"   #2 
+    BAGS = "BA"  #3包包
+    ACCESSORIES = "AC" #4配饰
+    HOME = "HO" #5家居
+    CREATIVE = "CR" #6创意
+    COSMETICS = "CO" #7美容
     TYPE_CHOICES = (
         (CLOTHES,'Clothes'),
         (SHOES,'Shoes'),
@@ -152,72 +152,76 @@ class Occasion(models.Model):
 class Taobaoke_Item_Manager(models.Manager):
     """
     """
-    def get_share_item_json(self,page,page_size=20):
+    def get_main_sql(self):
+        return '''
+                Select user.id as user_id, user.username, acc.icon,
+                       cate.[type], cate.[category_id],cate.name as category_name,
+                       item.item_id,item.title,item.price, item.pic_url_grid,
+                       item.pic_width_grid,item.pic_height_grid,
+                       add_up_love, add_up_comment, item.desc
+                From share_taobaoke_item item
+                inner join
+                     share_category cate on item.[category_id] = cate.[category_id]
+                inner join                             
+                     auth_user user on user.id = item.user_id
+                inner join                            
+                     account_account acc on acc.[user_id] = user.id                 
+                '''
+
+    def get_order_sql(self):
+        return '''
+               Order by add_up_love desc, add_up_bookmark desc, add_up_comment desc  
+
+               '''
+
+    def get_limit_sql(self,page,page_size=20):
+        if page:
+            # page = page if page else 1
+            page_size = page_size if page_size else 20
+            return ' Limit %s * (%s-1) ,%s ' % (page_size,page,page_size)
+        else:
+            return ''
+
+    def get_item_default(self,page,page_size=20):
         """
         """
-        page = page if page else 1
-        item =self.raw('''  Select item_id,title,price,
-                                   pic_url_grid,pic_width_grid,pic_height_grid,
-                                   add_up_love, add_up_comment, desc
-                            From share_taobaoke_item
-                            Order by add_up_love desc, add_up_bookmark desc, add_up_comment desc
-                            Limit %s * (%s-1) ,%s ''',[page_size,page,page_size])
+        sql = '%s%s%s' % (self.get_main_sql(),self.get_order_sql(),self.get_limit_sql(page,page_size))
+        item =self.raw(sql)
         return self.serialize_to_json(item)
 
-    def get_relate_by_category_id(self,category_id,page,page_size=20):
-        """
-        根据分类ID,页码,获取分享的宝贝
-        """
-        item = self.raw('''Select item_id,title,
-                                           price,
-                                           pic_url_grid,
-                                           pic_width_grid,
-                                           pic_height_grid, add_up_love, add_up_comment, desc
-                                    From share_taobaoke_item
-                                    Where category_id =%s
-                                    Order by add_up_love desc
-                                    Limit %s * (%s-1) ,%s ''',[category_id,page_size,page,page_size])
-        # return serialize(JSON,item,fields=fields)
-        return self.serialize_to_json(item)
-
-    def get_relate_by_user_id(self,user_id,page):
+    def get_item_by_user_id(self,user_id,page,page_size=20):
         """
         根据用户ID获取分享的宝贝
         """
-        item = self.raw(""" Select item_id,title,price,pic_url_grid,pic_width_grid,
-                                    pic_height_grid
-                            From share_taobaoke_item
-                            Where user_id = %s
-                            Order by add_up_love desc
-                            Limit 20 * (%s-1), 20
-                        """,[user_id,page])
-        # return item
+        sql = '%s%s%s%s' % (self.get_main_sql(),'Where acc.user_id = %s',
+                            self.get_order_sql(),self.get_limit_sql(page,page_size)
+                           )
+        item = self.raw(sql,[user_id])
         return self.serialize_to_json(item)
-    
-    def get_item_by_category_type(self,type,page,page_size=20):
-        """
-        获取分类TYPE属性获取分享的宝贝
-        """
-        page = page if page else 1
-        item = self.raw(''' Select user.id as user_id, user.username, acc.icon,
-                                   cate.[type], cate.[category_id],cate.name as category_name,
-                                   item.item_id,item.title,item.price, item.pic_url_grid,
-                                   item.pic_width_grid,item.pic_height_grid,
-                                   add_up_love, add_up_comment, item.desc
-                            From share_taobaoke_item item
-                            inner join
-                                 share_category cate on item.[category_id] = cate.[category_id]
-                            inner join                             
-                                  auth_user user on user.id = item.user_id
-                            inner join                            
-                                  account_account acc on acc.[user_id] = user.id
-                            where cate.[type] = %s
-                            Order by add_up_love desc, add_up_bookmark desc, add_up_comment desc
-                            Limit %s * (%s-1), %s
-                        ''',[type,page_size,page,page_size])
 
+    def get_item_by_category(self,type=None,category_id=None,page=None,page_size=20):
+        """
+        根据分类ID,页码,获取分享的宝贝
+        """
+        type = type if None else type.upper()
+        sql = '%s%s%s%s' % (self.get_main_sql(),
+                            ''' Where (cate.category_id = %s or %s is null) 
+                                  and (cate.[type]=%s or %s is null)
+                            ''',
+                            self.get_order_sql(),self.get_limit_sql(page,page_size)
+                           )
+        item = self.raw(sql,[category_id,category_id,type,type])
         return self.serialize_to_json(item)
-        # return item
+
+    # def get_item_by_category_type(self,type,page,page_size=20):
+    #     """
+    #     获取分类TYPE属性获取分享的宝贝
+    #     """
+    #     sql = '%s%s%s%s' % (self.get_main_sql(),'Where cate.[type] = %s',
+    #                         self.get_order_sql(),self.get_limit_sql(page,page_size)
+    #                        )
+    #     item = self.raw(sql,[type.upper()])
+    #     return self.serialize_to_json(item)
 
     def serialize_to_json(self,data):
         """

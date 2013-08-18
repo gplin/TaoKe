@@ -20,19 +20,19 @@
               <ul class="dropdown-menu cate-menu">
                 <li>
                   <div class="cate-list">
-                    <a href="/share/CL" class="cate-header" >衣服</a>
+                    <a href="/share/cl" class="cate-header" >衣服</a>
                   </div>
                   
                   <xsl:for-each select="categories/clothes">
                     <div class="cate-list">
                        <xsl:element name="a">
-                          <xsl:attribute name="href">/cate/<xsl:value-of select="id"/></xsl:attribute>
+                          <xsl:attribute name="href">/share/<xsl:value-of select="type"/>/<xsl:value-of select="id"/></xsl:attribute>
                           <xsl:attribute name="class">cate-header</xsl:attribute>
                           <xsl:value-of select="name"/>
                        </xsl:element>
                        <xsl:for-each select="items/item">
                          <xsl:element name="a">
-                            <xsl:attribute name="href">/cate/<xsl:value-of select="id"/></xsl:attribute>
+                            <xsl:attribute name="href">/share/<xsl:value-of select="type"/>/<xsl:value-of select="id"/></xsl:attribute>
                             <xsl:choose>
                                 <xsl:when test="ishot=1">
                                     <xsl:element name="span" >
@@ -53,13 +53,13 @@
                  <xsl:for-each select="categories/category">
                     <div class="cate-list">
                        <xsl:element name="a">
-                          <xsl:attribute name="href">/cate/<xsl:value-of select="id"/></xsl:attribute>
+                          <xsl:attribute name="href">/share/<xsl:value-of select="type"/>/<xsl:value-of select="id"/></xsl:attribute>
                           <xsl:attribute name="class">cate-header</xsl:attribute>
                           <xsl:value-of select="name"/>
                        </xsl:element>
                        <xsl:for-each select="items/item">
                          <xsl:element name="a">
-                            <xsl:attribute name="href">/cate/<xsl:value-of select="id"/></xsl:attribute>
+                            <xsl:attribute name="href">/share/<xsl:value-of select="type"/>/<xsl:value-of select="id"/></xsl:attribute>
                             <xsl:choose>
                                 <xsl:when test="ishot=1">
                                     <xsl:element name="span" >
@@ -79,25 +79,25 @@
               </ul>
             </li>
             <li>
-              <a href="/share/CL">衣服</a>
+              <a href="/share/cl">衣服</a>
             </li>
             <li>
-              <a href="/share/SH">鞋子</a>
+              <a href="/share/sh">鞋子</a>
             </li>
             <li>
-              <a href="/share/AC">配饰</a>
+              <a href="/share/ac">配饰</a>
             </li>
             <li>
-              <a href="/share/BA">包包</a>
+              <a href="/share/ba">包包</a>
             </li>
             <li>
-              <a href="/share/MY">美容</a>
+              <a href="/share/co">美容</a>
             </li>
             <li>
-              <a href="/share/HO">家居</a>
+              <a href="/share/ho">家居</a>
             </li>
             <li>
-              <a href="/share/CR">创意</a>
+              <a href="/share/cr">创意</a>
             </li>
           </ul>
           <p class="navbar-text pull-right">

@@ -45,7 +45,7 @@
          </div>
          <div class="clearfix"></div>
          <div class="img_share">
-             <a class="u_s_icon_32 trans07" target="_blank" href="/account/">
+             <a class="u_s_icon_32 trans07" target="_blank" href="/account/{echo item.user_id}">
                  <img src="/media/icon/u_s_0123456.jpg"></a>
              <p class="u_m140_f">fdsdfsdfdsfdsfasdfasdfasdafdsa</p>
              <div class="clearfix"></div>
@@ -101,15 +101,14 @@
     function loadData() {
       isLoading = true;
       $('#loaderCircle').show();
-      
       $.ajax({
         type:'GET',
-        url: apiURL+''+page,
+        url: apiURL,
         dataType: 'json',
         error: function(XMLHttpRequest,status,errorThrown){
           alert(errorThrown);
         },
-        //data: {page: page}, // Page parameter to make sure we load new data
+        data: {page: page}, // Page parameter to make sure we load new data
         success: onLoadData,
         complete: function(XMLHttpRequest,status){
           // alert(status);

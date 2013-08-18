@@ -15,10 +15,31 @@ from utils.common import generate_menu
 
 ResponeType='appliction/json'
 
-def default(request):
+def get_JSON_HttpResponse(json):
+    return HttpResponse(json,mimetype=ResponeType)
+
+def share(request):
     """
     """
-    return render_to_response('share/default.html',context_instance=RequestContext(request))
+    if request.is_ajax():
+        page = request.GET.get("page")
+        json = Taobaoke_Item.objects.get_item_default(page)
+        return get_JSON_HttpResponse(json)
+    else:
+        return render_to_response('share/share.html',context_instance=RequestContext(request))
+
+def get_by_category_type(request,type,category_id=None):
+    """
+    获取分类宝贝
+    """
+    if request.is_ajax():
+        page = request.GET.get('page')
+        # category_id = request.GET.get("cate_id")
+        json = Taobaoke_Item.objects.get_item_by_category(type,category_id,page)
+        return get_JSON_HttpResponse(json)
+    else:
+        if request.method == 'GET':
+            return render_to_response('share/share.html',context_instance=RequestContext(request))
 
 def detail(request,item_id):
     """
@@ -31,40 +52,26 @@ def detail(request,item_id):
                                {"model":model,"relate_u":item_u},
                                context_instance=RequestContext(request))
 
-def get_item_by_category_id(request,category_id,page):
-    """
-    根据分类ID参数获取宝贝信息,ajax 请求返回JSON格式
-    """
-    page = page if page else 1
-    if request.is_ajax():
-        json = Taobaoke_Item.objects.get_relate_by_category_id(category_id,page)
-        return HttpResponse(json,mimetype=ResponeType)
+# def get_by_category_id(request,category_id):
+#     """
+#     根据分类ID参数获取宝贝信息,ajax 请求返回JSON格式
+#     """
+#     if request.is_ajax():
+#         page = request.Get.get('page')
+#         json = Taobaoke_Item.objects.get_item_by_category_id(category_id,page)
+#         return get_JSON_HttpResponse(json)
 
-def get_item_by_category_type(request,type,page=None):
-    """
-    获取分类宝贝
-    """
-    if request.is_ajax():
-        json = Taobaoke_Item.objects.get_item_by_category_type(type,page)
-        return HttpResponse(json,mimetype='appliction/json')
-    else:
-        if request.method == 'GET':
-            return render_to_response('share/category.html',context_instance=RequestContext(request))
+
 
 def goto_taobao(request,uuid):
     """跳转到淘宝"""
     model = get_object_or_404(Taobaoke_Item,uuid = uuid)
     return render_to_response("share/2taobao.html",{"taobao_url":model.click_url})
 
-def JSON(request,page):
-    page = page if page else 1
-    if request.is_ajax():
-        json = Taobaoke_Item.objects.get_share_item_json(page,20)
-        return HttpResponse(json,mimetype='application/json')
 
 
 # @csrf_exempt
-
+#utils method
 def execute_generate_menu(request):
     import os
     xmlPath = os.path.join(settings.GENERATE_TEMPLATE_DIR,'menu.xml')

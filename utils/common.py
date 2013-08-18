@@ -1,19 +1,7 @@
 #-*- coding:utf-8 -*-
 import os
 from lxml import etree
-from share.models import Category
 
-
-def get_category(enable):
-    """
-    return list: dict in dict
-    """
-    li = []
-    cate = list(Category.objects.filter(enable=enable).values('category_id','name','parent_id','enable','display_seq','add_up','is_hot','type'))
-    for c in filter(lambda x:x['parent_id']==0,cate):
-        c['items']=filter(lambda x:x['parent_id']==c['category_id'],cate)
-        li.append(c)
-    return li
 
 def create_subElement(root,subElementName,subElementText):
     """
@@ -33,6 +21,7 @@ def generate_xml(elements):
         create_subElement(cate,"name",e["name"])
         create_subElement(cate,"id",e["category_id"])
         create_subElement(cate,"seq",e["display_seq"])
+        create_subElement(cate,"type",e["type"].lower())
 
         items = etree.SubElement(cate,"items")
         for i in e["items"]:
@@ -41,9 +30,9 @@ def generate_xml(elements):
             create_subElement(item,"id",i["category_id"])
             create_subElement(item,"seq",i["display_seq"])
             create_subElement(item,"ishot",i["is_hot"])
+            create_subElement(item,"type",e["type"].lower())
 
     return etree.tostring(root,encoding='utf-8')
-
 
 def generate_menu(data,xmlPath,xslPath,menuPath):
     """

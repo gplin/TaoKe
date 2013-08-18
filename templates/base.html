@@ -128,7 +128,7 @@
 					<p>请输入宝贝的网址</p>
 					<div class="input-append">
 						<input type="text" class="span5" id="appendedInputButton"/>
-						<button class="btn" type="button">确定</button>
+						<button class="btn" type="button" id="share-action">确定</button>
 					</div>
 					<p class="text-warning">目前仅支持淘宝</p>
 				</div>
@@ -194,6 +194,24 @@
             }else{
                 $(this).removeClass("active")
             }
+        });
+
+        $("#share-action").click(function(event) {
+        	/* Act on the event */
+        	alert($("#appendedInputButton").val);
+        	// $.ajax({
+        	// 	type: 'POST',
+        	// 	url: '/share/action/',
+        	// 	dataType: 'json',
+        	// 	data:{url:$(appendedInputButton).value}
+        	// 	error: function(XMLHttpRequest,status,errorThrown){
+        	// 		alert(errorThrown);
+        	// 	},
+        	// 	success: function (data,status) {
+        			
+        	// 	}
+        	// });
+
         });
     })
     </script>
