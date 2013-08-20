@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+{% block content %}
+<H1>Sing Up</H1>
+<form class="form-horizontal">
+	<div class="control-group">
+		<label class="control-label" for="inputEmail">Email:</label>
+		<div class="controls">
+			<input type="text" id="inputEmail" placeholder="Email"/>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="pwd">Password:</label>
+		<div class="controls">
+			<input type="password" id="pwd" placeholder="Password"/>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="re-pwd">Confirm Password:</label>
+		<div class="controls">
+			<input type="password" id="re-pwd" placeholder="Confirm Password"/>
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="controls">
+			<a href="javascript:submitData();" class="btn btn-success" data-loading-text="Loading..." >Sing in</a>
+		</div>
+	</div>
+</form>
+{% endblock %}
+{% block footer_javascript %}
+<script>
+	
+		$(function(){
+			// var intentionBoxList = $(".intentionAbout"), mealSetIntro = $(".mealSetIntro"), mealSetTopA = $("#mealSetTopA"), mealSetTopB = $("#mealSetTopB"), mealSetTopPP = $("#mealSetTopPP"),mobileBox = $("#mobileBox");
+
+
+			//  var productBox = $("#productBox"), boxTip = $("#boxTip"), phoneTip = $("#phoneTip");
+   //              productBox.delegate("input", "click", function(){
+   //                      var tmpVersionValue   = $('input[name=version]:checked').val();
+   //                      if(this.id == "productA" || this.id == "productC"){
+   //                              if (tmpVersionValue == "A") mealSetTopB.show();
+   //                              else mealSetTopA.show();
+								
+			// 					mealSetTopPP.show();
+   //                              mobileBox.show();
+   //                      }else{
+   //                              if (tmpVersionValue == "A") mealSetTopB.hide();
+   //                              else mealSetTopA.hide();
+								
+			// 					mealSetTopPP.hide();
+   //                              mobileBox.hide();
+			// 					mealSetIntro.hide();
+   //                      };
+						
+   //                      if(this.id == "productB") boxTip.show();
+   //                      else boxTip.hide();
+   //                      if(this.id == "productC") phoneTip.show();
+   //                      else phoneTip.hide();
+   //              });
+
+			// $("#mobileBox").delegate("label", "click", function(){
+
+			// 	$("#versionTip").hide();
+			// 	if(this.getAttribute("name") == "s8" || this.getAttribute("name") == "s9") {
+			// 		mealSetTopB.hide();
+			// 		mealSetIntro.hide();
+			// 		mealSetTopA.show();
+			// 	}else{
+			// 		mealSetTopB.show();
+			// 		mealSetIntro.hide();
+			// 		mealSetTopA.hide();
+			// 	};
+
+
+			// });
+
+			// var username = $("#username"),
+			// tel      = $("#tel"),
+			// email    = $("#email"),
+			// authcode = $("#authcode");
+
+			// username.blur(function(){
+			// 	if(username.val().length < 2 || !checkCn(username.val())) {
+			// 		username.next().show();
+			// 	}else{
+			// 		username.next().hide();
+			// 	};
+			// });
+			// email.blur(function(){
+			// 	if(!checkMail(email.val())) {
+			// 		email.next().show();
+			// 	}else{
+			// 		email.next().hide();
+			// 	};
+			// });
+			// tel.blur(function(){
+			// 	if(!checkMobile(tel.val())) {
+			// 		tel.next().show();
+			// 	}else{
+			// 		tel.next().hide();
+			// 	};
+			// });
+			// authcode.blur(function(){
+			// 	if (authcode.val().length == 0 ){
+			// 		authcode.next().next().show();
+			// 	}else{
+			// 		authcode.next().next().hide();
+			// 	};
+			// });
+		});
+		
+		function checkEmail(email){
+			$.ajax({
+				url:'/account/checking',
+				dataType:'json',
+				type:'GET',
+				data:{
+					'type':'E',
+					 'email':email
+				},
+				success:function(data){
+
+				},
+				error:function(d){
+					
+				}
+
+			});
+		}
+
+
+
+		// var formBoxModifly  = 1;
+		var submitData = function(){
+			// alert("Testtext");
+			var username 	= $("#username"),
+			tel      	 	= $("#tel"),
+			email    	 	= $("#email"),
+			authcode 	 	= $("#authcode"),
+			versionValue    = $('input[name=version]:checked').val(),
+			miphone			= $('input[id=productA]:checked').val(),
+			box			    = $('input[id=productB]:checked').val(),
+			miphoneBox		= $('input[id=productC]:checked').val(),
+			accessoryObj    = versionValue == "8" || versionValue == "9" ? "pa" : "pa2",
+			accessory		= $("#" + accessoryObj),
+			accessoryPP		= $("#paPP"),
+			miPhone,
+			miBox;
+			if(miphoneBox == 1){
+				miphone = 1;
+				box = 1;
+			};
+
+			if (formBoxModifly === 0){
+				if(username.val().length < 2) {
+					username.focus();
+					username.next().show();
+					return;
+				};
+				if(!checkCn(username.val())) {
+					username.focus();
+					username.next().show();
+					return;
+				};
+				if(!checkMail(email.val())) {
+					email.focus();
+					email.next().show();
+					return;
+				};
+				if(!checkMobile(tel.val())) {
+					tel.focus();
+					tel.next().show();
+					return;
+				};
+			};
+
+			if(!versionValue && miphone != undefined) {
+				$("#versionTip").show();
+				return;
+			};
+			if(miphone != undefined) {
+				miPhone = 1;
+			} else {
+				miPhone = 0;
+			}
+			if(box != undefined) {
+				miBox = 1;
+			} else {
+				miBox = 0;
+			}
+			$("#versionTip").hide();
+			authcodeValue = '123456';
+			var authcode = $("#authCode");
+			if (authcode.val().length < 4 || authcode.val().length > 7){
+				$('#authcodeTip').show();
+				return;
+			};
+
+			authcodeValue = authcode.val();
+			accessoryValue = accessory.prop("checked") ? 1 : 0;
+			accessoryPPValue = accessoryPP.prop("checked") ? 1 : 0;
+			_gaq.push(['_trackEvent', '活动', '预约页', '提交']);
+			$.ajax({
+				type: 'POST',
+				url: 'http://t.hd.xiaomi.com/?_a=20130820&_op=dobook&_v=1377011223',
+				data: { _ia:1, _op:'dobook',_a:'20130820', _aff:'b12af6b', username:username.val(), mobile:tel.val(), email:email.val(), version:versionValue, accessory:accessoryValue,accessory2:accessoryPPValue,miphone:miPhone,box:miBox, authcode_red_mi_3rd:authcodeValue},
+				success: function(d){
+					if( (typeof d =='object') && d.info ) {
+						if(d.info == '提交完成，请稍候') {
+							location.href = 'http://t.hd.xiaomi.com/?_a=20130820&_op=waiting';
+						} else {
+							if(d.info == '验证码错误次数过多。') {
+								location.href = 'http://p.www.xiaomi.com/open/common/tip_tooMuchTry.html';
+							} else {
+								$('#authcodeTip').text(d.info).show();
+							}
+						}
+						return;
+					}
+				},
+				error: function(d){
+					$('#authcodeTip').text('提交失败，请重试').show();
+					return;
+				},
+				beforeSend: function(){
+				},
+				dataType:'json'
+			});
+		};//,
+		// toggleMealSetIntro =  function(str){
+  //           if ($("#" + str + ":visible").size() > 0) {
+  //               $("#" + str).hide();
+  //           } else {
+  //               $("#" + str).show();
+  //           }
+		// },
+		// formBoxMod = function(){
+		// 	var formBox = $("#formBox");
+		// 	formBox.removeClass("formBoxModifly");
+		// 	formBoxModifly = 0;
+		// };
+		// formBoxMod();	
+</script>
+{% endblock %}

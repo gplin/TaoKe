@@ -3,6 +3,12 @@ from django.db import models
 from django.contrib.auth.models import User,UserManager
 
 
+class AccountManager(models.Manager):
+	"""
+	"""
+	def new_account(self,email):
+		pass
+
 class Account(models.Model):
     user = models.OneToOneField(User,primary_key=True,db_column="user_id")
     add_up_onLine_time = models.TimeField(editable=False,auto_now_add=True)

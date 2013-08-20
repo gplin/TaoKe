@@ -5,9 +5,8 @@ Author: gplin
 Desc: 调用API(taobao.taobaoke.items.detail.get)查询淘宝客推广商品详细信息
 """
 import re
-import top.settings as settings
-# import top.api
 from top.api import	TaobaokeItemsDetailGetRequest
+import top
 
 def extract_num_iid(url):
 	"""
@@ -30,15 +29,16 @@ def extract_num_iid(url):
 
 
 def GetDetail(num_iids):
-	req = TaobaokeItemsDetailGetRequest(settings.domain(1))
-	req.set_app_info(top.appinfo(settings.appkey(),settings.secret(1) ))
-	req.pid = settings.PID()
+	req = TaobaokeItemsDetailGetRequest(top.domain(1))
+	req.set_app_info(top.appinfo(top.appkey(),top.secret(1) ))
+	req.pid = top.PID()
 	req.outer_code = "gplin"
 	req.num_iids = num_iids
 	req.fields = "click_url,shop_click_url,detail_url,type,seller_credit_score,num_iid,title,nick"
 
-	try:
-	    f = req.getResponse()
-	except Exception,e:
-	    print e
-	return f
+	return req
+	# try:
+	#     f = req.getResponse()
+	# except Exception,e:
+	#     print e
+	# return f

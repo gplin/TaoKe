@@ -26,7 +26,7 @@
                   <xsl:for-each select="categories/clothes">
                     <div class="cate-list">
                        <xsl:element name="a">
-                          <xsl:attribute name="href">/share/<xsl:value-of select="type"/>/<xsl:value-of select="id"/></xsl:attribute>
+                          <xsl:attribute name="href">/share/<xsl:value-of select="type"/>/</xsl:attribute>
                           <xsl:attribute name="class">cate-header</xsl:attribute>
                           <xsl:value-of select="name"/>
                        </xsl:element>
@@ -53,7 +53,7 @@
                  <xsl:for-each select="categories/category">
                     <div class="cate-list">
                        <xsl:element name="a">
-                          <xsl:attribute name="href">/share/<xsl:value-of select="type"/>/<xsl:value-of select="id"/></xsl:attribute>
+                          <xsl:attribute name="href">/share/<xsl:value-of select="type"/>/</xsl:attribute>
                           <xsl:attribute name="class">cate-header</xsl:attribute>
                           <xsl:value-of select="name"/>
                        </xsl:element>
@@ -103,7 +103,7 @@
           <p class="navbar-text pull-right">
             <a href="#myModal" role="button" data-toggle="modal" class="navbar-link" >+分享</a>
             <a href="/account/login" class="navbar-link">登录</a>
-            <a href="/account/logout" class="navbar-link">注册</a>
+            <a href="/account/register" class="navbar-link">注册</a>
           </p>
         </div>
         <!--/.nav-collapse -->

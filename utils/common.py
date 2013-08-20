@@ -1,7 +1,7 @@
 #-*- coding:utf-8 -*-
 import os
 from lxml import etree
-
+from share.models import Category
 
 def create_subElement(root,subElementName,subElementText):
     """
