@@ -14,5 +14,5 @@ urlpatterns = patterns('',
     url(r'^login/$',views.login,name='login'),
     url(r'^logout/$',views.logout,name='logout'),
     #用户注册时邮件校验及用户信息设置时的相关校验
-    url(r'^checking/(?P<tag>(email|nickname))/$',views.checking,name='checking'),
+    url(r'^checking/$',views.checking,name='checking'),
 )

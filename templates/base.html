@@ -160,8 +160,6 @@
 	<!--End container-->
 
 	<div class="clearfix"></div>
-	{% block footer_javascript %}
-		{% endblock %}
 	<div data-widget='backtop'>
 		<script src="/static/js/backtop-green.js" charset="utf-8"></script>
 	</div>
@@ -215,5 +213,7 @@
         });
     })
     </script>
+    	{% block footer_javascript %}
+		{% endblock %}
 </body>
 </html>

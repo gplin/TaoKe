@@ -1,4 +1,5 @@
 #-*- coding:utf-8 -*-
+import json
 from django.utils import simplejson
 from django.db.models.query import QuerySet
 from django.http import HttpResponse, HttpResponseRedirect
@@ -32,5 +33,11 @@ def login(request):
 def logout(request):
 	pass
 
-def checking(request,tag):
-	pass
+def checking(request):
+	if request.is_ajax():
+		tag = request.GET.get("type")
+		if tag=="E":
+			data = {"result":"success","status":"N"}
+			js = json.dumps(data)
+			return HttpResponse(js,mimetype='appliction/json')
+
