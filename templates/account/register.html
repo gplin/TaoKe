@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <H1>注册</H1>
-<form class="form-horizontal">
+<div class="form-horizontal">
 	<div class="control-group">
 		<label class="control-label" for="email">邮箱地址:</label>
 		<div class="controls">
@@ -17,21 +17,25 @@
 		</div>
 	</div>
 	<div class="control-group">
-		<label class="control-label" for="re-pwd">确认密码:</label>
+		<label class="control-label" for="repwd">确认密码:</label>
 		<div class="controls">
-			<input type="password" id="re-pwd" placeholder="Confirm Password"/>
+			<input type="password" id="repwd" placeholder="Confirm Password"/>
 			<span class="help-inline" style="display:none;"></span>
 		</div>
 	</div>
 	<div class="control-group">
 		<div class="controls">
-			<button  type="submit" id="submit" class="btn btn-success" data-loading-text="正在处理..." >注册</button>
+			<input type="button" id="reg" class="btn btn-success" data-loading-text="正在处理..." value="注册" />
 		</div>
 	</div>
-</form>
+</div>
 {% endblock %}
 {% block footer_javascript %}
 <script>
+		$(function($){
+			alert("ready");
+			
+		});
 		// function changeCaptcha() {
 		// 	$("#authCode").attr('value', '');
 		// 	$("#img_captcha").attr('src', 'http://t.hd.xiaomi.com/?_a=20130820&_op=authcode&_r=' + Math.random());
@@ -80,33 +84,54 @@
 			return str.replace(/[^\x00-\xff]/g,"aa").length;
 		};
 
-	
-		// $(function(){
-		// });
-		
-		$("#submit").bind('click', function(event) {
+		var newAccount = function(event) {
 			if(!checkEmail()){
 				$("#email").focus();
-				return false;
+				return
 			}
-			if(!checkpwd()){
+			if(!checkPwd()){
 				$("#pwd").focus();
-				return false;
+				return 
 			}
 			if(!checkRepwd()){
-				$("#re-pwd").focus()
-				return false;
+				$("#repwd").focus()
+				return 
 			}
-
-
-			return false;
-		});
+			alert("reg")
+		};
 
 
 		$("#email").bind("blur",checkEmail);
 		$("#pwd").bind("blur",checkPwd);
-		$("#re-pwd").bind("blur",checkRepwd);
+		$("#repwd").bind("blur",checkRepwd);
+		$("#reg").bind('click', newAccount);
 
+		$("#email").keydown(function(event) {
+			if(event.keyCode==13){
+				$("#pwd").focus();
+			}
+		});
+		$("#pwd").keydown(function(event) {
+			if(event.keyCode==13){
+				$("#repwd").focus();
+			}
+		});
+		$("#repwd").keydown(function(event) {
+			if(event.keyCode==13){
+				$("#reg").focus();
+				return false;
+			}
+		});
+
+		$("#reg").keydown(function(event) {
+			if(event.keyCode==13){
+				// alert('reg');
+				$("#reg").click();
+				return false
+			}
+		});
+
+		var oldEmail;
 		function checkEmail(){
 			var email = $("#email");
 			var parent = email.parent().parent();
@@ -130,25 +155,28 @@
 				email.next("span").hide();
 			}
 			// checking email is used
-			alert(email.val());
-			$.ajax({
-				url:'/account/checking',
-				dataType:'json',
-				type:'GET',
-				data:{
-					type:'E',
-					 email:email.val()
-				},
-				success:function(data,textStatus){
-					email.next("span").html("邮箱地址可使用").show();
-					// alert(textStatus);
+			// alert(email.val());
+			if(oldEmail!=email.val()){
+				$.ajax({
+					url:'/account/checking/',
+					dataType:'json',
+					type:'GET',
+					data:{
+						type:'E',
+						 email:email.val()
+					},
+					success:function(data,textStatus){
+						email.next("span").html("邮箱地址可使用").show();
+						// alert(textStatus);
 
-				},
-				error:function(d,textStatus){
-					alert(textStatus);
-					return false;
-				}
-			});
+					},
+					error:function(d,textStatus){
+						alert(textStatus);
+						return false;
+					}
+				});
+				oldEmail=email.val();
+			}
 			return true;
 		};
 
@@ -177,22 +205,22 @@
 		};
 		
 		function checkRepwd(){
-			var repwd=$("$re-pwd");
-			var parent = pwd.parent().parent();
-			if(re_pwd.val()!=pwd.val()){
+			var repwd=$("#repwd");
+			var parent = repwd.parent().parent();
+			if(repwd.val()!=$("#pwd").val()){
 				if(!parent.hasClass("error")){
 					parent.addClass("error");
 				};
-				re_pwd.next("span").html("两次输入密码不一致.").show();
+				repwd.next("span").html("两次输入密码不一致.").show();
 				return false;
 			}else{
 				if(parent.hasClass("error")){
 					parent.removeClass("error");
 				};
-				re_pwd.next("span").hide();
+				repwd.next("span").hide();
 			};
 			return true;
-		};
+	};
 
 
 			
@@ -201,7 +229,7 @@
 
 
 		// var formBoxModifly  = 1;
-		var submitData = function(){
+		var regData = function(){
 			// alert("Testtext");
 			var username 	= $("#username"),
 			tel      	 	= $("#tel"),
