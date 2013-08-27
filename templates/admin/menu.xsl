@@ -14,7 +14,7 @@
         <div class="nav-collapse collapse">
           <ul class="nav">
             <li class="dropdown">
-              <a href="/share" class="dropdown-toggle" data-toggle="dropdown">
+              <a href="/share">
                 所有宝贝分类<b class="caret"></b>
               </a>
               <ul class="dropdown-menu cate-menu">
@@ -26,7 +26,7 @@
                   <xsl:for-each select="categories/clothes">
                     <div class="cate-list">
                        <xsl:element name="a">
-                          <xsl:attribute name="href">/share/<xsl:value-of select="type"/>/</xsl:attribute>
+                          <xsl:attribute name="href">/share/<xsl:value-of select="type"/>/<xsl:value-of select="id"/></xsl:attribute>
                           <xsl:attribute name="class">cate-header</xsl:attribute>
                           <xsl:value-of select="name"/>
                        </xsl:element>

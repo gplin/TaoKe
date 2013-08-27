@@ -10,6 +10,13 @@
 		</div>
 	</div>
 	<div class="control-group">
+		<label class="control-label" for="nickname">昵称:</label>
+		<div class="controls">
+			<input type="text" id="nickname" placeholder="小清新mm"/>
+			<span class="help-inline" style="display:none;">请输入昵称</span>
+		</div>
+	</div>
+	<div class="control-group">
 		<label class="control-label" for="pwd">设置密码:</label>
 		<div class="controls">
 			<input type="password" id="pwd" placeholder="Password"/>
@@ -25,7 +32,8 @@
 	</div>
 	<div class="control-group">
 		<div class="controls">
-			<input type="button" id="reg" class="btn btn-success" data-loading-text="正在处理..." value="注册" />
+	<input type="button" id="reg"  class="btn btn-success" data-loading-text="正在处理..." value="注册" />
+	<input type="reset" id="reset" class="btn btn-success" value="重置" />
 		</div>
 	</div>
 </div>
@@ -33,7 +41,7 @@
 {% block footer_javascript %}
 <script>
 		$(function($){
-			alert("ready");
+			// alert("ready");
 			
 		});
 		// function changeCaptcha() {
@@ -97,16 +105,51 @@
 				$("#repwd").focus()
 				return 
 			}
-			alert("reg")
+			// console.log("new account");
+			// $("#reg").attr("disabled",true);
+			// alert("reg")
+			// return false;
+			$("#reset").focus();
+
+			$.ajax({
+				type:"POST",
+				dataType:"json",
+				url:"/account/register/",
+				cache:false,
+				data:{email:$("#email").val(),pwd:$("#pwd").val(),nickname:$("#nickname").val()},
+				success:function(data,textStatus){
+					alert(textStatus)
+				},
+				error:function(XMLHttpRequest,textStatus,errorThrown){
+					alert(textStatus+":"+errorThrown)
+				},
+				beforeSend: function(){
+					alert("processing...")
+				},
+			});
+			// return false;
+
 		};
 
 
+		
 		$("#email").bind("blur",checkEmail);
+		$("#nickname").bind("blur",checkNickName);
 		$("#pwd").bind("blur",checkPwd);
 		$("#repwd").bind("blur",checkRepwd);
-		$("#reg").bind('click', newAccount);
+
+		$("#reg").bind('click', function(){
+			console.log("exec click");
+			newAccount();
+		} );
 
 		$("#email").keydown(function(event) {
+			if(event.keyCode==13){
+				$("#nickname").focus();
+			}
+			// return false;
+		});
+		$("#nickname").keydown(function(event) {
 			if(event.keyCode==13){
 				$("#pwd").focus();
 			}
@@ -125,8 +168,6 @@
 
 		$("#reg").keydown(function(event) {
 			if(event.keyCode==13){
-				// alert('reg');
-				$("#reg").click();
 				return false
 			}
 		});
@@ -163,7 +204,7 @@
 					type:'GET',
 					data:{
 						type:'E',
-						 email:email.val()
+						email:email.val()
 					},
 					success:function(data,textStatus){
 						email.next("span").html("邮箱地址可使用").show();
@@ -178,6 +219,49 @@
 				oldEmail=email.val();
 			}
 			return true;
+		};
+
+		function checkNickName(){
+			var nickname =$("#nickname");
+			var value = nickname.val().trim()
+			var parent = nickname.parent().parent();
+			if (value==""){
+				if(!parent.hasClass("error")){
+					parent.addClass("error");
+				};
+				console.log("empty");
+				nickname.next("span").html("请设置昵称").show();
+				return false;
+			}
+			else if(value.length>20){
+				if(!parent.hasClass("error")){
+					parent.addClass("error");
+				};
+				nickname.next("span").html("请昵称字符不能超过20个").show();
+				return false;
+			}
+
+			$.ajax({
+				url: '/account/checking/',
+				type: 'GET',
+				dataType: 'json',
+				data:{
+						type:'N',
+						nickname:value
+					}
+			})
+			.done(function() {
+				console.log("success");
+			})
+			.fail(function() {
+				console.log("error");
+				return false;
+			})
+			.always(function() {
+				console.log("complete");
+			});
+			
+			return true
 		};
 
 		function checkPwd(){

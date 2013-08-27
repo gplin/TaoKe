@@ -164,7 +164,8 @@ LOGGING = {
     }
 }
 
-
+# custome declare
+ACCOUNT_DEFAULT_ICON = r"/media/icon/u_s_0123456.jpg"
 
 #debug output
 import logging

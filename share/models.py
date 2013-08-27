@@ -295,6 +295,8 @@ class Taobaoke_Item(models.Model):
     def __unicode__(self):
         return self.title
 
+    def __str__(self):
+        return self.__unicode__()  
 
 
 class Tag(models.Model):

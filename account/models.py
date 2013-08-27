@@ -1,13 +1,51 @@
 #-*- coding:utf-8 -*-
+import uuid
+import json
+from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
 from django.db import models
+from django.db.models.query import QuerySet
 from django.contrib.auth.models import User,UserManager
 
 
 class AccountManager(models.Manager):
-	"""
-	"""
-	def new_account(self,email):
-		pass
+    """
+    """
+    def create_account(self,username,email,password):
+        user = User.objects.create_user(username, email, password)
+        user.is_active = False
+        user.save()
+
+        acc =  self.model(user=user,icon=settings.ACCOUNT_DEFAULT_ICON,uuid=uuid.uuid1().hex)
+        acc.save()
+        return acc
+
+    def register_account(self,nickname,email,password):
+        acc = self.create_account(username=nickname,email=email,password=password)
+        data = dict(result="success",uuid=acc.uuid)
+        return json.dumps(data,separators=(',',':'))
+
+    def active_account(self,uuid):
+        """
+        激活帐号
+        """
+        acc = self.select_related().get(uuid=uuid)
+        if acc.user.is_active:
+            raise ObjectDoesNotExist
+
+        from django.db import connection,transaction
+        cursor = connection.cursor()
+        cursor.execute("""Update auth_user 
+                          Set is_active = %s 
+                          Where exists (Select * From account_account acc 
+                                         Where auth_user.id = acc.user_id
+                                         and acc.uuid = %s)
+                          and auth_user.is_active = %s
+                          """,[True,uuid,False])
+        transaction.commit_unless_managed()
+        data = dict(result="success",data=dict(username=acc.user.username,email=acc.user.email))
+        return json.dumps(data,separators=(',',':'))
+
 
 class Account(models.Model):
     user = models.OneToOneField(User,primary_key=True,db_column="user_id")
@@ -17,3 +55,11 @@ class Account(models.Model):
     grade = models.IntegerField(default=0,editable=False,help_text='用户积分')
     uuid = models.CharField(unique=True,editable=False,max_length=32)
     add_up_item = models.IntegerField(default=0)
+
+    objects = AccountManager()
+
+    def __unicode__(self):
+        return unicode('%s:%s' %(self.user.username,self.user.email))
+
+    def __str__(self):
+        return self.__unicode__()
