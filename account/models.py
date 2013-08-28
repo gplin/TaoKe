@@ -21,9 +21,8 @@ class AccountManager(models.Manager):
         return acc
 
     def register_account(self,nickname,email,password):
-        acc = self.create_account(username=nickname,email=email,password=password)
-        data = dict(result="success",uuid=acc.uuid)
-        return json.dumps(data,separators=(',',':'))
+       return self.create_account(username=nickname,email=email,password=password)
+         
 
     def active_account(self,uuid):
         """
@@ -45,6 +44,28 @@ class AccountManager(models.Manager):
         transaction.commit_unless_managed()
         data = dict(result="success",data=dict(username=acc.user.username,email=acc.user.email))
         return json.dumps(data,separators=(',',':'))
+
+    def check_account_exists(self,type,value):
+        """
+        校验Email,nickname是否存在
+        parameter
+                type: E -> Email,N -> Nickname
+        return  boolean
+        """
+        type = type if type.strip().upper() else None
+        value = value if value.strip() else None
+        if type is None or type not in("E","N") or value is None:
+            raise ValueError("type and value can not empty.")
+        try:
+            user = User.objects.get(email=value) if type=="E" else User.objects.get(username=value)
+            self.select_related().get(user=user)
+        except ObjectDoesNotExist:
+            return False
+        except Exception:
+            raise
+        
+        return True
+
 
 
 class Account(models.Model):
