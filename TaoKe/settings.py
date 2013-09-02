@@ -1,3 +1,4 @@
+#-*- coding:utf-8 -*-
 # Django settings for TaoKe project.
 import os
 PROJECT_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
@@ -97,8 +98,10 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.transaction.TransactionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -166,6 +169,13 @@ LOGGING = {
 
 # custome declare
 ACCOUNT_DEFAULT_ICON = r"/media/icon/u_s_0123456.jpg"
+
+#sending email config
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'gplin2@gmail.com'
+EMAIL_HOST_PASSWORD = 'gplin@2012'
+EMAIL_PORT = 587
 
 #debug output
 import logging

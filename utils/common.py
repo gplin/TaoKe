@@ -1,5 +1,7 @@
 #-*- coding:utf-8 -*-
 import os
+from django.core.mail import send_mail,EmailMessage
+from django.conf import settings
 from lxml import etree
 from share.models import Category
 
@@ -50,11 +52,17 @@ def generate_menu(data,xmlPath,xslPath,menuPath):
     result = transform(xmlDoc)
     result.write_c14n(menuPath)
 
+def send_register_email(uuid,to_email):
+    subject= "欢迎注册,马上激活!"
+    body = "请点下面链接激活:<p>http://127.0.0.1:8000/account/active/%s</p>" % "uuid"
+    msg =  EmailMessage(subject,body,settings.EMAIL_HOST_USER,[to_email])
+    msg.content_subtype = 'html' #Main content is now text/html
+    msg.send()
 
-if __name__=="__main__":
-    #li = get_Category(True)
-    #print type(li)
-    #gen_xml(li)
-    #gen_html()
+# if __name__=="__main__":
+#     #li = get_Category(True)
+#     #print type(li)
+#     #gen_xml(li)
+#     #gen_html()
 
-    pass
+#     pass

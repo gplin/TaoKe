@@ -1,65 +1,76 @@
 {% extends "base.html" %}
 {% block content %}
 <H1>注册</H1>
-<div class="form-horizontal">
+<div id="reg_form">
+{% if registed %}
+	注册成功!<p>激活链接已发送到您注册的邮箱({{ email }}),马上登录邮箱激活吧!</p>
+{% else %}
+
+<form class="form-horizontal" action="/account/register/" method="post">
+	{% if form.errors %}
+	<ul class="unstyled alert alert-error">
+		{% for msg in form.email.errors %}
+			<li>{{ msg }}</li>
+		{% endfor %}
+		{% for msg in form.username.errors %}
+			<li>{{ msg }}</li>
+		{% endfor %}
+		{% for msg in form.password.errors %}
+			<li>{{ msg }}</li>
+		{% endfor %}
+		{% for msg in form.confirm_password.errors %}
+			<li>{{ msg }}</li>
+		{% endfor %}
+		{{ form.non_field_errors }}
+	</ul>
+	{% endif %}
 	<div class="control-group">
-		<label class="control-label" for="email">邮箱地址:</label>
-		<div class="controls">
-			<input type="text" id="email" placeholder="sample@qq.com"/>
-			<span class="help-inline" style="display:none;">请输入邮箱地址</span>
+			<label class="control-label" for="email">邮箱地址:</label>
+			<div class="controls">
+				{{ form.email }}
+				<span class="help-inline" style="display:none;">请输入邮箱地址</span>
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label" for="nickname">昵称:</label>
-		<div class="controls">
-			<input type="text" id="nickname" placeholder="小清新mm"/>
-			<span class="help-inline" style="display:none;">请输入昵称</span>
+		<div class="control-group">
+			<label class="control-label" for="username">昵称:</label>
+			<div class="controls">
+			{{ form.username }}
+				<span class="help-inline" style="display:none;">请输入昵称</span>
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label" for="pwd">设置密码:</label>
-		<div class="controls">
-			<input type="password" id="pwd" placeholder="Password"/>
-			<span class="help-inline" style="display:none;">密码长度6-20位</span>
+		<div class="control-group">
+			<label class="control-label" for="password">设置密码:</label>
+			<div class="controls">
+				{{ form.password }}
+				<span class="help-inline" style="display:none;">密码长度6-20位</span>
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label" for="repwd">确认密码:</label>
-		<div class="controls">
-			<input type="password" id="repwd" placeholder="Confirm Password"/>
-			<span class="help-inline" style="display:none;"></span>
+		<div class="control-group">
+			<label class="control-label" for="confirm_password">确认密码:</label>
+			<div class="controls">
+				{{ form.confirm_password }}
+				<span class="help-inline" style="display:none;"></span>
+			</div>
 		</div>
-	</div>
-	<div class="control-group">
-		<div class="controls">
-	<input type="button" id="reg"  class="btn btn-success" data-loading-text="正在处理..." value="注册" />
-	<input type="reset" id="reset" class="btn btn-success" value="重置" />
+		<div class="control-group">
+			<div class="controls">
+				<input type="submit" class="btn btn-success"  value="立即注册" />
+			</div>
 		</div>
-	</div>
+</form>
+{% endif %}
 </div>
 {% endblock %}
 {% block footer_javascript %}
 <script>
-		$(function($){
-			// alert("ready");
+		// $(function($){
+		// 	// alert("ready");
 			
-		});
+		// });
 		// function changeCaptcha() {
 		// 	$("#authCode").attr('value', '');
 		// 	$("#img_captcha").attr('src', 'http://t.hd.xiaomi.com/?_a=20130820&_op=authcode&_r=' + Math.random());
 		// }
-		/**
-		 * 验证手机号码
-		 */
-		// function checkMobile(mobile) {
-		// 	var patrn = /^1[3|4|5|8][0-9]\d{8}$/;	// 11 位手机
-		// 	//var patrn = /^\d{11,}$/;	// 11 位以上数字
-		// 	if(!patrn.exec(mobile)) {
-		// 		return false;
-		// 	} else {
-		// 		return true;
-		// 	};
-		// };
 
 		/**
 		 * 验证邮箱格式
@@ -92,95 +103,115 @@
 			return str.replace(/[^\x00-\xff]/g,"aa").length;
 		};
 
-		var newAccount = function(event) {
-			if(!checkEmail()){
-				$("#email").focus();
-				return
-			}
-			if(!checkPwd()){
-				$("#pwd").focus();
-				return 
-			}
-			if(!checkRepwd()){
-				$("#repwd").focus()
-				return 
-			}
-			// console.log("new account");
-			// $("#reg").attr("disabled",true);
-			// alert("reg")
-			// return false;
-			// $("#reset").focus();
+		// $("form").submit(function(event) {
+		// 	console.log("begin exec register ...")
+		// 	var temp;
+		// 	// alert(temp);
+		// 	if(!checkEmail()){
+		// 		temp = $("email");
+		// 		// $("#email").focus();
+		// 		// return false;
+		// 	}
+ 
+		// 	if(!checkusername()){
+		// 		if(!temp){
+		// 			temp=$("#username");
+		// 		}
+		// 		// $("#username").focus();
+		// 		// return false;
+		// 	}
 
-			$.ajax({
-				type:"POST",
-				dataType:"json",
-				url:"/account/register/",
-				cache:false,
-				data:{email:$("#email").val(),pwd:$("#pwd").val(),nickname:$("#nickname").val()},
-				success:function(data,textStatus){
-					// alert(textStatus)
-					if(data.result=="success"){
-						alert("Done :"+data.uuid)
-					}
+		// 	if(!checkpassword()){
+		// 		if(!temp){
+		// 			temp=$("#password");
+		// 		}
+		// 		// $("#password").focus();
+		// 		// return false;
+		// 	}
+		// 	if(!checkconfirm_password()){
+		// 		if(!temp){
+		// 			temp=$("#checkconfirm_password");
+		// 		}
+		// 		// $("#confirm_password").focus()
+		// 		// return false;
+		// 	}
+		// 	// console.log(temp);
+		// 	if(temp){
+		// 		temp.focus();
+		// 		// console.log(" pos 10 ...")
+		// 		return false;
+		// 	}
 
-					$(":text").val("")
-					$(":password").val("")
-
-				},
-				error:function(XMLHttpRequest,textStatus,errorThrown){
-					alert(textStatus+":"+errorThrown)
-				},
-				beforeSend: function(){
-					// alert("processing...")
-				},
-			});
-			return false;
-
-		};
+		// 	// console.log("pos 20 ...")
+		// 	$.ajax({
+		// 		type:"POST",
+		// 		dataType:"json",
+		// 		url:"/account/register/",
+		// 		cache:false,
+		// 		data:{email:$("#email").val(),
+		// 			  password:$("#password").val(),
+		// 			  username:$("#username").val()
+		// 			 },
+		// 		success:function(data,textStatus){
+		// 			$(":text").val("")
+		// 			$(":password").val("")
+		// 			$("#reg_form").htm("注册成功!<p>激活链接已发送到您注册的邮箱(),马上登录邮箱激活吧!</p>");
+		// 		},
+		// 		error:function(XMLHttpRequest,textStatus,errorThrown){
+		// 			alert(textStatus+":"+errorThrown)
+		// 		},
+		// 		beforeSend: function(){
+		// 			// alert("processing...")
+		// 		},
+		// 	});
+		// 	console.log("end exec register ...")
+		// 	return false;
+		// });
 
 
 		
 		$("#email").bind("blur",checkEmail);
-		$("#nickname").bind("blur",checkNickName);
-		$("#pwd").bind("blur",checkPwd);
-		$("#repwd").bind("blur",checkRepwd);
-
-		$("#reg").bind('click', function(){
-			console.log("exec click");
-			newAccount();
-		} );
+		$("#username").bind("blur",checkusername);
+		$("#password").bind("blur",checkpassword);
+		$("#confirm_password").bind("blur",checkconfirm_password);
 
 		$("#email").keydown(function(event) {
 			if(event.keyCode==13){
-				$("#nickname").focus();
+				$("#username").focus();
+				return false;
 			}
-			// return false;
+			
 		});
-		$("#nickname").keydown(function(event) {
+		$("#username").keydown(function(event) {
 			if(event.keyCode==13){
-				$("#pwd").focus();
+				$("#password").focus();
+				return false;
 			}
+			
 		});
-		$("#pwd").keydown(function(event) {
+		$("#password").keydown(function(event) {
 			if(event.keyCode==13){
-				$("#repwd").focus();
+				$("#confirm_password").focus();
+				return false;
 			}
+			
 		});
-		$("#repwd").keydown(function(event) {
+		$("#confirm_password").keydown(function(event) {
 			if(event.keyCode==13){
-				$("#reg").focus();
+				$(":submit").focus();
+				return false;
+			}
+			
+		});
+
+		$(":submit").keydown(function(event) {
+			if(event.keyCode==13){
+				// console.log("keydown");
 				return false;
 			}
 		});
 
-		$("#reg").keydown(function(event) {
-			if(event.keyCode==13){
-				return false
-			}
-		});
-
 		var oldEmail;
-		// var 
 		function checkEmail(){
 			var email = $("#email");
 			var parent = email.parent().parent();
@@ -198,14 +229,7 @@
 				};
 				return false;
 			}
-			// else{
-			// 	//   if(parent.hasClass("error")){
-			// 	// 	parent.removeClass("error");
-			// 	// };
-			// 	// email.next("span").hide();
-			// }
-			// checking email is used
-			// alert(email.val());
+
 			if(oldEmail!=email.val()){
 				$.ajax({
 					url:'/account/checking/',
@@ -243,28 +267,28 @@
 			return (!parent.hasClass("error"))
 		};
 
-		var oldNickname
-		function checkNickName(){
-			var nickname =$("#nickname");
-			var value = nickname.val().trim()
-			var parent = nickname.parent().parent();
-			if (value==""){
+		var oldusername
+		function checkusername(){
+			var username =$("#username");
+			var value = username.val().trim()
+			var parent = username.parent().parent();
+			if (value=="" || value==Null){
 				if(!parent.hasClass("error")){
 					parent.addClass("error");
 				};
-				console.log("empty");
-				nickname.next("span").html("请设置昵称").show();
+				// console.log("empty");
+				username.next("span").html("请设置昵称").show();
 				return false;
 			}
 			else if(value.length>20){
 				if(!parent.hasClass("error")){
 					parent.addClass("error");
 				};
-				nickname.next("span").html("请昵称字符不能超过20个").show();
+				username.next("span").html("请昵称字符不能超过20个").show();
 				return false;
 			}
 
-			if(oldNickname!=value){
+			if(oldusername!=value){
 				$.ajax({
 					url: '/account/checking/',
 					type: 'GET',
@@ -275,7 +299,7 @@
 						},
 					success:function(data,textStatus) {
 							if(data.status==="N"){
-								nickname.next("span").html("昵称可使用").show();
+								username.next("span").html("昵称可使用").show();
 								if(parent.hasClass("error")){
 									parent.removeClass("error");
 								};
@@ -284,7 +308,7 @@
 								if(!parent.hasClass("error")){
 									parent.addClass("error");
 								};
-								nickname.next("span").html("昵称已被使用").show();
+								username.next("span").html("昵称已被使用").show();
 								return false;
 							}
 						},
@@ -293,52 +317,52 @@
 						return false;
 					}
 				});
-				oldNickname=value;
+				oldusername=value;
 			}
 			return (!parent.hasClass("error"))
 		};
 
-		function checkPwd(){
-			var pwd=$("#pwd");
-			var parent = pwd.parent().parent();
-			if(pwd.val()==""){
+		function checkpassword(){
+			var password=$("#password");
+			var parent = password.parent().parent();
+			if(password.val()==""){
 				if(!parent.hasClass("error")){
 					parent.addClass("error");
 				};
-				pwd.next("span").html("请输入密码").show();
+				password.next("span").html("请输入密码").show();
 				return false;
-			}else if(pwd.val().length<6 || pwd.val().length>20){
+			}else if(password.val().length<6 || password.val().length>20){
 				if(!parent.hasClass("error")){
 					parent.addClass("error");
 				};
-				pwd.next("span").html("密码长度6-20位.").show();
+				password.next("span").html("密码长度6-20位.").show();
 				return false;
 			}else{
 				if(parent.hasClass("error")){
 				parent.removeClass("error");
 				};
-				pwd.next("span").hide();
+				password.next("span").hide();
 			};
 			return true;
 		};
 		
-		function checkRepwd(){
-			var repwd=$("#repwd");
-			var parent = repwd.parent().parent();
-			if(repwd.val()!=$("#pwd").val()){
+		function checkconfirm_password(){
+			var confirm_password=$("#confirm_password");
+			var parent = confirm_password.parent().parent();
+			if(confirm_password.val()!=$("#password").val()){
 				if(!parent.hasClass("error")){
 					parent.addClass("error");
 				};
-				repwd.next("span").html("两次输入密码不一致.").show();
+				confirm_password.next("span").html("两次输入密码不一致.").show();
 				return false;
 			}else{
 				if(parent.hasClass("error")){
 					parent.removeClass("error");
 				};
-				repwd.next("span").hide();
+				confirm_password.next("span").hide();
 			};
 			return true;
-	};
+		};
 		
 </script>
 {% endblock %}
