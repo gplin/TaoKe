@@ -21,8 +21,13 @@ class AccountManager(models.Manager):
         return acc
 
     def register_account(self,nickname,email,password):
+       if not nickname:
+            raise ValueError('The given username must be set')
+       if not email:
+            raise ValueError('The given email must be set')
+       if not password:
+            raise ValueError('The given password must be set')
        return self.create_account(username=nickname,email=email,password=password)
-         
 
     def active_account(self,uuid):
         """

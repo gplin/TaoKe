@@ -8,6 +8,7 @@ from django.shortcuts import render_to_response, render,get_object_or_404
 from django.core.urlresolvers import reverse
 from django.core import exceptions
 from django.core.serializers import serialize,deserialize
+from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext
@@ -28,7 +29,7 @@ def detail(request,user_id):
 
 @never_cache
 @csrf_exempt
-# @transaction.commit_manually
+@transaction.commit_manually
 def register(request):
     """
     用户注册
@@ -36,41 +37,47 @@ def register(request):
     http get: 返回register html页面;
     http post: 用户Form提交注册, 
     """
-    if request.is_ajax() or (not request.is_ajax() and request.method=="POST"):
-        if request.is_ajax():
-            email = request.POST.get("email")
-            pwd = request.POST.get("pwd")
-            nickname = request.POST.get("nickname")
-            msg = ""
-            result =""
-            uuid =""
-            # checking
+    if request.is_ajax():
+        email = request.POST.get("email")
+        pwd = request.POST.get("password")
+        nickname = request.POST.get("username")
+        msg = []
+        result =""
+        uuid =""
+        response=""
+        # checking
+        try:
             if not email:
-                msg ="请输入邮箱"
+                msg.append("请输入邮箱")
             if not pwd:
-                msg += "\n 请输入密码"
+                msg.append("请输入密码")
             if not nickname:
-                msg += "\n 请设置昵称"
-            
-            #new account
-            # transaction.commit()
-            try:
-                acc = Account.objects.register_account(nickname,email,pwd)
-                result="success"
-                uuid=acc.uuid
-            except Exception,e:
-                result = "error"
-                # transaction.roolback()
-                data =json.dumps(dict(result=result,msg=msg,email=email),separators=(',',':'))
-                return HttpResponse(data,mimetype="appliction/json")
-            else:
-                pass
-                # transaction.commit()
+                msg.append("请设置昵称")
+            if len(msg)>0:
+                raise Exception
+        
+            acc = Account.objects.register_account(nickname,email,pwd)
+            result="success"
+            uuid=acc.uuid
+        except Exception,e:
+            result = "error"
+            data =json.dumps(dict(result=result,msg=msg,email=email),separators=(',',':'))
+            response=HttpResponse(data,mimetype="appliction/json")
 
+            transaction.rollback()
+        else:
             send_register_email(uuid, email)
             data =json.dumps(dict(result=result,msg=msg,email=email),separators=(',',':'))
-            return HttpResponse(data,mimetype="appliction/json")
-        else:
+            response=HttpResponse(data,mimetype="appliction/json")
+
+            transaction.commit()
+        
+        return response
+    else:
+        if request.method=="GET":
+            return render_to_response('account/register.html',{"form":RegisterForm(auto_id=True)},
+                                        context_instance=RequestContext(request))
+        elif request.method=="POST":
             form = RegisterForm(request.POST)
             if form.is_valid():
                 email = form.cleaned_data["email"]
@@ -78,30 +85,70 @@ def register(request):
                 username = form.cleaned_data["username"]
                 acc = Account.objects.register_account(username, email, password)
 
-                return render_to_response('account/register.html',{"registed":"Y","email":email},context_instance=RequestContext(request))
+                return render_to_response('account/register.html',{"registed":"Y","email":email},
+                                            context_instance=RequestContext(request))
             else:
-                return render_to_response('account/register.html',{"form":form},context_instance=RequestContext(request))
-
-    else:
-        if request.method=="GET":
-            return render_to_response('account/register.html',{"form":RegisterForm(auto_id=True)},
-                                        context_instance=RequestContext(request))
-        # elif request.method=="POST":
-        #     email = request.POST.get("email")
-        #     pwd = request.POST.get("pwd")
-        #     return HttpResponse("Email")
-            # return render_to_response('account/register.html',context_instance=RequestContext(request))
+                return render_to_response('account/register.html',{"form":form},
+                                            context_instance=RequestContext(request))
 
 def active(request):
     pass
 
+@never_cache
+@csrf_exempt
 def login(request):
-    return render_to_response('account/login.html',context_instance=RequestContext(request))
+    u"""
+     用户登录:
+     1.已登录用户重定向到我的首页
+     2.未登录用户则验证
+    """
+    if request.user.is_authenticated():
+        return HttpResponseRedirect("/share/")
+    if request.is_ajax():
+        try:
+            msg = []
+            # e=""
+            login_id = request.POST["login_id"]
+            password = request.POST["password"]
+            if not login_id:
+                msg.append("请输入登录帐号(邮箱或昵称)")
+            if not password:
+                msg.append("请输入登录密码")
+            if msg:
+                raise Exception
+            
+            user = authenticate(username=login_id,password=password) or authenticate(email=login_id,password=password)
+            if user is not None:
+                if user.is_active:
+                    # return HttpResponseRedirect('/share/')
+                    auth_login(request,user)
+                    data =json.dumps(dict(result="success",msg=user.username),separators=(',',':'))
+                    return HttpResponse(data,mimetype="appliction/json")
+                else:
+                    msg.append("帐号未激活.")
+                    raise Exception
+            else:
+                msg.append("登录账号或密码有误.")
+                raise Exception
+        except Exception, e:
+            data =json.dumps(dict(result="error",msg=msg),separators=(',',':'))
+            return HttpResponse(data,mimetype="appliction/json")
+        else:
+            return HttpResponseRedirect('/share/')
+    else:
+        if request.method=="GET":
+            return render_to_response('account/login.html',context_instance=RequestContext(request))
+        elif request.method=="POST":
+            return render_to_response('account/login.html',context_instance=RequestContext(request))
 
 def logout(request):
-    pass
+    auth_logout(request)
+    return HttpResponseRedirect("/share/")
 
 def checking(request):
+    u"""
+     检查邮箱或用户名是否已被注册
+    """
     if request.is_ajax():
         tag = request.GET.get("type")
         value = request.GET.get("value")

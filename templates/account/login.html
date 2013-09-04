@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block content %}
+<H1>登录</H1>
+<div id="login_form">
+<form class="form-horizontal" action="/account/login/" method="post">
+	{% if errors %}
+	<ul class="unstyled alert alert-error">
+		{% for msg in errors %}
+			<li>{{ msg }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	<div id="error_msg"></div>
+	<div class="control-group">
+		<label class="control-label" for="login_id">帐号:</label>
+		<div class="controls">
+			<input type="text" id="login_id" placeholder="电子邮箱或昵称"  />
+			<span class="help-inline" style="display:none;"></span>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="password">密码:</label>
+		<div class="controls">
+			<input type="password" id="password" maxlength="20" placeholder="密码">
+			<span class="help-inline" style="display:none;"></span>
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="controls">
+			<input type="submit" class="btn btn-success"  value="登录" />	
+		</div>
+	</div>
+</form>
+
+</div>
+{% endblock %}
+{% block footer_javascript %}
+<script>
+		// $(function($){
+
+		// });
+		// function changeCaptcha() {
+		// 	$("#authCode").attr('value', '');
+		// 	$("#img_captcha").attr('src', 'http://t.hd.xiaomi.com/?_a=20130820&_op=authcode&_r=' + Math.random());
+		// }
+
+		$("form").submit(function(event) {
+			$.ajax({
+				type:"POST",
+				dataType:"json",
+				url:"/account/login/",
+				cache:false,
+				data:{login_id:$("#login_id").val(),
+					  password:$("#password").val()
+					 },
+				success:function(data,textStatus){
+					if(data.result=='success'){
+						// alert("success");
+						// self.location="/share/"
+						window.history.forward(0);
+						window.location="/share/";
+						// window.location.replace(/share/);
+
+					}else{
+						// alert(data.result+":"+data.msg);
+						$("#error_msg").html(data.msg);
+					}
+				},
+				error:function(XMLHttpRequest,textStatus,errorThrown){
+					alert(textStatus+":"+errorThrown)
+				},
+				beforeSend: function(){
+					// alert("processing...")
+				},
+			});
+			return false;
+		});
+
+		
+		$("#login_id").bind("blur",function checkEmail(event){
+			var login_id = $("#login_id");
+			var parent = login_id.parent().parent();
+			if(login_id.val()==""){
+				login_id.next("span").html("请输入帐号").show();
+				if(!parent.hasClass("error")){
+					parent.addClass("error");
+				};
+				return
+			}
+			if(!parent.hasClass("error")){
+				parent.removeClass("error");
+			};
+		});
+
+		$("#password").bind("blur",function checkPassword(event){
+			var password = $("#password");
+			var parent = password.parent().parent();
+			if(password.val()==""){
+				password.next("span").html("请输入密码").show();
+				if(!parent.hasClass("error")){
+					parent.addClass("error");
+				};
+				return
+			}
+			if(!parent.hasClass("error")){
+				parent.removeClass("error");
+			};
+		});
+
+
+		$("#login_id").keydown(function(event) {
+			if(event.keyCode==13){
+				$("#password").focus();
+				return false;
+			}
+		});
+		$("#password").keydown(function(event) {
+			if(event.keyCode==13){
+				$("#:sumbit").focus();
+				return false;
+			}
+		});
+
+		$(":submit").keydown(function(event) {
+			if(event.keyCode==13){
+				// console.log("keydown");
+				return false;
+			}
+		});
+
+		
+
+</script>
+{% endblock %}

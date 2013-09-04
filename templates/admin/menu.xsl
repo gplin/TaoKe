@@ -100,11 +100,24 @@
               <a href="/share/cr">创意</a>
             </li>
           </ul>
-          <p class="navbar-text pull-right">
-            <a href="#myModal" role="button" data-toggle="modal" class="navbar-link" >+分享</a>
-            <a href="/account/login" class="navbar-link">登录</a>
-            <a href="/account/register" class="navbar-link">注册</a>
-          </p>
+            <ul class="nav pull-right">
+              {% if user.is_authenticated %}
+              <li><a href="#myModal" role="button" data-toggle="modal" class="navbar-link" >+分享</a></li>
+             <li class="dropdown">
+                <a href="#">{{ user.username }} <b class="caret"></b></a>
+                <ul class="dropdown-menu" style="z-index:99999;">
+                  <li><a href="#">我的衣柜</a></li>
+                  <li><a href="#">我的分享</a></li>
+                  <li><a href="#">我的喜欢</a></li>
+                  <li><a href="#">账号设置</a></li>
+                  <li><a href="/account/logout/">退出</a></li>
+                </ul>
+              </li>
+              {% else %}
+              <li><a href="/account/login" class="navbar-link">登录</a></li>
+              <li><a href="/account/register" class="navbar-link">注册</a></li>
+              {% endif %}
+             </ul>
         </div>
         <!--/.nav-collapse -->
       </div>

@@ -64,8 +64,7 @@
 {% block footer_javascript %}
 <script>
 		// $(function($){
-		// 	// alert("ready");
-			
+
 		// });
 		// function changeCaptcha() {
 		// 	$("#authCode").attr('value', '');
@@ -84,6 +83,14 @@
 			};
 		};
 
+	   function checkDigitalLatter(str){
+		   	var patrn=/[^A-Za-z0-9]/;
+		   	if(patrn.exec(str)){
+		   		return false;
+		   	}else{
+		   		return true;
+		   	}
+	   }
 		/**
 		 * 验证是否为中文
 		 */
@@ -103,70 +110,75 @@
 			return str.replace(/[^\x00-\xff]/g,"aa").length;
 		};
 
-		// $("form").submit(function(event) {
-		// 	console.log("begin exec register ...")
-		// 	var temp;
-		// 	// alert(temp);
-		// 	if(!checkEmail()){
-		// 		temp = $("email");
-		// 		// $("#email").focus();
-		// 		// return false;
-		// 	}
+		$("form").submit(function(event) {
+			console.log("begin exec register ...")
+			var temp;
+			// alert(temp);
+			if(!checkEmail()){
+				temp = $("email");
+				// $("#email").focus();
+				// return false;
+			}
  
-		// 	if(!checkusername()){
-		// 		if(!temp){
-		// 			temp=$("#username");
-		// 		}
-		// 		// $("#username").focus();
-		// 		// return false;
-		// 	}
+			if(!checkusername()){
+				if(!temp){
+					temp=$("#username");
+				}
+				// $("#username").focus();
+				// return false;
+			}
 
-		// 	if(!checkpassword()){
-		// 		if(!temp){
-		// 			temp=$("#password");
-		// 		}
-		// 		// $("#password").focus();
-		// 		// return false;
-		// 	}
-		// 	if(!checkconfirm_password()){
-		// 		if(!temp){
-		// 			temp=$("#checkconfirm_password");
-		// 		}
-		// 		// $("#confirm_password").focus()
-		// 		// return false;
-		// 	}
-		// 	// console.log(temp);
-		// 	if(temp){
-		// 		temp.focus();
-		// 		// console.log(" pos 10 ...")
-		// 		return false;
-		// 	}
+			if(!checkpassword()){
+				if(!temp){
+					temp=$("#password");
+				}
+				// $("#password").focus();
+				// return false;
+			}
+			if(!checkconfirm_password()){
+				if(!temp){
+					temp=$("#checkconfirm_password");
+				}
+				// $("#confirm_password").focus()
+				// return false;
+			}
+			// console.log(temp);
+			if(temp){
+				temp.focus();
+				// console.log(" pos 10 ...")
+				return false;
+			}
 
-		// 	// console.log("pos 20 ...")
-		// 	$.ajax({
-		// 		type:"POST",
-		// 		dataType:"json",
-		// 		url:"/account/register/",
-		// 		cache:false,
-		// 		data:{email:$("#email").val(),
-		// 			  password:$("#password").val(),
-		// 			  username:$("#username").val()
-		// 			 },
-		// 		success:function(data,textStatus){
-		// 			$(":text").val("")
-		// 			$(":password").val("")
-		// 			$("#reg_form").htm("注册成功!<p>激活链接已发送到您注册的邮箱(),马上登录邮箱激活吧!</p>");
-		// 		},
-		// 		error:function(XMLHttpRequest,textStatus,errorThrown){
-		// 			alert(textStatus+":"+errorThrown)
-		// 		},
-		// 		beforeSend: function(){
-		// 			// alert("processing...")
-		// 		},
-		// 	});
-		// 	console.log("end exec register ...")
-		// 	return false;
-		// });
+			// console.log("pos 20 ...")
+			$.ajax({
+				type:"POST",
+				dataType:"json",
+				url:"/account/register/",
+				cache:false,
+				data:{email:$("#email").val(),
+					  password:$("#password").val(),
+					  username:$("#username").val()
+					 },
+				success:function(data,textStatus){
+					if(data.result=='success'){
+						$(":text").val("");
+						$(":password").val("");
+						$(".control-group span").html("");
+						$("#reg_form").html("注册成功!<p>激活链接已发送到您注册的邮箱("+data.email+"),马上登录邮箱激活吧!</p>");
+					}else{
+						alert(data.result+":"+data.msg);
+					}
+				},
+				error:function(XMLHttpRequest,textStatus,errorThrown){
+					alert(textStatus+":"+errorThrown)
+				},
+				beforeSend: function(){
+					// alert("processing...")
+				},
+			});
+			console.log("end exec register ...")
+			return false;
+		});
 
 
 		
@@ -272,7 +284,7 @@
 			var username =$("#username");
 			var value = username.val().trim()
 			var parent = username.parent().parent();
-			if (value=="" || value==Null){
+			if (value=="" || value==null){
 				if(!parent.hasClass("error")){
 					parent.addClass("error");
 				};
@@ -303,7 +315,7 @@
 								if(parent.hasClass("error")){
 									parent.removeClass("error");
 								};
-								email.next("span").hide();
+								username.next("span").hide();
 							}else if(data.status==="Y"){
 								if(!parent.hasClass("error")){
 									parent.addClass("error");
@@ -343,6 +355,14 @@
 				};
 				password.next("span").hide();
 			};
+
+			if(!checkDigitalLatter(password.val())){
+				if(!parent.hasClass("error")){
+					parent.addClass("error");
+				};
+				password.next("span").html("密码只能由数字或字母组成.").show();
+				return false
+			}
 			return true;
 		};
 		
