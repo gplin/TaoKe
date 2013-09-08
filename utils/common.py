@@ -53,8 +53,10 @@ def generate_menu(data,xmlPath,xslPath,menuPath):
     result.write_c14n(menuPath)
 
 def send_register_email(uuid,to_email):
-    subject= "欢迎注册,马上激活!"
-    body = "请点下面链接激活:<p>http://127.0.0.1:8000/account/active/%s</p>" % "uuid"
+    subject= "亲! 注册激活"
+    body = """亲,欢迎注册**网, 请点下面链接激活账号吧:<a href='http://127.0.0.1:8000/account/active/%s/'><b>点击此处立即激活账号</b></a>
+                <p>如果上面链接无法打开,请复制以下链接至浏览器:</br>
+                http://127.0.0.1:8000/account/active/%s/</p>""" % (uuid, uuid)
     msg =  EmailMessage(subject,body,settings.EMAIL_HOST_USER,[to_email])
     msg.content_subtype = 'html' #Main content is now text/html
     msg.send()

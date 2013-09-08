@@ -36,7 +36,7 @@ class AccountManager(models.Manager):
         acc = self.select_related().get(uuid=uuid)
         if acc.user.is_active:
             raise ObjectDoesNotExist
-
+            # data= dict(actived="Y")
         from django.db import connection,transaction
         cursor = connection.cursor()
         cursor.execute("""Update auth_user 
@@ -47,8 +47,7 @@ class AccountManager(models.Manager):
                           and auth_user.is_active = %s
                           """,[True,uuid,False])
         transaction.commit_unless_managed()
-        data = dict(result="success",data=dict(username=acc.user.username,email=acc.user.email))
-        return json.dumps(data,separators=(',',':'))
+        return  acc
 
     def check_account_exists(self,type,value):
         """

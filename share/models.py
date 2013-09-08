@@ -336,8 +336,31 @@ class Item_Comment(models.Model):
         return self.desc
 
 
+class Item_Love_Manager(models.Manager):
+
+    def set_item_love(self,item_id,account_id):
+        item = Taobaoke_Item.objects.get(item_id=item_id)
+        account = Account.objects.get(user_id=account_id)
+        love, created = self.get_or_create(item=item,account=account)
+        if not created:
+            love.delete()
 
 
+class Item_Love(models.Model):
+    """用户喜爱的商品"""
+    item = models.ForeignKey(Taobaoke_Item,db_column='item_id',blank=False,null=False)
+    account = models.ForeignKey(Account,db_column="account_id",blank=False,null=False)
+    datetime = models.DateTimeField(auto_now_add=True,editable=False)
+
+    objects = Item_Love_Manager()
+
+    class Meta():
+        unique_together=(("item","account"),)
+        ordering = ['account','item','-datetime']
+
+    def __unicode__(self):
+        return  u'%s : %s love %s' % (self.datetime,self.account.user.username,self.item.title)
+        
 
 
 

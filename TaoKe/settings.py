@@ -48,7 +48,14 @@ USE_I18N = True
 USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = True
+USE_TZ = False
+
+# Languages we provide translations for, out of the box.
+LANGUAGES = (
+    ('en', 'English'),
+    ('zh-cn', 'Simplified Chinese'),
+    ('zh-tw', 'Traditional Chinese'),
+)
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
@@ -132,10 +139,10 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    'PIL',
     'polls',
     'account',
     'share',
-    'utils'
 )
 
 # A sample logging configuration. The only tangible logging
@@ -166,6 +173,18 @@ LOGGING = {
         },
     }
 }
+
+# Default formatting for date objects. See all available format strings here:
+# http://docs.djangoproject.com/en/dev/ref/templates/builtins/#date
+DATE_FORMAT = 'Y-m-d'
+
+# Default formatting for datetime objects. See all available format strings here:
+# http://docs.djangoproject.com/en/dev/ref/templates/builtins/#date
+DATETIME_FORMAT = 'Y-m-d H:M:S'
+
+# Default formatting for time objects. See all available format strings here:
+# http://docs.djangoproject.com/en/dev/ref/templates/builtins/#date
+TIME_FORMAT = 'H'
 
 # custome declare
 ACCOUNT_DEFAULT_ICON = r"/media/icon/u_s_0123456.jpg"

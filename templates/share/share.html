@@ -22,7 +22,7 @@
  <script id="itemTemplate" type="text/template">
     {each items as item index}
 
-     <div class="img_grid">
+     <div class="img_grid" love_item_id="{echo item.item_id}">
          <div class="img_pic">
              <div class="price">¥{echo item.price}</div>
              <a href="/share/{echo item.item_id}" target="_blank">
@@ -54,7 +54,35 @@
      
     {/each}
  </script>
+<script>
+   $(".images_wall").delegate(".likes","click",function(event){
+      
+       $.ajax({
+          type:"POST",
+          data:{item_id:$(this).parent().parent().parent().attr("love_item_id")},
+          dataType:"json",
+          url:'/account/love/',
+          success:function(data,textStatus){
+              // alert(textStatus);
+              if(data.result=="error"){
+                   if(data.logined=="N"){
+                    //do something 
+                    window.location="/account/login/";
+                   }
+              }else{  
+                //success
+                // alert($(this).first().val());
+                // alert(data.item_id+","+data.user_id);
+              }
+          },
+          error:function(XMLHttpRequest,textStatus,errorThrown){
+              alert(textStatus);
+          }
+        });
 
+      return false;
+   });
+</script>
 
 
 <script type="text/javascript">

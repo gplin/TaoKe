@@ -45,6 +45,10 @@
 		// }
 
 		$("form").submit(function(event) {
+			if(!checkLoginId() || !checkPassword()){
+				return false;
+			}
+
 			$.ajax({
 				type:"POST",
 				dataType:"json",
@@ -59,7 +63,6 @@
 						// self.location="/share/"
 						window.history.forward(0);
 						window.location="/share/";
-						// window.location.replace(/share/);
 
 					}else{
 						// alert(data.result+":"+data.msg);
@@ -77,7 +80,10 @@
 		});
 
 		
-		$("#login_id").bind("blur",function checkEmail(event){
+		$("#login_id").bind("blur",checkLoginId);
+		$("#password").bind("blur",checkPassword);
+
+		function checkLoginId(event){
 			var login_id = $("#login_id");
 			var parent = login_id.parent().parent();
 			if(login_id.val()==""){
@@ -85,14 +91,15 @@
 				if(!parent.hasClass("error")){
 					parent.addClass("error");
 				};
-				return
+				return false;
 			}
 			if(!parent.hasClass("error")){
 				parent.removeClass("error");
 			};
-		});
+			return true;
+		}
 
-		$("#password").bind("blur",function checkPassword(event){
+		function checkPassword(event){
 			var password = $("#password");
 			var parent = password.parent().parent();
 			if(password.val()==""){
@@ -100,12 +107,13 @@
 				if(!parent.hasClass("error")){
 					parent.addClass("error");
 				};
-				return
+				return false;
 			}
 			if(!parent.hasClass("error")){
 				parent.removeClass("error");
 			};
-		});
+			return true;
+		}
 
 
 		$("#login_id").keydown(function(event) {
@@ -116,14 +124,13 @@
 		});
 		$("#password").keydown(function(event) {
 			if(event.keyCode==13){
-				$("#:sumbit").focus();
+				$(":submit").focus();
 				return false;
 			}
 		});
 
 		$(":submit").keydown(function(event) {
 			if(event.keyCode==13){
-				// console.log("keydown");
 				return false;
 			}
 		});

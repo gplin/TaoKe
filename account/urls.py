@@ -8,6 +8,7 @@ from account import views
 urlpatterns = patterns('',
     url(r'^$',views.default,name='default'),
     url(r'^(?P<user_id>\d{1,15})/$',views.detail,name='account'),
+    url(r'^love/$',views.love,name='love'),
     #用户:注册->发送邮件验证->激活->登录->退出
     url(r'^register/$',views.register,name='register'),
     url(r'^active/(?P<license>[A-Za-z0-9]{32})/$',views.active,name='active'),

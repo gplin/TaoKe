@@ -15,9 +15,11 @@ from django.template import RequestContext
 from django.conf import settings
 
 # import Taoke.settings
-from account.models import Account
-from account.form import RegisterForm
 from utils.common import send_register_email
+from account.models import Account
+from share.models import Taobaoke_Item,Item_Love
+from account.form import RegisterForm
+
 
 def default(request):
     """
@@ -29,7 +31,8 @@ def detail(request,user_id):
 
 @never_cache
 @csrf_exempt
-@transaction.commit_manually
+# @transaction.commit_manually
+@transaction.commit_on_success
 def register(request):
     """
     用户注册
@@ -37,6 +40,7 @@ def register(request):
     http get: 返回register html页面;
     http post: 用户Form提交注册, 
     """
+    response = ""
     if request.is_ajax():
         email = request.POST.get("email")
         pwd = request.POST.get("password")
@@ -44,7 +48,7 @@ def register(request):
         msg = []
         result =""
         uuid =""
-        response=""
+        
         # checking
         try:
             if not email:
@@ -64,18 +68,18 @@ def register(request):
             data =json.dumps(dict(result=result,msg=msg,email=email),separators=(',',':'))
             response=HttpResponse(data,mimetype="appliction/json")
 
-            transaction.rollback()
+            # transaction.rollback()
         else:
             send_register_email(uuid, email)
             data =json.dumps(dict(result=result,msg=msg,email=email),separators=(',',':'))
             response=HttpResponse(data,mimetype="appliction/json")
 
-            transaction.commit()
+            # transaction.commit()
         
-        return response
+        # return response
     else:
         if request.method=="GET":
-            return render_to_response('account/register.html',{"form":RegisterForm(auto_id=True)},
+            response = render_to_response('account/register.html',{"form":RegisterForm(auto_id=True)},
                                         context_instance=RequestContext(request))
         elif request.method=="POST":
             form = RegisterForm(request.POST)
@@ -85,15 +89,30 @@ def register(request):
                 username = form.cleaned_data["username"]
                 acc = Account.objects.register_account(username, email, password)
 
-                return render_to_response('account/register.html',{"registed":"Y","email":email},
+                response = render_to_response('account/register.html',{"registed":"Y","email":email},
                                             context_instance=RequestContext(request))
             else:
-                return render_to_response('account/register.html',{"form":form},
+                response = render_to_response('account/register.html',{"form":form},
                                             context_instance=RequestContext(request))
+        # transaction.commit()
+    return response
 
-def active(request):
-    pass
+def active(request,license):
+    u"""
+        parameter
+            uuid:  
+    用户账号激活 
+    注: 已激活账号直接转向登录页面
+    """
+    try:
+        acc = Account.objects.active_account(license)
+    except Exception, e:
+        # log
+        return HttpResponseRedirect('/account/login/')
 
+    return render_to_response('account/active.html',{"username":acc.user.username},context_instance=RequestContext(request))
+    
+    
 @never_cache
 @csrf_exempt
 def login(request):
@@ -139,6 +158,7 @@ def login(request):
         if request.method=="GET":
             return render_to_response('account/login.html',context_instance=RequestContext(request))
         elif request.method=="POST":
+            # TODO: login in
             return render_to_response('account/login.html',context_instance=RequestContext(request))
 
 def logout(request):
@@ -156,4 +176,26 @@ def checking(request):
         data = dict(result="success",status="Y" if flag else "N")
         js = json.dumps(data,separators=(',',':'))
         return HttpResponse(js,mimetype='appliction/json')
+
+@csrf_exempt
+@never_cache
+def love(request):
+    """
+    用户添加喜爱商品
+    """
+    if not request.user.is_authenticated():
+        return HttpResponse(json.dumps(dict(result='error',logined='N'),separators=(',',':')),mimetype='appliction/json')
+    elif request.user.is_authenticated():
+        if request.is_ajax():
+            data = ""
+            try:
+                user_id = request.user.id
+                item_id = request.POST["item_id"]
+                Item_Love.objects.set_item_love(item_id,user_id)
+                data = json.dumps(dict(result='success',user_id=user_id,item_id=item_id),separators=(',',':'))
+            except Exception, e:
+                # TODO : log
+                data = json.dumps(dict(result='error'),separators=(',',':'))
+            
+            return HttpResponse(data,mimetype='appliction/json')
 
