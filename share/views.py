@@ -23,7 +23,8 @@ def share(request):
     """
     if request.is_ajax():
         page = request.GET.get("page")
-        json = Taobaoke_Item.objects.get_item_default(page)
+        user_id = request.user.id if request.user.is_authenticated() else None
+        json = Taobaoke_Item.objects.get_item_default(page,user_id=user_id)
         return get_JSON_HttpResponse(json)
     else:
         return render_to_response('share/share.html',context_instance=RequestContext(request))
@@ -34,8 +35,8 @@ def get_by_category_type(request,type,category_id=None):
     """
     if request.is_ajax():
         page = request.GET.get('page')
-        # category_id = request.GET.get("cate_id")
-        json = Taobaoke_Item.objects.get_item_by_category(type,category_id,page)
+        user_id = request.user.id if request.user.is_authenticated() else None
+        json = Taobaoke_Item.objects.get_item_by_category(user_id,type,category_id,page)
         return get_JSON_HttpResponse(json)
     else:
         if request.method == 'GET':

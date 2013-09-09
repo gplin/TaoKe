@@ -5,11 +5,16 @@ body{
 	background: #f2f0f0;
 }
 
-.likes {
+/*.likes {
     cursor: pointer;
     height: 20px;
     line-height: 20px;
+}*/
+.liked, .liked:hover{
+  color: #C71585;
+  background: ##FAF0E6;
 }
+
 .red_f{
 	color: #FF6699;
 }

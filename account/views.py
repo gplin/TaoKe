@@ -191,8 +191,8 @@ def love(request):
             try:
                 user_id = request.user.id
                 item_id = request.POST["item_id"]
-                Item_Love.objects.set_item_love(item_id,user_id)
-                data = json.dumps(dict(result='success',user_id=user_id,item_id=item_id),separators=(',',':'))
+                di = Item_Love.objects.set_item_love(item_id,user_id)
+                data = json.dumps(dict(result='success',is_add=di["created"]),separators=(',',':'))
             except Exception, e:
                 # TODO : log
                 data = json.dumps(dict(result='error'),separators=(',',':'))

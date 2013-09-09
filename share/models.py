@@ -158,14 +158,18 @@ class Taobaoke_Item_Manager(models.Manager):
                        cate.[type], cate.[category_id],cate.name as category_name,
                        item.item_id,item.title,item.price, item.pic_url_grid,
                        item.pic_width_grid,item.pic_height_grid,
-                       add_up_love, add_up_comment, item.desc
+                       add_up_love, add_up_comment, item.desc,
+                       case When love.[account_id] is null Then 'N' else 'Y' end as loved
                 From share_taobaoke_item item
                 inner join
                      share_category cate on item.[category_id] = cate.[category_id]
                 inner join                             
                      auth_user user on user.id = item.user_id
                 inner join                            
-                     account_account acc on acc.[user_id] = user.id                 
+                     account_account acc on acc.[user_id] = user.id     
+                Left Join                
+                     share_item_love love on item.[user_id]=love.account_id and item.item_id =love.item_id    
+                Where  (item.user_id=%s or %s is null)           
                 '''
 
     def get_order_sql(self):
@@ -182,35 +186,40 @@ class Taobaoke_Item_Manager(models.Manager):
         else:
             return ''
 
-    def get_item_default(self,page,page_size=20):
+    def get_item_default(self,page,page_size=20,user_id=None):
         """
         """
         sql = '%s%s%s' % (self.get_main_sql(),self.get_order_sql(),self.get_limit_sql(page,page_size))
-        item =self.raw(sql)
+        item =self.raw(sql,[user_id,user_id])
         return self.serialize_to_json(item)
 
     def get_item_by_user_id(self,user_id,page,page_size=20):
         """
         根据用户ID获取分享的宝贝
         """
-        sql = '%s%s%s%s' % (self.get_main_sql(),'Where acc.user_id = %s',
-                            self.get_order_sql(),self.get_limit_sql(page,page_size)
-                           )
-        item = self.raw(sql,[user_id])
-        return self.serialize_to_json(item)
+        # sql = '%s%s%s%s' % (self.get_main_sql(),'Where acc.user_id = %s',
+        #                     self.get_order_sql(),self.get_limit_sql(page,page_size)
+        #                    )
+        # item = self.raw(sql,[user_id])
+        # return self.serialize_to_json(item)
+        if user_id is None: 
+            raise ValueError(u'user_id must be set')
+        if page is None:
+            raise ValueError(u'page must be set')
+        return self.get_item_default(page,page_size,user_id)
 
-    def get_item_by_category(self,type=None,category_id=None,page=None,page_size=20):
+    def get_item_by_category(self,user_id=None,type=None,category_id=None,page=None,page_size=20):
         """
         根据分类ID,页码,获取分享的宝贝
         """
         type = type if None else type.upper()
         sql = '%s%s%s%s' % (self.get_main_sql(),
-                            ''' Where (cate.category_id = %s or %s is null) 
+                            '''   and (cate.category_id = %s or %s is null) 
                                   and (cate.[type]=%s or %s is null)
                             ''',
                             self.get_order_sql(),self.get_limit_sql(page,page_size)
                            )
-        item = self.raw(sql,[category_id,category_id,type,type])
+        item = self.raw(sql,[user_id,user_id,category_id,category_id,type,type])
         return self.serialize_to_json(item)
 
     # def get_item_by_category_type(self,type,page,page_size=20):
@@ -344,6 +353,7 @@ class Item_Love_Manager(models.Manager):
         love, created = self.get_or_create(item=item,account=account)
         if not created:
             love.delete()
+        return dict(instance=love,created=created)
 
 
 class Item_Love(models.Model):
