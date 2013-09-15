@@ -22,14 +22,14 @@ def appkey():
 	"""
 	return default appkey
 	"""
-	return unicode('1021039194')
+	return unicode('1021624667')
 
 def secret(issandbox=None):
 	"""
 	issandbox: boolean
 	return secret if not issandbox else sandboxSecret
 	"""
-	return '' if not issandbox else 'sandboxa7f002adf21ae4ec28f4fdb65'
+	return '' if not issandbox else 'sandboxd4a93b6b4da3cffc8933c8d37'
 
 # 淘宝客PID: mm_30462502_0_0
 def PID():

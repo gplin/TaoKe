@@ -4,7 +4,10 @@ Created on 2012-7-3
 
 @author: lihao
 '''
-import httplib
+
+try: import httplib
+except ImportError:
+    import http.client as httplib
 import urllib
 import time
 import hashlib
@@ -17,7 +20,7 @@ import mimetypes
 定义一些系统变量
 '''
 
-SYSTEM_GENERATE_VERSION = "taobao-sdk-python-20130215"
+SYSTEM_GENERATE_VERSION = "taobao-sdk-python-20130915"
 
 P_APPKEY = "app_key"
 P_API = "method"
@@ -200,6 +203,9 @@ class RestApi(object):
     
     def getMultipartParas(self):
         return [];
+
+    def getTranslateParas(self):
+        return {};
     
     def _check_requst(self):
         pass
@@ -271,4 +277,10 @@ class RestApi(object):
                     application_parameter[key[1:]] = value
                 else:
                     application_parameter[key] = value
+        #查询翻译字典来规避一些关键字属性
+        translate_parameter = self.getTranslateParas()
+        for key, value in application_parameter.iteritems():
+            if key in translate_parameter:
+                application_parameter[translate_parameter[key]] = application_parameter[key]
+                del application_parameter[key]
         return application_parameter

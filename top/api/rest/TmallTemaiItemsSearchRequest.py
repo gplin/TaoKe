@@ -1,5 +1,5 @@
 '''
-Created by auto_sdk on 2013-02-15 16:36:21
+Created by auto_sdk on 2013-09-15 12:51:27
 '''
 from top.api.base import RestApi
 class TmallTemaiItemsSearchRequest(RestApi):

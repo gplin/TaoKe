@@ -1,5 +1,5 @@
 '''
-Created by auto_sdk on 2013-02-15 16:36:21
+Created by auto_sdk on 2013-09-15 12:51:27
 '''
 from top.api.base import RestApi
 class TaobaokeItemsRelateGetRequest(RestApi):
@@ -13,6 +13,7 @@ class TaobaokeItemsRelateGetRequest(RestApi):
 		self.num_iid = None
 		self.outer_code = None
 		self.pid = None
+		self.refer_type = None
 		self.relate_type = None
 		self.seller_id = None
 		self.shop_type = None

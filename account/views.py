@@ -17,7 +17,7 @@ from django.conf import settings
 # import Taoke.settings
 from utils.common import send_register_email
 from account.models import Account
-from share.models import Taobaoke_Item,Item_Love
+from share.models import Item,Item_Love
 from account.form import RegisterForm
 
 

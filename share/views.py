@@ -10,7 +10,7 @@ from django.template import RequestContext
 from django.conf import settings
 
 # import Taoke.settings
-from share.models import Taobaoke_Item,Category
+from share.models import Item,Item_Cats
 from utils.common import generate_menu
 
 ResponeType='appliction/json'
@@ -24,7 +24,7 @@ def share(request):
     if request.is_ajax():
         page = request.GET.get("page")
         user_id = request.user.id if request.user.is_authenticated() else None
-        json = Taobaoke_Item.objects.get_item_default(page,user_id=user_id)
+        json = Item.objects.get_item_default(page,user_id=user_id)
         return get_JSON_HttpResponse(json)
     else:
         return render_to_response('share/share.html',context_instance=RequestContext(request))
@@ -36,7 +36,7 @@ def get_by_category_type(request,type,category_id=None):
     if request.is_ajax():
         page = request.GET.get('page')
         user_id = request.user.id if request.user.is_authenticated() else None
-        json = Taobaoke_Item.objects.get_item_by_category(user_id,type,category_id,page)
+        json = Item.objects.get_item_by_category(user_id,type,category_id,page)
         return get_JSON_HttpResponse(json)
     else:
         if request.method == 'GET':
@@ -46,8 +46,8 @@ def detail(request,item_id):
     """
     根据参数[rec_num],查询宝贝详细信息
     """
-    model = Taobaoke_Item.objects.select_related().get(item_id=item_id)
-    item_u = Taobaoke_Item.objects.get_relate_by_user_id(model.user.user_id,1)
+    model = Item.objects.select_related().get(item_id=item_id)
+    item_u = Item.objects.get_relate_by_user_id(model.user.user_id,1)
 
     return render_to_response('share/detail.html',
                                {"model":model,"relate_u":item_u},
@@ -59,14 +59,14 @@ def detail(request,item_id):
 #     """
 #     if request.is_ajax():
 #         page = request.Get.get('page')
-#         json = Taobaoke_Item.objects.get_item_by_category_id(category_id,page)
+#         json = Item.objects.get_item_by_category_id(category_id,page)
 #         return get_JSON_HttpResponse(json)
 
 
 
 def goto_taobao(request,uuid):
     """跳转到淘宝"""
-    model = get_object_or_404(Taobaoke_Item,uuid = uuid)
+    model = get_object_or_404(Item,uuid = uuid)
     return render_to_response("share/2taobao.html",{"taobao_url":model.click_url})
 
 

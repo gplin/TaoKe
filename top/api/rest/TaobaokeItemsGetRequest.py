@@ -1,5 +1,5 @@
 '''
-Created by auto_sdk on 2013-02-15 16:36:21
+Created by auto_sdk on 2013-09-15 12:51:27
 '''
 from top.api.base import RestApi
 class TaobaokeItemsGetRequest(RestApi):
@@ -28,6 +28,7 @@ class TaobaokeItemsGetRequest(RestApi):
 		self.page_size = None
 		self.pid = None
 		self.real_describe = None
+		self.refer_type = None
 		self.sevendays_return = None
 		self.sort = None
 		self.start_commissionNum = None
