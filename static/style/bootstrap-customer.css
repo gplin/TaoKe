@@ -210,3 +210,24 @@ span.is-hot{
   border: 1px solid #d0d0d0;
   /*border-top: 1px solid #d0d0d0;*/
 }
+
+/*share model*/
+.share-input{
+  
+}
+
+.share-preview .info img{
+  float:left;
+  width: 200px;
+  height: 200px;
+}
+.share-preview .info {
+  margin-top:10px;
+}
+.share-preview{
+  display: none;
+}
+
+.share-preview .info p{
+  margin-left: 210px;
+}

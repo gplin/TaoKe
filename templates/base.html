@@ -2,154 +2,171 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{ LANGUAGE_CODE|default:"zh-cn"}}" lang="{{ LANGUAGE_CODE|default:"zh-cn"}}">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="author" content="">
-	<title>{% block title %}{% endblock%}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="">
+    <title>{% block title %}{% endblock%}</title>
 
-	<link href="/static/style/bootstrap.css" rel="stylesheet">
-	<link href="/static/style/bootstrap-customer.css" rel="stylesheet">
-	<style>
-	      body {
-	        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-	      }
-	      .dropdown:hover .dropdown-menu{
-	      	display: block;
-	      }
-	     .dropdown .caret {
-		  margin-top: 10px;
-		  margin-left: 6px;
-		 
-			border-top-color: #ffffff;
-		 	 border-bottom-color: #ffffff;
-			}
-			.navbar-inverse .nav li.dropdown > a:hover .caret{
+    <link href="/static/style/bootstrap.css" rel="stylesheet">
+    <link href="/static/style/bootstrap-customer.css" rel="stylesheet">
+    <style>
+          body {
+            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+          }
+          .dropdown:hover .dropdown-menu{
+              display: block;
+          }
+         .dropdown .caret {
+          margin-top: 10px;
+          margin-left: 6px;
+         
+            border-top-color: #ffffff;
+              border-bottom-color: #ffffff;
+            }
+            .navbar-inverse .nav li.dropdown > a:hover .caret{
      border-top:0;
     border-bottom: 4px solid #FFF;
 }
-	    </style>
-	<script type="text/javascript" src="/static/js/jquery-1.9.1.min.js" ></script>
-	<script type="text/javascript" src="/static/js/jquery.wookmark.js" ></script>
-	{% block style %}{% endblock %}
-		{% block javascript %}{% endblock %}
+        </style>
+    <script type="text/javascript" src="/static/js/jquery-1.9.1.min.js" ></script>
+    <script type="text/javascript" src="/static/js/jquery.wookmark.js" ></script>
+    {% block style %}{% endblock %}
+        {% block javascript %}{% endblock %}
 </head>
 <body>
-	<!-- menu -->
-	<!-- <div class="navbar navbar-inverse navbar-fixed-top">
-	<div class="navbar-inner">
-		<div class="container">
-			<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
+    <!-- menu -->
+    <!-- <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
 
-			<div class="nav-collapse collapse">
-				<ul class="nav">
-					<li class="active">
-						<a href="/share">首页</a>
-					</li>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							衣服&nbsp; <b class="caret"></b>
-						</a>
-						<ul class="dropdown-menu cate-menu">
-							<li>
-								<div class="cate-list">
-									<a href="#" class="cate-header" >上装</a>
-									<a href="#">雪纺衫</a>
-									<a href="#">T恤</a>
-									<a href="#">衬衫</a>
-									<a href="#">打底衫</a>
-									<a href="#">卫衣</a>
-									<a href="#">风衣</a>
-									<a href="#">西装</a>
-									<a href="#">毛衣</a>
-								</div>
-								<div class="cate-list">
-									<a href="#" class="cate-header">裤子</a>
-									<a href="#">打底裤</a>
-									<a href="#">牛仔裤</a>
-									<a href="#">背带裤</a>
-									<a href="#">短裤</a>
-									<a href="#">七分裤</a>
-									<a href="#">9分裤</a>
-									<a href="#">小脚裤</a>
-									<a href="#">阔腿裤</a>
-									<a href="#">连体裤</a>
-									<a href="#">西装裤</a>
-								</div>
-								<div class="cate-list">
-									<a href="#" class="cate-header">裙子</a>
-									<a href="#">连衣裙</a>
-									<a href="#">短裙</a>
-									<a href="#">长裤</a>
-									<a href="#">半裙</a>
-									<a href="#">吊带裙</a>
-									<a href="#">裹胸裙</a>
-									<a href="#">背带裙</a>
-									<a href="#">背心裙</a>
-									<a href="#">百褶裙</a>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li class="nav-header">Nav header</li>
-							<li>
-								<a href="#">Separated link</a>
-							</li>
-							<li>
-								<a href="#">One more separated link</a>
-							</li>
-						</ul>
-					</li>
-					<li>
-						<a href="#about">鞋子</a>
-					</li>
-					<li>
-						<a href="#about">配饰</a>
-					</li>
-					<li>
-						<a href="#about">包包</a>
-					</li>
-					<li>
-						<a href="#contact">家居</a>
-					</li>
-					<li>
-						<a href="#about">创意</a>
-					</li>
-				</ul>
-				<p class="navbar-text pull-right">
-					<a href="#myModal" role="button" data-toggle="modal" class="navbar-link" >+分享</a>
-					&nbsp;
-					<a href="#" class="navbar-link">登录</a>
-					&nbsp;
-					<a href="#" class="navbar-link">注册</a>
-				</p>
-			</div>
-		</div>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="active">
+                        <a href="/share">首页</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            衣服&nbsp; <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu cate-menu">
+                            <li>
+                                <div class="cate-list">
+                                    <a href="#" class="cate-header" >上装</a>
+                                    <a href="#">雪纺衫</a>
+                                    <a href="#">T恤</a>
+                                    <a href="#">衬衫</a>
+                                    <a href="#">打底衫</a>
+                                    <a href="#">卫衣</a>
+                                    <a href="#">风衣</a>
+                                    <a href="#">西装</a>
+                                    <a href="#">毛衣</a>
+                                </div>
+                                <div class="cate-list">
+                                    <a href="#" class="cate-header">裤子</a>
+                                    <a href="#">打底裤</a>
+                                    <a href="#">牛仔裤</a>
+                                    <a href="#">背带裤</a>
+                                    <a href="#">短裤</a>
+                                    <a href="#">七分裤</a>
+                                    <a href="#">9分裤</a>
+                                    <a href="#">小脚裤</a>
+                                    <a href="#">阔腿裤</a>
+                                    <a href="#">连体裤</a>
+                                    <a href="#">西装裤</a>
+                                </div>
+                                <div class="cate-list">
+                                    <a href="#" class="cate-header">裙子</a>
+                                    <a href="#">连衣裙</a>
+                                    <a href="#">短裙</a>
+                                    <a href="#">长裤</a>
+                                    <a href="#">半裙</a>
+                                    <a href="#">吊带裙</a>
+                                    <a href="#">裹胸裙</a>
+                                    <a href="#">背带裙</a>
+                                    <a href="#">背心裙</a>
+                                    <a href="#">百褶裙</a>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li class="nav-header">Nav header</li>
+                            <li>
+                                <a href="#">Separated link</a>
+                            </li>
+                            <li>
+                                <a href="#">One more separated link</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#about">鞋子</a>
+                    </li>
+                    <li>
+                        <a href="#about">配饰</a>
+                    </li>
+                    <li>
+                        <a href="#about">包包</a>
+                    </li>
+                    <li>
+                        <a href="#contact">家居</a>
+                    </li>
+                    <li>
+                        <a href="#about">创意</a>
+                    </li>
+                </ul>
+                <p class="navbar-text pull-right">
+                    <a href="#myModal" role="button" data-toggle="modal" class="navbar-link" >+分享</a>
+                    &nbsp;
+                    <a href="#" class="navbar-link">登录</a>
+                    &nbsp;
+                    <a href="#" class="navbar-link">注册</a>
+                </p>
+            </div>
+        </div>
 
-	</div>
+    </div>
 </div>
 -->
-	{% include 'admin\menu.html' %}
+    {% include 'admin\menu.html' %}
 <!-- end menu -->
 <!-- share model -->
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-		<h5 id="myModalLabel">分享宝贝</h5>
-	</div>
-	<div class="modal-body">
-		<p>请输入宝贝的网址</p>
-		<div class="input-append">
-			<input type="text" class="span5" id="appendedInputButton"/>
-			<button class="btn" type="button" id="share-action">确定</button>
-		</div>
-		<p class="text-warning">目前仅支持淘宝</p>
-	</div>
-	<!-- <div class="modal-footer">
-	<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-	<button class="btn btn-primary">Save</button>
+    <div class="modal-header">
+        <button type="button" class="close" id="close" data-dismiss="modal" aria-hidden="true">x</button>
+        <h3 id="myModalLabel">分享宝贝</h3>
+    </div>
+    <div class="modal-body">
+        
+        <div class="share-input">
+        <p>请输入宝贝的网址</p>
+        <div class="input-append">
+            <input type="text" class="span5" id="appendedInputButton"/>
+            <button class="btn btn-primary" type="button" id="share-action" data-loading-text="获取中...">确定</button>
+        </div>
+        <p class="text-warning">目前仅支持淘宝</p>
+        </div>
+
+        <div class="share-preview">
+           <!--  <p><span>¥199</span>&nbsp;品牌特卖 秋款高腰直筒中老年感恩妈妈裤孝顺女裤大码牛仔裤包邮</p>
+            <div class="info">
+                <img src="/media/img/g/ce4ce81e1e1511e3baa8005056c00008.jpg" />
+                <p>
+                <textarea name="desc" id="desc" cols="30" rows="3"></textarea>
+                <br/>
+                <button class="btn" type="button">分享</button>
+                </p>
+            </div> -->
+        </div>
+
+
+    </div>
+    <!-- <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+    <button class="btn btn-primary">Save</button>
 </div>
 -->
 </div>
@@ -165,9 +182,9 @@
 <!--Footer-->
 <div class="clearfix"></div>
 <footer>
-	{% block footer %}
-	<p>&copy; Company 2013</p>
-	{% endblock %}
+    {% block footer %}
+    <p>&copy; Company 2013</p>
+    {% endblock %}
 </footer>
 <!--End Footer-->
 
@@ -179,25 +196,9 @@
 <script src="/static/js/backtop-green.js" charset="utf-8"></script>
 </div>
 
-<script src="/static/js/bootstrap-transition.js"></script>
-<!-- // <script src="/static/js/bootstrap-alert.js"></script>
--->
-<script src="/static/js/bootstrap-modal.js"></script>
-<script src="/static/js/bootstrap-dropdown.js"></script>
-<!--// <script src="/static/js/bootstrap-scrollspy.js"></script>
-//
-<script src="/static/js/bootstrap-tab.js"></script>
-//
-<script src="/static/js/bootstrap-tooltip.js"></script>
-//
-<script src="/static/js/bootstrap-popover.js"></script>
-//
-<script src="/static/js/bootstrap-button.js"></script>
-//
-<script src="/static/js/bootstrap-collapse.js"></script>
-//
-<script src="/static/js/bootstrap-carousel.js"></script>
--->
+<script src="/static/js/bootstrap.min.js"></script>
+
+
 <script>
     $(function(){
         function stripTrailingSlash(str){
@@ -217,26 +218,92 @@
             }
         });
 
-        $("#share-action").click(function(event) {
-        	/* Act on the event */
-        	alert($("#appendedInputButton").val);
-        	// $.ajax({
-        	// 	type: 'POST',
-        	// 	url: '/share/action/',
-        	// 	dataType: 'json',
-        	// 	data:{url:$(appendedInputButton).value}
-        	// 	error: function(XMLHttpRequest,status,errorThrown){
-        	// 		alert(errorThrown);
-        	// 	},
-        	// 	success: function (data,status) {
-        			
-        	// 	}
-        	// });
-
+        $(".nav [rel=tooltip]").tooltip({
+            animation:true,
+            placement:'left',
+            title:"分享成功",
+            trigger:'manual',
+            delay: {hide: 200 }
         });
+
+        $("#share-action").click(function(event) {
+            /* Act on the event */
+            var uri=$("#appendedInputButton");
+            if(uri.val().trim()==""){
+                uri.focus();
+                // alert("亲，要输入分享宝贝的链接地址哦！");
+                return false;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/share/action/',
+                dataType: 'json',
+                data:{url:uri.val().trim()},
+                error: function(XMLHttpRequest,status,errorThrown){
+                    alert(status);
+                },
+                success: function (data,status){
+                     // alert(data);
+                    $("#myModal").width(600);
+                    $(".share-input").css("display","none");
+                    $(".share-preview").css("display","block");
+
+                    $(".share-preview").html('\
+                    <p><span>¥'+data.price+'</span>&nbsp;'+data.title+'</p>\
+                    <div class="info">\
+                        <img src="/'+data.pic_url_grid+'" />\
+                        <p>\
+                        <textarea width="300" height="200" placeholder="亲！说点什么吧" name="desc" id="desc"\ cols="30" rows="3"></textarea>\
+                        <br/>\
+                        <button class="btn" type="button">分享</button>\
+                        </p>\
+                    </div> <input type="hidden" id="item_id" value="'+data.uuid+'"  />'
+                    );
+                }
+            });
+            return false;
+        });
+
+        // share active
+        $('div.share-preview').delegate('button','click',function(){
+            // alert('shar active');
+            $.ajax({
+                type: 'POST',
+                url: '/share/action/',
+                dataType: 'json',
+                data:{item_id:$('#item_id').val(),
+                      comment:$('#desc').val(),
+                      p:'active'
+                     },
+                error: function(XMLHttpRequest,status,errorThrown){
+                    alert(status);
+                },
+                success: function (data,status) {
+                    // alert(status);
+
+                }
+            });
+            $('#myModal').modal('hide');
+            reset_model();
+            $(".nav [rel=tooltip]").tooltip('show');
+        });
+
+        // model reset
+        $("div.close").delegate('#close','click',reset_model);
+
+        var reset_model=function(){
+            // $("#myModal").css("width","500");
+            $("#myModal").width(500);
+            $('#appendedInputButton').val('');
+            $(".share-preview").html();
+            $(".share-preview").css("display","none");
+            $(".share-input").css("display","block");
+            return false;
+        };
+
     })
     </script>
 {% block footer_javascript %}
-		{% endblock %}
+        {% endblock %}
 </body>
 </html>

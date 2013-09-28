@@ -11,11 +11,13 @@ from django.conf import settings
 
 # import Taoke.settings
 from share.models import Item,Item_Cats
+from share.base import item_save
 from utils.common import generate_menu
+from utils.taoke_json import dict2JSON
 
 ResponeType='appliction/json'
 
-def get_JSON_HttpResponse(json):
+def JSON_HttpResponse(json):
     return HttpResponse(json,mimetype=ResponeType)
 
 def share(request):
@@ -25,7 +27,7 @@ def share(request):
         page = request.GET.get("page")
         user_id = request.user.id if request.user.is_authenticated() else None
         json = Item.objects.get_item_default(page,user_id=user_id)
-        return get_JSON_HttpResponse(json)
+        return JSON_HttpResponse(json)
     else:
         return render_to_response('share/share.html',context_instance=RequestContext(request))
 
@@ -37,7 +39,7 @@ def get_by_category_type(request,type,category_id=None):
         page = request.GET.get('page')
         user_id = request.user.id if request.user.is_authenticated() else None
         json = Item.objects.get_item_by_category(user_id,type,category_id,page)
-        return get_JSON_HttpResponse(json)
+        return JSON_HttpResponse(json)
     else:
         if request.method == 'GET':
             return render_to_response('share/share.html',context_instance=RequestContext(request))
@@ -53,15 +55,24 @@ def detail(request,item_id):
                                {"model":model,"relate_u":item_u},
                                context_instance=RequestContext(request))
 
-# def get_by_category_id(request,category_id):
-#     """
-#     根据分类ID参数获取宝贝信息,ajax 请求返回JSON格式
-#     """
-#     if request.is_ajax():
-#         page = request.Get.get('page')
-#         json = Item.objects.get_item_by_category_id(category_id,page)
-#         return get_JSON_HttpResponse(json)
-
+@csrf_exempt
+def get_share_item_from_taobao(request):
+    u"""
+    根据分享链接获取分享的宝贝信息:
+    """
+    if request.is_ajax() and request.user.is_authenticated():
+        account_id=request.user.id
+        url=request.POST.get("url")
+        p=request.POST.get("p")
+        item_id=request.POST.get("item_id")
+        comment=request.POST.get("comment")
+        if p and item_id:
+            # active and update comment item
+            item=Item.objects.update_comment_active(item_id,comment)
+        elif url:
+            # get item from taobao 
+            item=item_save(account_id, url)
+        return JSON_HttpResponse(item.serializers_to_json())
 
 
 def goto_taobao(request,uuid):

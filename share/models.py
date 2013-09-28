@@ -5,7 +5,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.serializers import serialize,deserialize
 from django.core.serializers.json import DjangoJSONEncoder
-from utils.json import TaokeJSONEncoder
+from utils.taoke_json import dict2JSON
 from account.models import Account
 
 # class CategoryManager(models.Manager):
@@ -205,18 +205,19 @@ class Item_Manager(models.Manager):
                        cate.[type], cate.cid,cate.name as cats,
                        item.item_id,item.title,item.price, item.pic_url_grid,
                        item.pic_width_grid,item.pic_height_grid,
-                       add_up_love, add_up_comment, item.desc,
-                       case When love.[account_id] is null Then 'N' else 'Y' end as loved
+                       add_up_love, add_up_comment, item.comment as desc,
+                       case When love.account_id is not null Then 'Y' else 'N' end as loved,
+                       case When item.account_id =love.account_id Then 'Y' else 'N' End as self
                 From share_item item
                 inner join
                      share_item_cats cate on item.cid = cate.cid
                 inner join                             
                      auth_user user on user.id = item.account_id
                 inner join                            
-                     account_account acc on acc.[user_id] = user.id     
+                     account_account acc on acc.user_id = user.id     
                 Left Join                
-                     share_item_love love on item.[account_id]=love.account_id and item.item_id =love.item_id    
-                Where  (item.account_id=%s or %s is null)           
+                     share_item_love love on item.item_id =love.item_id and love.account_id=%s  
+                where active=1  
                 '''
 
     def get_order_sql(self):
@@ -237,7 +238,7 @@ class Item_Manager(models.Manager):
         """
         """
         sql = '%s%s%s' % (self.get_main_sql(),self.get_order_sql(),self.get_limit_sql(page,page_size))
-        item =self.raw(sql,[user_id,user_id])
+        item =self.raw(sql,[user_id])
         return self.serialize_to_json(item)
 
     def get_item_by_user_id(self,user_id,page,page_size=20):
@@ -266,7 +267,7 @@ class Item_Manager(models.Manager):
                             ''',
                             self.get_order_sql(),self.get_limit_sql(page,page_size)
                            )
-        item = self.raw(sql,[user_id,user_id,category_id,category_id,type,type])
+        item = self.raw(sql,[user_id,category_id,category_id,type,type])
         return self.serialize_to_json(item)
 
     # def get_item_by_category_type(self,type,page,page_size=20):
@@ -291,7 +292,7 @@ class Item_Manager(models.Manager):
         for item in data:
             tmp = item.__dict__
             result.append(tmp)
-        return json.dumps(result,separators=(',',':'),cls=TaokeJSONEncoder)
+        return dict2JSON(result)
 
     def save_item_from_detail_get(self,account_id,data,pic):
         u"""
@@ -328,9 +329,18 @@ class Item_Manager(models.Manager):
                             pic_width_detail=pic["pic_width_detail"],
                             pic_height_detail=pic["pic_height_detail"],
                             pic_url_detail=pic["pic_url_detail"],
-                            uuid=pic["uuid"]
+                            uuid=pic["uuid"],
+                            active=False
                            )
         # item.save()
+        return item
+
+    def update_comment_active(self,uuid,comment):
+        u"active, comment"
+        item=self.get(uuid=uuid)
+        item.active=True
+        item.comment=comment
+        item.save()
         return item
 
 
@@ -414,6 +424,9 @@ class Item(models.Model):
     pic_url_orig = models.CharField(max_length=250,null=True)
     #======/===========================================
     
+    # temp
+    active = models.BooleanField(default=False)
+
     # 自定义Manager
     objects = Item_Manager()
 
@@ -426,6 +439,19 @@ class Item(models.Model):
     def __str__(self):
         return self.__unicode__()
 
+    def serializers_to_json(self):
+        u"""serializer fields: 
+            item_id,title,pic_url_grid,price,account_id
+        """
+        data=dict(item_id=self.item_id,
+                  title=self.title,
+                  price=self.price,
+                  account_id=self.account_id,
+                  pic_width_grid=self.pic_width_grid,
+                  pic_height_grid=self.pic_height_grid,
+                  pic_url_grid=self.pic_url_grid,
+                  uuid=self.uuid)
+        return dict2JSON(data)
 
 
 class Item_Tag(models.Model):

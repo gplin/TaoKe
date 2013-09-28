@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-from top import TaobaokeItemsDetailGet
+# from top import TaobaokeItemsDetailGet
 
 
 # =============top api global settings================

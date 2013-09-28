@@ -5,13 +5,12 @@ Author: gplin
 Desc: 调用API(taobao.taobaoke.items.detail.get)查询淘宝客推广商品详细信息
 """
 import re
-
 from share.models import Item
-from utils.common import downLoad_pic
 import top
+from top.base import downLoad_item_pic
 from top.api import TaobaokeItemsDetailGetRequest
 
-API_NAME_RESPONSE = ""
+API_RESPONSE_KEY = ['taobaoke_items_detail_get_response','taobaoke_item_details','taobaoke_item_detail']
 
 def extract_num_iid(url):
     """
@@ -43,11 +42,11 @@ def get_detail(num_iids):
 
     # get the data
     response = req.getResponse()
-    if response.has_key("taobaoke_items_detail_get_response"):
-        if response["taobaoke_items_detail_get_response"].has_key("taobaoke_item_details"):
-            data=response["taobaoke_items_detail_get_response"]["taobaoke_item_details"]
+    if response.has_key(API_RESPONSE_KEY[0]):
+        if response[API_RESPONSE_KEY[0]].has_key(API_RESPONSE_KEY[1]):
+            data=response[API_RESPONSE_KEY[0]][API_RESPONSE_KEY[1]]
             # total_results = data["total_results"]
-            item_detail = data["taobaoke_item_detail"]
+            item_detail = data[API_RESPONSE_KEY[2]]
             return item_detail
             # return data
     return None
@@ -63,8 +62,8 @@ def test_share_item(url):
         for item in data:
             # download pic
             print item["item"]["pic_url"]
-            pic=downLoad_pic(item["item"]["pic_url"])
+            pic=downLoad_item_pic(item["item"]["pic_url"])
             temp=Item.objects.save_item_from_detail_get(account_id=1,data=item,pic=pic)
             print "done %s" % temp.num_iid
-
+            return temp
     print "done test share"
