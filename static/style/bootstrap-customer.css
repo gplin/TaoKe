@@ -15,6 +15,11 @@ body{
   background: ##FAF0E6;
 }
 
+.liked-num{
+  padding-left: 5px;
+  color: #FF6699;
+}
+
 .red_f{
 	color: #FF6699;
 }
@@ -49,6 +54,16 @@ span.is-hot{
     background-color: #e5e5e5;
 }
 
+.footer{
+  margin-top:20px;
+  padding:10px 0;
+  font-size: 12px;
+  /*border-top:solid 1px #e5e5e5;*/
+  border-top: 1px dashed #ccc;
+  /*background: #e5e5e5;*/
+}
+
+
 /* end base style*/
 
 /*menu */
@@ -63,6 +78,7 @@ span.is-hot{
 .cate-menu{
   width: 940px;
   height: auto;
+  left:-25px;
 }
 .cate-list{
    margin:15px 15px;
@@ -146,6 +162,7 @@ span.is-hot{
     overflow: hidden;
     /*padding: 10px 13px;*/
     margin-top: 5px;
+    font-size: 12px;
 }
 
 
@@ -154,57 +171,76 @@ span.is-hot{
   /*background: #f9f9f9;*/
   height: auto;
   overflow: hidden;
+  /*position: relative;*/
  }
 
-.container .detail-left .detail-info{
-  width: 668px;
-  padding: 30px 16px 20px;
+.container .detail-left .detail{
+  /*width: 668px;*/
+  padding: 20px 10px;
+  margin: 0 10px;
   border: 1px solid #d0d0d0;
   height: auto;
+  position: relative;
   /*background: #999999;*/
 }
 
-.container .detail-left .detail-pic{
+.container .detail-left .detail .detail-pic{
   position: relative;
-  margin-right: 30px;
+  /*margin-right: 30px;*/
   max-width: 450px;
   min-height: 400px;
   width: 450px;
+  height: auto;
 }
 
-.container .detail-title{
-  /*padding-right: 30px;*/
+.container .detail-left .detail .detail-info{
+  width: 438px;
+  padding: 20px 0 20px 30px;
+
 }
 
-.container .detail-title .price-go{
-    /*background: url("/static/ico/tui1.png") no-repeat scroll 0px 133px  transparent;*/
-    /*color: #FFFFFF;*/
-    /*float: left;*/
-    font-size: 14px;
-    font-weight: bold;
-    height: 30px;
-    line-height: 22px;
-    margin-top: 1px;
-    padding: 7px 5px 7px 0;
-    text-align: center;
-    width: 80px;
+.container .detail-left .detail .detail-title{
+  padding-bottom:30px;
 }
- 
-.container .detail-comment{
+
+.container .detail-left .detail .detail-title .row-price{
+  padding:5px 0;
+  line-height: 30px;
+  height:30px;
+}
+.container .detail-left .detail .detail-title .row-price .big-price{
+  color: #FF00FF;
+  font-size: 24px;
+}
+
+.container .detail-left .detail .detail-title .buy{
+  display: block;
+  font-size: 28px;
+  color:#f40;
+  margin: 5px 0;
+  height: 40px;
+  line-height: 40px;
+}
+
+.container .detail-left .detail .detail-info .detail-comment{
+  margin:10px 0;
+  padding: 10px 0;
+  border-top: 1px  dashed #f40;
   
 }
-
+/*
 .container .detail-aside{
   width: 236px;
-  /*background: #888888;*/
+  background: #888888;
   min-height: 600px;
    border: 1px solid #d0d0d0;
-}
+}*/
 
-.maybe{
+.container .detail-left .maybe{
   min-height: 30px;
   height:30px;
   line-height: 30px;
+  margin:10px;
   padding-left: 10px;
   /*width: 684px;*/
   border: 1px solid #d0d0d0;

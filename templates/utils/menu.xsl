@@ -102,7 +102,7 @@
           </ul>
             <ul class="nav pull-right">
               {% if user.is_authenticated %}
-              <li><a href="#myModal" role="button" data-toggle="modal" class="navbar-link" >+分享</a></li>
+              <li><a href="#myModal" role="button" data-toggle="modal" class="navbar-link" >+立即分享</a></li>
              <li class="dropdown">
                 <a href="#">{{ user.username }} <b class="caret"></b></a>
                 <ul class="dropdown-menu" style="z-index:99999;">

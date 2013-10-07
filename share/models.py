@@ -64,8 +64,8 @@ class Item_Cats(models.Model):
     """
     淘宝类目
     """
-    CLOTHES = "CL" #1
-    SHOES = "SH"   #2 
+    CLOTHES = "CL" #1 衣服
+    SHOES = "SH"   #2 　鞋子
     BAGS = "BA"  #3包包
     ACCESSORIES = "AC" #4配饰
     HOME = "HO" #5家居
@@ -205,7 +205,8 @@ class Item_Manager(models.Manager):
                        cate.[type], cate.cid,cate.name as cats,
                        item.item_id,item.title,item.price, item.pic_url_grid,
                        item.pic_width_grid,item.pic_height_grid,
-                       add_up_love, add_up_comment, item.comment as desc,
+                       add_up_love, add_up_comment, 
+                       case When item.comment is not null Then item.comment else '' end as desc,
                        case When love.account_id is not null Then 'Y' else 'N' end as loved,
                        case When item.account_id =love.account_id Then 'Y' else 'N' End as self
                 From share_item item
@@ -260,7 +261,7 @@ class Item_Manager(models.Manager):
         """
         根据分类ID,页码,获取分享的宝贝
         """
-        type = type if None else type.upper()
+        type = type.upper() if type else None
         sql = '%s%s%s%s' % (self.get_main_sql(),
                             '''   and (cate.cid = %s or %s is null) 
                                   and (cate.[type]=%s or %s is null)
@@ -269,16 +270,6 @@ class Item_Manager(models.Manager):
                            )
         item = self.raw(sql,[user_id,category_id,category_id,type,type])
         return self.serialize_to_json(item)
-
-    # def get_item_by_category_type(self,type,page,page_size=20):
-    #     """
-    #     获取分类TYPE属性获取分享的宝贝
-    #     """
-    #     sql = '%s%s%s%s' % (self.get_main_sql(),'Where cate.[type] = %s',
-    #                         self.get_order_sql(),self.get_limit_sql(page,page_size)
-    #                        )
-    #     item = self.raw(sql,[type.upper()])
-    #     return self.serialize_to_json(item)
 
     def serialize_to_json(self,data):
         """

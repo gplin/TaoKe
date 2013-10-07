@@ -5,79 +5,68 @@
 
 {% block content %}
 <!-- begin left -->
-<div class="detail-left pull-left">
+<div class="detail-left">
   <!-- 1. info -->
-  <div class="detail-info">
-    <!-- 1.1 image -->
-    <span class="hide2" id="category_id">{{ model.category.category_id }}</span>
+  <div class="detail">
+     <!-- image -->
     <div class="detail-pic pull-left text-center">
+      <span class="hide2" id="category_id">{{ model.category.category_id }}</span>
       <a href="/share/{{ model.uuid }}" target="_bank" alt="{{ model.title }}">
-        <img src="/{{ model.pic_url_detail }}" alt="{{ model.title }}" title="{{ model.title }}"></a>
+        <img src="/{{ model.pic_url_detail }}" alt="{{ model.title }}" title="{{ model.title }}">
+      </a>
     </div>
-    <!-- 1.2 title -->
-    <div class="detail-title">
-      <h5>
-        <a href="/share/{{ model.uuid }}" target="_bank"> <strong>{{ model.title }}</strong>
-        </a>
-      </h5>
-      <p class="" >价格：¥{{ model.price }}</p>
-      <p>
-        <a href="/share/{{ model.uuid }}" target="_bank" class="price-go btn">去购买>></a>
-      </p>
-      <p>
-        <a href="">美丽公主</a>
-        分享到
-        <a href="">精美蕾丝情</a>
-        <br/>
-        <br/>
-        <span class="btn">喜欢</span>
-        &nbsp;&nbsp;
-        <span class="btn">收藏</span>
-      </p>
+    <!-- other -->
+    <div class="detail-info pull-right text-left">
+        <div class="detail-title">
+          <p>
+            <a href="/share/{{ model.uuid }}" target="_bank">{{ model.title }}
+            </a>
+          </p>
+          <small>
+            由<a href="/share/a/{{model.account.user.id}}">{{model.account.user.username}}</a> 分享到<a href="">精美蕾丝情</a>
+          </small>
+          <p class="row-price">
+           价格:&nbsp;&nbsp;<span class="big-price">¥{{ model.price }}</span>
+          </p>
+           <a href="/share/{{ model.uuid }}" target="_bank" class="buy">立即买入</a>
+        </div>
+
+
+        <span class="btn">喜欢</span><span class="liked-num">{{model.add_up_love}}</span>
+
+        <div class="relate-item">
+        </div>
+
+        <div class="detail-comment">评论
+        </div>
     </div>
+
     <div class="clearfix"></div>
-    <!-- 1.3 comment -->
-    <div class="detail-comment">评论</div>
-    <!-- end comment --> 
   </div>
   <!-- end detail info -->
 
   <!-- 2. 相关推荐 -->
   <div class="clearfix"></div>
-  <p></p>
-  <div class="maybe"> <strong>也许您还喜欢</strong>
-
+  <div class="maybe"><strong>也许您还喜欢</strong>
   </div>
-<p></p>
-  <div class="images_wall">
-    <!-- ajax load data -->
+  <div class="images_wall clearfix"></div>
 
-  </div>
-
-<div id="loaderCircle"></div>
-<div id="nodatafound"></div>
+<div id="loaderCircle clearfix"></div>
+<div id="nodatafound clearfix"></div>
   <!-- /推荐 -->
 </div>
 <!-- /end detail left -->
 
-<!--begin right -->
-<div class="detail-aside pull-right">
-  {% for row in relate_u %}
-  <p>{{ row.title }}</p>
-  {% endfor %}
-</div>
-<!-- end right -->
 {% endblock %}
 
 {% block footer_javascript %}
-<script type="text/javascript">
-    var category = {{ model.category.category_id }}
+ <script type="text/javascript">
+    var category = {{ model.item_cats.cid }}
     var handler = null;
     var page = 1;
     var isLoading = false;
     var isStop = false;
-    var apiURL = '/share/c/'+ category
-
+    var apiURL = '/share/cats/'+ category
 
     // Prepare layout options.
     var options = {
@@ -116,13 +105,11 @@
     function loadData() {
       isLoading = true;
       $('#loaderCircle').show();
-
-      // alert(apiURL+'/'+page);
       $.ajax({
         type:'GET',
-        url: apiURL+'/'+page,
+        url: apiURL,
+        data: {page:page},
         dataType: 'json',
-        //data: {page: page}, // Page parameter to make sure we load new data
         success: onLoadData
       });
     };
@@ -144,30 +131,25 @@
       } 
       // Create HTML for the images.
       var html = '';
-      var pk;
-      var m;
-      $.each(data,function(k,v){
-           m=v.fields;
-
-         
+      $.each(data,function(index,item){
             html += '<div class="img_grid">';
             html += '<div class="img_pic">';
-            html += '<div class="price">'+m.price+'</div>';
-            html += '<a href="'+v.pk+'" target="_blank">';
-            html += '<img width="'+m.pic_width_grid+'" height="'+m.pic_height_grid+'" alt="'+m.title+'" title="'+m.title+'"  src="/'+m.pic_url_grid+'">';
+            html += '<div class="price">'+item.price+'</div>';
+            html += '<a href="'+item.item_id+'" target="_blank">';
+            html += '<img width="'+item.pic_width_grid+'" height="'+item.pic_height_grid+'" alt="'+item.title+'" title="'+item.title+'"  src="/'+item.pic_url_grid+'">';
             html += '</a>';
             html += '</div>';
             // img remark
             html += '<div class="img_remark">\
-                    <P class="desc"><small>desc desc desc desc desc desc desc desc desc</small></p>\
+                    <P class="desc"><small>'+item.desc+'</small></p>\
             <p class="comm_num f12_f">\
               <a href="javascript:void(0)" class="likes">\
                 <b class="btn btn-mini likes_status" >喜欢</b>\
-                <span class="red_f">480</span>\
+                <span class="red_f">'+item.add_up_love+'</span>\
               </a>\
               <a href="javascript:void(0)" class="pull-right review">\
                 <b>评论</b>\
-                <span>20</span>\
+                <span>'+item.add_up_comment+'</span>\
               </a>\
             </p>\
           </div>';
@@ -187,5 +169,5 @@
       // Load first data from the API.
       loadData();
     });
-  </script>
+   </script>
 {% endblock %}

@@ -44,15 +44,22 @@ def get_by_category_type(request,type,category_id=None):
         if request.method == 'GET':
             return render_to_response('share/share.html',context_instance=RequestContext(request))
 
+def get_relate_by_cid(request,cid):
+    if request.is_ajax():
+        page = request.GET.get('page')
+        user_id = request.user.id if request.user.is_authenticated() else None
+        data = Item.objects.get_item_by_category(user_id,None,cid,page)
+        return JSON_HttpResponse(data)
+
 def detail(request,item_id):
     """
     根据参数[rec_num],查询宝贝详细信息
     """
     model = Item.objects.select_related().get(item_id=item_id)
-    item_u = Item.objects.get_relate_by_user_id(model.user.user_id,1)
+    # item_u = Item.objects.get_relate_by_user_id(model.user.user_id,1)
 
     return render_to_response('share/detail.html',
-                               {"model":model,"relate_u":item_u},
+                               {"model":model,"relate_u":None},
                                context_instance=RequestContext(request))
 
 @csrf_exempt
@@ -86,8 +93,8 @@ def goto_taobao(request,uuid):
 #utils method
 def execute_generate_menu(request):
     import os
-    xmlPath = os.path.join(settings.GENERATE_TEMPLATE_DIR,'menu.xml')
-    xslPath = os.path.join(settings.GENERATE_TEMPLATE_DIR,'menu.xsl')
-    menuPath = os.path.join(settings.GENERATE_TEMPLATE_DIR,'menu.html')
+    xmlPath = os.path.join(settings.UTILS_TEMPLATE_DIR,'menu.xml')
+    xslPath = os.path.join(settings.UTILS_TEMPLATE_DIR,'menu.xsl')
+    menuPath = os.path.join(settings.INCLUDES_TEMPLATE_DIR,'menu.html')
     generate_menu(Category.objects.get_category_tree(True),xmlPath,xslPath,menuPath)
     return HttpResponse("generate menu done: "+menuPath)

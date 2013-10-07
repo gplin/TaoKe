@@ -11,7 +11,7 @@
 <div id="loaderCircle"></div>
 </div>
 <div class="clearfix"></div>
-<footer id="nodatafound"></footer>
+<footer id="nodatafound" class="clearfix"></footer>
 {% endblock %}
 
 {% block footer_javascript %}
@@ -52,7 +52,7 @@
          <div class="img_share">
              <a class="u_s_icon_32 trans07" target="_blank" href="/account/{echo item.user_id}">
                  <img src="/media/icon/u_s_0123456.jpg"></a>
-             <p class="u_m140_f">fdsdfsdfdsfdsfasdfasdfasdafdsa</p>
+             <p class="u_m140_f"><a href="/account/a/{echo item.user_id}">{echo item.username}</a>&nbsp;分享了－个宝贝</p>
              <div class="clearfix"></div>
          </div>
      </div>
