@@ -476,7 +476,7 @@ class Item_Comment(models.Model):
     #被赞次数统计
     add_up = models.IntegerField(default=0)
     #回复评论关联ID
-    reply_id = models.IntegerField()
+    reply_id = models.IntegerField(unique=False,null=True)
 
     def __unicode__(self):
         return self.desc
