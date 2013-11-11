@@ -20,29 +20,24 @@ ResponeType='appliction/json'
 def JSON_HttpResponse(json):
     return HttpResponse(json,mimetype=ResponeType)
 
+def json(request):
+    if request.is_ajax():
+        page = request.GET.get("page")
+        cats = request.GET.get("cats")
+        cid = request.GET.get("cid")
+        user_id = request.user.id if request.user.is_authenticated() else None
+        return JSON_HttpResponse(Item.objects.get_item_data(page=page,user_id=user_id,cats=cats,cid=cid))
+
 def share(request):
     """
     """
-    if request.is_ajax():
-        page = request.GET.get("page")
-        user_id = request.user.id if request.user.is_authenticated() else None
-        json = Item.objects.get_item_default(page,user_id=user_id)
-        return JSON_HttpResponse(json)
-    else:
-        return render_to_response('share/share.html',context_instance=RequestContext(request))
+    return render_to_response('share/main.html',context_instance=RequestContext(request))
 
-def get_by_category_type(request,type,category_id=None):
+def get_by_cats(request):
     """
     获取分类宝贝
     """
-    if request.is_ajax():
-        page = request.GET.get('page')
-        user_id = request.user.id if request.user.is_authenticated() else None
-        json = Item.objects.get_item_by_category(user_id,type,category_id,page)
-        return JSON_HttpResponse(json)
-    else:
-        if request.method == 'GET':
-            return render_to_response('share/share.html',context_instance=RequestContext(request))
+    return render_to_response('share/%s.html' % type,context_instance=RequestContext(request))
 
 def get_relate_by_cid(request,cid):
     if request.is_ajax():
@@ -50,6 +45,19 @@ def get_relate_by_cid(request,cid):
         user_id = request.user.id if request.user.is_authenticated() else None
         data = Item.objects.get_item_by_category(user_id,None,cid,page)
         return JSON_HttpResponse(data)
+
+def get_item_by_account(request,user_id,type):
+    u"""
+    acc_id=user_id
+    type:default; album; love; follow;
+    """
+    if request.is_ajax():
+        page=request.GET.get("page")
+        page=page if page else 1
+        data=Item.objects.get_item_by_account(user_id,type,page)
+        return JSON_HttpResponse(data)
+
+
 
 def detail(request,item_id):
     """

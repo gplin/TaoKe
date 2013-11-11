@@ -54,6 +54,11 @@ span.is-hot{
     background-color: #e5e5e5;
 }
 
+.line{
+  border-bottom: 1px solid #EE3B3B;
+  height: 1px;
+}
+
 .footer{
   margin-top:20px;
   padding:10px 0;
@@ -228,6 +233,14 @@ span.is-hot{
   border-top: 1px  dashed #f40;
   
 }
+.img_share .u_s_icon_32 .acc_popover{
+  display: none;
+  height: 80px;
+  width: 200px;
+  z-index: 1000px;
+  border: 1px dashed #FF00FF;
+}
+
 /*
 .container .detail-aside{
   width: 236px;
@@ -266,4 +279,25 @@ span.is-hot{
 
 .share-preview .info p{
   margin-left: 210px;
+}
+
+/*account style*/
+.acc-content{
+  padding:0 10px;
+  min-height: 600px;
+  font-size: 12px;
+  /*float: left;*/
+  /*background: #EE82EE;*/
+}
+
+.acc-content .acc-info{
+  padding:5px 0;
+  height: 210px;
+  /*border: 1px solid #d0d0d0;*/
+}
+.acc-content .acc-info .acc-desc{
+  padding:10px 0 10px 230px;
+}
+.acc-content .acc-share .nav{
+  margin-bottom: 5px;
 }

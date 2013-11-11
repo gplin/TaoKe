@@ -57,3 +57,11 @@ class RegisterForm(forms.Form):
             if self.cleaned_data['password'] != self.cleaned_data['confirm_password']:
                 raise forms.ValidationError(u"两次输入的密码不一致")
         return self.cleaned_data['confirm_password']
+
+
+class InfoForm(forms.Form):
+    u"""
+    用户基本信息
+    """
+    email=forms.EmailField(label=u'注册邮箱',required=True)
+    username=forms.CharField(label=u'昵称',required=True,max_length=20)

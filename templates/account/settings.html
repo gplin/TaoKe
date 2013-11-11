@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="acc-content">
+    <div class="acc-info">
+        <img class="pull-left" src="/media/img/g/26335fe1282c11e3bf35005056c00008.jpg" alt="">
+        <div class="acc-desc clearfix">
+            <p>
+                {{account.user.username}}
+            </p>
+             <p class="self-desc">
+                收藏美丽，分享美丽，爱好雷丝,欢迎加关注！
+            </p>
+                <ul class="inline">
+                    <li><a href="#">关注</a>&nbsp;<span>1000</span></li>
+                    <li><a href="#">粉丝</a>&nbsp;<span>2032</span></li>
+                    <li><a href="#">分享</a>&nbsp;<span>3200</span></li>
+                    <li><a href="#">被喜欢</a>&nbsp;<span>3200</span></li>
+                </ul>
+        </div>
+        <p class="line"></p>
+    </div>
+    <div class="acc-settings">
+        <ul class="nav nav-pills">
+            <li class="active"><a href="#info">个人信息</a></li>
+            <li><a href="#icon">更新头像</a></li>
+            <li><a href="#pwd">密码设置</a></li>
+        </ul>
+        <div id="settings-tab" class="settings-conetnt">
+          <div id="info">
+              <form class="form-horizontal" action="/account/settings?t=info" method="post">
+                  <div class="control-group">
+                      <label class="control-label" for="email">注册邮箱:</label>
+                      <div class="controls">
+                        {{ form.email }}
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="username">昵称:</label>
+                      <div class="controls">
+                      {{ form.username }}
+                        <span class="help-inline" style="display:none;">请输入昵称</span>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="password">设置密码:</label>
+                      <div class="controls">
+                        {{ form.password }}
+                        <span class="help-inline" style="display:none;">密码长度6-20位</span>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="confirm_password">确认密码:</label>
+                      <div class="controls">
+                        {{ form.confirm_password }}
+                        <span class="help-inline" style="display:none;"></span>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <div class="controls">
+                        <input type="submit" class="btn btn-success"  value="保存" />
+                      </div>
+                    </div>
+                </form>
+          </div>
+           <div id="icon">
+              Icon
+          </div>
+           <div id="pwd">
+              password
+          </div>
+        </div>
+    </div>
+    <div class="clearfix end"></div>
+</div>
+{% endblock %}
+
+<!-- sync load data -->
+{% block footer_javascript %}
+<script type="text/javascript">
+    $(function(){
+       $("#settings-tab").find("div").each(function(index, val) {
+          if(index==0){
+             $(this).addClass("show");
+          }else{
+             $(this).addClass("hide");
+          }
+       });
+    });
+
+    $(".acc-settings ul").delegate("a","click",function(e){
+          $(".acc-settings ul").find("li").each(function(event){
+              if($(this).hasClass("active")){
+                  $(this).removeClass("active");
+              }
+          });
+         $(this).parent().addClass("active");
+          var id=$(this).attr("href").split("#")[1]
+
+          $("#settings-tab").find("div").each(function(index, val) {
+          if($(this).attr("id")==id){
+             $(this).addClass("show");
+             $(this).removeClass("hide");
+          }else{
+             $(this).addClass("hide");
+             $(this).removeClass("show");
+          }
+       });
+
+
+         e.preventDefault();
+      });
+
+    // var tmp=stripTrailingSlash(String(location.href)).split("/"); 
+    // var uid=tmp[tmp.length-2]
+    // var utype=tmp[tmp.length-1]
+    // // var handler = null;
+
+    // var page = 1;
+    // var isLoading = false;
+    // var isStop = false;
+    // var apiURL = "/share/"
+
+    // // Prepare layout options.
+    // var options = {
+    //   autoResize: true, // This will auto-update the layout when the browser window is resized.
+    //   container: $('.images_wall'), // Optional, used for some extra CSS styling
+    //   offset: 12, // Optional, the distance between grid items
+    //   itemWidth: 226 // Optional, the width of a grid item
+    // };
+
+    // /**
+    //  * When scrolled all the way to the bottom, add more tiles.
+    //  */
+    // function onScroll(event) {
+    //   // Only check when we're not still waiting for data.
+    //   if(!isLoading && !isStop) {
+    //     // Check if we're within 100 pixels of the bottom edge of the broser window.
+    //     var closeToBottom = ($(window).scrollTop() + $(window).height() > $(document).height() - 100);
+    //     if(closeToBottom) {
+    //       loadData();
+    //     }
+    //   }
+    // };
+
+    // /**
+    //  * Refreshes the layout.
+    //  */
+    // function applyLayout() {
+    //   // Create a new layout handler.
+    //   handler = $('.images_wall .img_grid');
+    //   handler.wookmark(options);
+    // };
+
+    // /**
+    //  * Loads data from the API.
+    //  */
+    // function loadData() {
+    //   isLoading = true;
+    //   $('#loaderCircle').show();
+    //   $.ajax({
+    //     type:'GET',
+    //     url: apiURL+uid+"/"+utype,
+    //     dataType: 'json',
+    //     error: function(XMLHttpRequest,status,errorThrown){
+    //       alert(errorThrown);
+    //     },
+    //     data: {page: page}, // Page parameter to make sure we load new data
+    //     success: onLoadData,
+    //     complete: function(XMLHttpRequest,status){
+    //       // alert(status);
+    //     }
+    //   });
+    // };
+
+    // /**
+    //  * Receives data from the API, creates HTML for images and updates the layout
+    //  */
+    // function onLoadData(data,status,jqXHR) {
+    //   // alert(data);
+    //   isLoading = false;
+    //   $('#loaderCircle').hide();
+    //   if (data.length==0 )
+    //   {
+    //     isStop = true;
+    //    $('.end').html("<h2 style='text-align: center;'>No More Data Found</h2>");
+    //    return
+    //   } 
+    //   page++;
+    //   $('.images_wall').append(template.render('itemTemplate', {items:data}));
+    //   applyLayout();
+    // };
+
+    // $(document).ready(new function() {
+    //   // Capture scroll event.
+    //   $(document).bind('scroll', onScroll);
+
+    //   // Load first data from the API.
+    //   loadData();
+    // });
+  </script>
+{% endblock %}

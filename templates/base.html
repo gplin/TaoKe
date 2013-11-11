@@ -3,10 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{ LANGUAGE_CODE|default:"zh-cn"}}" lang="{{ LANGUAGE_CODE|default:"zh-cn"}}">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="www.taoke.com" content="时尚 潮人 分享 购物 社区">
+    <meta name="keywords" content="芭时尚 购物导航 社区分享 达人装扮 潮流前线" />
     <title>{% block title %}{% endblock%}</title>
-
     <link href="/static/style/bootstrap.css" rel="stylesheet">
     <link href="/static/style/bootstrap-customer.css" rel="stylesheet">
     <style>
@@ -26,15 +26,12 @@
             .navbar-inverse .nav li.dropdown > a:hover .caret{
      border-top:0;
     border-bottom: 4px solid #FFF;
-}
+        }
         </style>
-    <script type="text/javascript" src="/static/js/jquery-1.9.1.min.js" ></script>
-    <script type="text/javascript" src="/static/js/jquery.wookmark.js" ></script>
     {% block style %}{% endblock %}
-        {% block javascript %}{% endblock %}
 </head>
 <body>
-{% include 'includes\menu.html' %}
+{% include 'includes/menu.html' %}
 <!-- share model -->
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
@@ -80,18 +77,22 @@
 {% block content %}
 <h1>base common page</h1>
 {% endblock%}
+
+{% block woo %}
+{% endblock %}
+
 <!-- ========================================= -->
 <!--Footer-->
-<div class="clearfix"></div>
+<!-- <div class="clearfix"></div> -->
 <footer>
     {% block footer %}
-    <div class="footer text-center">
+    <div class="footer text-center clearfix">
         <ul class="inline">
-             <li>关于我们</li>
+             <li rel="popover">关于我们</li>
              <li>关注我们</li>
              <li>网站地图</li>
         </ul>
-        Copyright&nbsp;&copy;&nbsp;2013&nbsp;taoke.com
+        Copyright&nbsp;&copy;&nbsp;2013&nbsp;www.bashishang.com
     </div>
     {% endblock %}
 </footer>
@@ -101,21 +102,21 @@
 <!--End container-->
 
 <div class="clearfix"></div>
-<div data-widget='backtop'>
-<script src="/static/js/backtop-green.js" charset="utf-8"></script>
-</div>
 
+<script src="/static/js/jquery-1.9.1.min.js" ></script>
 <script src="/static/js/bootstrap.min.js"></script>
-
+<script src="/static/js/jquery.grumble.min.js"></script>
+<script src="/static/js/taoke-base.js"></script>
+{% block javascript %}{% endblock %}
 
 <script>
     $(function(){
-        function stripTrailingSlash(str){
-            if(str.substr(-1)=='/'){
-                return str.substr(0,str.length-1);
-            }
-            return str;
-        }
+        // function stripTrailingSlash(str){
+        //     if(str.substr(-1)=='/'){
+        //         return str.substr(0,str.length-1);
+        //     }
+        //     return str;
+        // }
     
         $(".nav-collapse .nav").find("li").each(function(){
             var a = $(this).find("a:first")[0];
@@ -213,6 +214,6 @@
     })
     </script>
 {% block footer_javascript %}
-        {% endblock %}
+{% endblock %}
 </body>
 </html>

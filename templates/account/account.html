@@ -1,22 +1,41 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="category_title"></div>
-<div class="clearfix"></div>
-<div class="images_wall clearfix">
-  
-</div>
-<!-- / image_wall -->
+<div class="acc-content">
+    <div class="acc-info">
+        <img class="pull-left" src="/media/img/g/26335fe1282c11e3bf35005056c00008.jpg" alt="">
+        <div class="acc-desc clearfix">
+            <p>
+                {{account.user.username}}
+            </p>
+             <p class="self-desc">
+                收藏美丽，分享美丽，爱好雷丝,欢迎加关注！
+            </p>
+                <ul class="inline">
+                    <li><a href="#">关注</a>&nbsp;<span>1000</span></li>
+                    <li><a href="#">粉丝</a>&nbsp;<span>2032</span></li>
+                    <li><a href="#">分享</a>&nbsp;<span>3200</span></li>
+                    <li><a href="#">被喜欢</a>&nbsp;<span>3200</span></li>
+                </ul>
+        </div>
+        <p class="line"></p>
+    </div>
 
-<div id="loader">
-<div id="loaderCircle"></div>
+    <div class="acc-share">
+        <ul class="nav nav-pills">
+            <li class="active"><a href="/account/{{account.user.id}}/default">{{account.user.username}}的分享</a></li>
+            <!-- <li><a href="/account/{{account.user.id}}/album">专辑</a></li> -->
+            <li><a href="/account/{{account.user.id}}/love">喜欢</a></li>
+            <li><a href="/account/{{account.user.id}}/follow">关注</a></li>
+        </ul>
+        <div class="images_wall">
+
+        </div>
+    </div>
+    <div class="clearfix end"></div>
 </div>
-<!-- <div class="clearfix"></div> -->
-<div id="nodatafound" clearfix>
-  
-</div>
-<footer class="clearfix"></footer>
 {% endblock %}
 
+<!-- sync load data -->
 {% block footer_javascript %}
   <script type="text/javascript" src="/static/js/template.js" ></script>
   <script type="text/javascript" src="/static/js/template-syntax.js"></script>
@@ -51,17 +70,39 @@
                  </a>
              </p>
          </div>
-         <div class="img_share clearfix">
-             <a class="u_s_icon_32 trans07"  target="_blank" href="/account/{echo item.user_id}/default">
-                   <img src="{echo item.icon}">
-             </a>
+         <div class="clearfix"></div>
+         <div class="img_share">
+             <a class="u_s_icon_32 trans07" target="_blank" href="/account/{echo item.user_id}/default">
+                 <img src="{echo item.icon}"></a>
              <p class="u_m140_f"><a href="/account/{echo item.user_id}/default">{echo item.username}</a>&nbsp;分享了－个宝贝</p>
+             <div class="clearfix"></div>
          </div>
      </div>
      
     {/each}
  </script>
+
 <script>
+    $(".acc-share ul").delegate("a","click",function(event){
+        $(".acc-share ul").find("li").each(function(event){
+            if($(this).hasClass("active")){
+                $(this).removeClass("active");
+            }
+        });
+       $(this).parent().addClass("active");
+       $(".images_wall").empty();
+       $(".end").empty();
+
+       tmp=stripTrailingSlash(String($(this).attr("href"))).split("/"); 
+       uid=tmp[tmp.length-2]
+       utype=tmp[tmp.length-1]
+       page=1
+       isStop=false;
+       loadData()
+       return false;
+    });
+
+
    $(".images_wall").delegate(".likes","click",function(event){
        var like=this.children[0];
        var like_num=this.children[1];
@@ -89,7 +130,6 @@
                   like.removeClass("liked");
                   like_num.textContent=Number(like_num.textContent)-1;
                 }
-                
               }
           },
           error:function(XMLHttpRequest,textStatus,errorThrown){
@@ -103,11 +143,15 @@
 
 
 <script type="text/javascript">
-    var handler = null;
+    var tmp=stripTrailingSlash(String(location.href)).split("/"); 
+    var uid=tmp[tmp.length-2]
+    var utype=tmp[tmp.length-1]
+    // var handler = null;
+
     var page = 1;
     var isLoading = false;
     var isStop = false;
-    var apiURL = window.location.pathname
+    var apiURL = "/share/"
 
     // Prepare layout options.
     var options = {
@@ -148,7 +192,7 @@
       $('#loaderCircle').show();
       $.ajax({
         type:'GET',
-        url: apiURL,
+        url: apiURL+uid+"/"+utype,
         dataType: 'json',
         error: function(XMLHttpRequest,status,errorThrown){
           alert(errorThrown);
@@ -171,7 +215,7 @@
       if (data.length==0 )
       {
         isStop = true;
-       $('#nodatafound').append("<div><h2 style='text-align: center;'>No More Data Found</h2></div>");
+       $('.end').html("<h2 style='text-align: center;'>No More Data Found</h2>");
        return
       } 
       page++;
@@ -179,21 +223,12 @@
       applyLayout();
     };
 
-    // $(document).ready(new function() {
-    //   // Capture scroll event.
-    //   $(document).bind('scroll', onScroll);
+    $(document).ready(new function() {
+      // Capture scroll event.
+      $(document).bind('scroll', onScroll);
 
-    //   // Load first data from the API.
-    //   loadData();
-    // });
-  $(function(){
-      $(window).load(function(){
-          // $("")
-          $(document).bind('scroll', onScroll);
-          loadData();
-      });
-  })
-
-
+      // Load first data from the API.
+      loadData();
+    });
   </script>
 {% endblock %}

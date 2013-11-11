@@ -26,8 +26,12 @@ def default(request):
     """
     return render_to_response('account/default.html',context_instance=RequestContext(request))
 
-def detail(request,user_id):
-    return render_to_response('account/account.html',context_instance=RequestContext(request))
+def detail(request,user_id,type):
+    # 需返回account信息
+    account = Account.objects.get(user_id=user_id)
+    return render_to_response('account/account.html',
+                              {"account":account},
+                              context_instance=RequestContext(request))
 
 @never_cache
 @csrf_exempt
@@ -199,3 +203,16 @@ def love(request):
             
             return HttpResponse(data,mimetype='appliction/json')
 
+@never_cache
+def settings(request):
+    if request.is_ajax():
+        pass
+    else:
+        user_id = request.user.id
+        account = Account.objects.get(user_id=user_id)
+        return render_to_response('account/settings.html',
+                              {"account":account},
+                              context_instance=RequestContext(request))
+
+def follow(request):
+    pass

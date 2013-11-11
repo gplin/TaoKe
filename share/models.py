@@ -201,14 +201,14 @@ class Item_Manager(models.Manager):
     """
     def get_main_sql(self):
         return '''
-                Select user.id as user_id, user.username, acc.icon,
+                Select user.id as user_id, user.username , acc.icon,
                        cate.[type], cate.cid,cate.name as cats,
-                       item.item_id,item.title,item.price, item.pic_url_grid,
-                       item.pic_width_grid,item.pic_height_grid,
-                       add_up_love, add_up_comment, 
-                       case When item.comment is not null Then item.comment else '' end as desc,
+                       item.item_id,item.item_id as id ,item.title,item.price, item.pic_url_grid as isrc,
+                       item.pic_width_grid as iwt,item.pic_height_grid as iht,
+                       add_up_love as favc, add_up_comment as repc, 
+                       case When item.comment is not null Then item.comment else '' end as msg,
                        case When love.account_id is not null Then 'Y' else 'N' end as loved,
-                       case When item.account_id =love.account_id Then 'Y' else 'N' End as self
+                       case When item.account_id =%s Then 'Y' else 'N' End as self
                 From share_item item
                 inner join
                      share_item_cats cate on item.cid = cate.cid
@@ -219,6 +219,8 @@ class Item_Manager(models.Manager):
                 Left Join                
                      share_item_love love on item.item_id =love.item_id and love.account_id=%s  
                 where active=1  
+                     and (cate.cid = %s or %s is null) 
+                     and (cate.[type]=%s or %s is null)
                 '''
 
     def get_order_sql(self):
@@ -231,18 +233,19 @@ class Item_Manager(models.Manager):
         if page:
             # page = page if page else 1
             page_size = page_size if page_size else 20
+            page_size = page_size + 1
             return ' Limit %s * (%s-1) ,%s ' % (page_size,page,page_size)
         else:
             return ''
 
-    def get_item_default(self,page,page_size=20,user_id=None):
+    def get_item_data(self,page=1,page_size=20,user_id=None,cats=None,cid=None):
         """
         """
         sql = '%s%s%s' % (self.get_main_sql(),self.get_order_sql(),self.get_limit_sql(page,page_size))
-        item =self.raw(sql,[user_id])
-        return self.serialize_to_json(item)
+        item =self.raw(sql,[user_id,user_id,cid,cid,cats,cats])
+        return self.serialize_to_json(item)    
 
-    def get_item_by_user_id(self,user_id,page,page_size=20):
+    def get_item_by_account(self,user_id,type,page,page_size=20):
         """
         根据用户ID获取分享的宝贝
         """
@@ -255,35 +258,62 @@ class Item_Manager(models.Manager):
             raise ValueError(u'user_id must be set')
         if page is None:
             raise ValueError(u'page must be set')
-        return self.get_item_default(page,page_size,user_id)
-
-    def get_item_by_category(self,user_id=None,type=None,category_id=None,page=None,page_size=20):
-        """
-        根据分类ID,页码,获取分享的宝贝
-        """
+        where = ""
         type = type.upper() if type else None
+        if type:
+            if type=="DEFAULT":
+                where ="  and item.account_id=%s" % user_id
+            elif type=="LOVE":
+                where ="  and love.account_id is not null"
+            elif type=="ALBUM":
+                where =" "
+            elif type=="FOLLOW":
+                where =" "
         sql = '%s%s%s%s' % (self.get_main_sql(),
-                            '''   and (cate.cid = %s or %s is null) 
-                                  and (cate.[type]=%s or %s is null)
-                            ''',
-                            self.get_order_sql(),self.get_limit_sql(page,page_size)
-                           )
-        item = self.raw(sql,[user_id,category_id,category_id,type,type])
+                        where,
+                        self.get_order_sql(),self.get_limit_sql(page,page_size)
+                        )
+        item=self.raw(sql,[user_id,user_id])
         return self.serialize_to_json(item)
+
+    # def get_item_by_category(self,user_id=None,type=None,category_id=None,page=None,page_size=20):
+    #     """
+    #     根据分类ID,页码,获取分享的宝贝
+    #     """
+    #     type = type.upper() if type else None
+    #     sql = '%s%s%s%s' % (self.get_main_sql(),
+    #                         '''   and (cate.cid = %s or %s is null) 
+    #                               and (cate.[type]=%s or %s is null)
+    #                         ''',
+    #                         self.get_order_sql(),self.get_limit_sql(page,page_size)
+    #                        )
+    #     item = self.raw(sql,[user_id,user_id,category_id,category_id,type,type])
+    #     return self.serialize_to_json(item)
 
     def serialize_to_json(self,data):
         """
-        将models.Mode或RawQuerySet或QuerySet序列化为JSON格式,
-        包含Item外键关联的字段:
-            user:     user_id, username,icon;
-            category: category_id,category_name,type
+        返回waterfall数据
+        {"data":{"blogs":[${unit},...,${unit}],"has_next":true,"totalcount":202},"success":true}
         """
+        res={}
+        dat={}
         data = data if not isinstance(data,models.Model) else [data]
-        result = []
+        blogs = []
         for item in data:
             tmp = item.__dict__
-            result.append(tmp)
-        return dict2JSON(result)
+            blogs.append(tmp)
+
+        if blogs.__len__()>20:
+            dat["blogs"]=blogs[0:20]
+            dat["has_next"]= True 
+        else:
+            dat["blogs"]=blogs
+            dat["has_next"]= False
+
+        res["data"]=dat
+        res["success"]=True
+        # return blogs
+        return dict2JSON(res)
 
     def save_item_from_detail_get(self,account_id,data,pic):
         u"""
@@ -329,7 +359,7 @@ class Item_Manager(models.Manager):
     def update_comment_active(self,uuid,comment):
         u"active, comment"
         item=self.get(uuid=uuid)
-        item.active=True
+        item.active=Trueuser_id,
         item.comment=comment
         item.save()
         return item
@@ -479,7 +509,7 @@ class Item_Comment(models.Model):
     reply_id = models.IntegerField(unique=False,null=True)
 
     def __unicode__(self):
-        return self.desc
+        return u'%s' %self.desc
 
 
 class Item_Love_Manager(models.Manager):
