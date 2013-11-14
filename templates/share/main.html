@@ -1,7 +1,13 @@
 {% extends "share/base_share.html" %}
 {% block woo %}
 	<div id="win-holder">
-		<form id="woo-form-collect" action="/json/?page=">
+		<form id="woo-form-collect" action="/share/dat?page=">
+             {% if cats%}
+             <input type="hidden" name="cats" value="{{cats}}"/>
+             {% endif%}
+             {% if cid%}
+             <input type="hidden" name="cid" value="{{cid}}"/>
+             {% endif%}
 		</form>
 	</div>
 {% endblock %}

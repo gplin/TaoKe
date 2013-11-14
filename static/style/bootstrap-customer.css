@@ -81,9 +81,9 @@ span.is-hot{
   border-bottom: 1px solid #ffffff;
 }
 .cate-menu{
-  width: 940px;
+  width: 960px;
   height: auto;
-  left:-25px;
+  left:-75px;
 }
 .cate-list{
    margin:15px 15px;
@@ -182,7 +182,7 @@ span.is-hot{
 .container .detail-left .detail{
   /*width: 668px;*/
   padding: 20px 10px;
-  margin: 0 10px;
+  /*margin: 0 10px;*/
   border: 1px solid #d0d0d0;
   height: auto;
   position: relative;
@@ -253,7 +253,8 @@ span.is-hot{
   min-height: 30px;
   height:30px;
   line-height: 30px;
-  margin:10px;
+  /*margin:10px;*/
+  margin-top:10px;
   padding-left: 10px;
   /*width: 684px;*/
   border: 1px solid #d0d0d0;

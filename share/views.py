@@ -20,31 +20,33 @@ ResponeType='appliction/json'
 def JSON_HttpResponse(json):
     return HttpResponse(json,mimetype=ResponeType)
 
-def json(request):
+def data(request):
     if request.is_ajax():
         page = request.GET.get("page")
         cats = request.GET.get("cats")
+        cats = None if (cats!=None) & (cats.upper()=='DF') else cats
         cid = request.GET.get("cid")
         user_id = request.user.id if request.user.is_authenticated() else None
         return JSON_HttpResponse(Item.objects.get_item_data(page=page,user_id=user_id,cats=cats,cid=cid))
 
-def share(request):
+def share(request,cats):
     """
     """
-    return render_to_response('share/main.html',context_instance=RequestContext(request))
+    cid=request.GET.get("cid")
+    return render_to_response('share/main.html',{"cats":cats,"cid":cid},context_instance=RequestContext(request))
 
-def get_by_cats(request):
-    """
-    获取分类宝贝
-    """
-    return render_to_response('share/%s.html' % type,context_instance=RequestContext(request))
+# def get_by_cats(request,cats):
+#     """
+#     获取分类宝贝
+#     """
+#     return render_to_response('share/%s.html' % cats,context_instance=RequestContext(request))
 
-def get_relate_by_cid(request,cid):
-    if request.is_ajax():
-        page = request.GET.get('page')
-        user_id = request.user.id if request.user.is_authenticated() else None
-        data = Item.objects.get_item_by_category(user_id,None,cid,page)
-        return JSON_HttpResponse(data)
+# def get_relate_by_cid(request,cid):
+#     if request.is_ajax():
+#         page = request.GET.get('page')
+#         user_id = request.user.id if request.user.is_authenticated() else None
+#         data = Item.objects.get_item_by_category(user_id,None,cid,page)
+#         return JSON_HttpResponse(data)
 
 def get_item_by_account(request,user_id,type):
     u"""

@@ -242,6 +242,7 @@ class Item_Manager(models.Manager):
         """
         """
         sql = '%s%s%s' % (self.get_main_sql(),self.get_order_sql(),self.get_limit_sql(page,page_size))
+        cats = cats.upper() if cats else cats
         item =self.raw(sql,[user_id,user_id,cid,cid,cats,cats])
         return self.serialize_to_json(item)    
 

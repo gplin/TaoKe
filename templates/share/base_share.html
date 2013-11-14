@@ -1,11 +1,6 @@
 {% extends "base.html" %}
 {% block style %}
-	<link rel="stylesheet" href="/static/style/reset.css" />
-	<link rel="stylesheet" href="/static/style/main.css" />
-	<link rel="stylesheet" href="/static/style/woo.css" />
-	<link rel="stylesheet" href="/static/style/gotop.css" />
-	<link rel="stylesheet" href="/static/style/pagine.css" />
-	<link rel="stylesheet" href="/static/style/resize.css" />
+
 	<style>
 		/* invisible holder for the page */
 		#win-holder{overflow:hidden;height:0px;}
@@ -13,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-		<div id="woo-holder" style="margin-top:60px;">
+		<div id="woo-holder">
 			<div class="woo-swa" style="display:none;"></div>
 			<div class="woo-swb">
 				<!-- data-totalunits is set here, then pager nums would be fixed -->
