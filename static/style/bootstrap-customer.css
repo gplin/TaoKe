@@ -72,6 +72,12 @@ span.is-hot{
 /* end base style*/
 
 /*menu */
+.cate {
+  padding:10px 0;
+}
+.cate-hove{
+  background:;
+}
 .dropdown-menu .divider {
   width:500px;
   height: 1px;
