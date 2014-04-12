@@ -29,7 +29,6 @@ body{
 .f12_f{ font-size: 12px;}
 .f13_f{ font-size: 13px;}
 .f14_f{ font-size: 14px;}
-.f14_f{ font-size: 15px;}
 
 .trans07{ opacity: 0.7;}
 
@@ -72,6 +71,8 @@ span.is-hot{
 /* end base style*/
 
 /*menu */
+
+
 .cate {
   padding:10px 0;
 }

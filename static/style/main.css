@@ -4,28 +4,75 @@
 
 
 /* 瀑布流基本单元 unit */
-.my-pic .woo{float:left;+display:inline;height:auto;padding-bottom:4px;
-    margin:0 21px 20px 0;
-    border-top:0 none;
+.my-pic .woo{
+    float:left;
+    +display:inline;
+    height:auto;
+    /*padding-bottom:4px;*/
+    margin:0 20px 20px 0;
+    /*margin-bottom: 20px;*/
+    /*border-top:0 none;*/
     background-color:#fff;
-    background-image:url(http://cdn.duitang.com/uploads/people/201309/25/20130925155758_y3Bw4.gif);
-    background-position:right bottom;background-repeat:no-repeat;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px;}
+    /*background-image:url(http://cdn.duitang.com/uploads/people/201309/25/20130925155758_y3Bw4.gif);*/
+    background-position:right bottom;
+    background-repeat:no-repeat;
+   /* border-radius:2px;
+    -moz-border-radius:2px;
+    -webkit-border-radius:2px;*/
+}
 /* .woo-f 插入节点设置背景为none */
 .my-pic .woo-f{background:none}
 .my-pic .woo .blog-ppcount{position:absolute;top:0;left:0;z-index:2;background-color:red;height:16px;color:#fff;}
-.my-pic .woo .j{border:1px solid #E5E5E5;border-bottom:0 none;
-    width:222px;
-    padding:11px 0 0 0;
-    box-shadow:1px 0 1px #f3f3f3;-moz-box-shadow:1px 0 1px #f3f3f3;-webkit-box-shadow:1px 0 1px #f3f3f3;border-radius:2px 2px 0 0;-moz-border-radius:2px 2px 0 0;-webkit-border-radius:2px 2px 0 0;}
-.my-pic .woo .mbpho{margin-left:11px;}
+
+.my-pic .woo .j{
+    border:1px solid #E5E5E5;
+    width:223px;
+    box-shadow:1px 0 1px #f3f3f3;
+    -moz-box-shadow:1px 0 1px #f3f3f3;
+    -webkit-box-shadow:1px 0 1px #f3f3f3;
+    border-radius:2px 2px 0 0;
+    -moz-border-radius:2px 2px 0 0;
+    -webkit-border-radius:2px 2px 0 0;
+}
+
+.my-pic .woo .mbpho{
+    /*margin-left:11px;*/
+}
 .my-pic .o{width:auto;height:auto;padding:14px 16px 8px 15px;border:1px solid #f7f7f7;border-right:1px solid #f7f7f7;border-bottom:1px solid #f7f7f7;background-color:#f7f7f7;}
 .my-pic .g{clear:both;overflow:hidden;line-height:1.5;padding:8px 11px 6px 11px;margin:0;background-color:#f8f8f8;word-wrap:break-word;word-break:break-all;}
-div.my-pic .mbpho{float:none;overflow:hidden;width:200px;height:auto;margin:0 0 8px;}
-div.my-pic .mbpho img{display:block;margin-left:auto;margin-right:auto;_width:200px;max-width:200px;}
+div.my-pic .mbpho
+{   float:none;
+    overflow:hidden;
+    width:223px;
+    height:auto;
+    position: relative;
+}
+div.my-pic .mbpho img{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    _width:223px;
+    max-width:223px;
+}
+div.my-pic .woo .j .mbpho .price{
+    background-color: #fff;
+    color: #929191;
+    height: 18px;
+    line-height: 18px;
+    /*opacity: 0.8;*/
+    padding:0 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 100;
+}
+
 /* it's important to set .a */
 .my-pic .a{float:left;width:100%;height:100%;}
 .my-pic .a u{position:relative;display:block;_display:none !important;width:100%;height:80px;margin-top:-80px;background:url(http://cdn.duitang.com/img/0/cover.png) 0 bottom repeat-x;}
-div.my-pic .mbpho .k{width:208px;background:url(http://cdn.duitang.com/uploads/people/201207/06/20120706224429_3JzGy.png) no-repeat;}
+div.my-pic .mbpho .k{width:208px;
+    /*background:url(http://cdn.duitang.com/uploads/people/201207/06/20120706224429_3JzGy.png) no-repeat;*/
+}
 div.my-pic .mbpho .k img{float:left;+display:inline;margin:0 4px 4px 0;}
 /* 分享者信息 收集数 回复数 */
 .my-pic .w{clear:both;height:18px;overflow:hidden;padding:0 11px 12px 11px;margin:0;background-color:#f8f8f8;}
@@ -40,8 +87,18 @@ div.my-pic .mbpho .k img{float:left;+display:inline;margin:0 4px 4px 0;}
 .my-pic .d .d4{background-position:-220px -60px;}
 .my-pic .d .d5{background-position:-220px -80px;}
 /* 回复列表 */
-.my-pic ul{padding:0 0 8px 0;background-color:#f8f8f8;}
-.my-pic li{zoom:1;padding:8px 0 7px 0;margin:0 11px 0 11px;border-top:1px solid #efeeed;}
+.my-pic ul{
+    padding:8px 0;
+    /*background-color:#f8f8f8;*/
+    color:#929191;
+}
+.my-pic li{
+    zoom:1;
+    /*padding:8px 0 7px 0;*/
+    margin:0 11px;
+    /*border-top:1px ;*/
+    /*solid #efeeed;*/
+}
 .my-pic li:after{content:"\0020";display:block;height:0;overflow:hidden;clear:both;}
 .my-pic li img{float:left;+display:inline;margin:0 8px 0 0;}
 .my-pic li p{float:left;width:165px;word-wrap:break-word;word-break:break-all;overflow:hidden;}

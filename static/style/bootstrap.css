@@ -4614,7 +4614,7 @@ input[type="submit"].btn.btn-mini {
 
 .navbar .nav > li > a {
   float: none;
-  padding: 10px 15px 10px;
+  padding: 10px 20px;
   color: #777777;
   text-decoration: none;
   text-shadow: 0 1px 0 #ffffff;
@@ -4626,9 +4626,10 @@ input[type="submit"].btn.btn-mini {
 
 .navbar .nav > li > a:focus,
 .navbar .nav > li > a:hover {
-  color: #333333;
+  /*color: #333333;*/
   text-decoration: none;
-  background-color: transparent;
+  background-color: #901454;
+  /*background-color:  transparent;*/
 }
 
 .navbar .nav > .active > a,
@@ -4793,20 +4794,20 @@ input[type="submit"].btn.btn-mini {
 }
 
 .navbar-inverse .navbar-inner {
-  background-color: #1b1b1b;
-  background-image: -moz-linear-gradient(top, #222222, #111111);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#222222), to(#111111));
-  background-image: -webkit-linear-gradient(top, #222222, #111111);
-  background-image: -o-linear-gradient(top, #222222, #111111);
-  background-image: linear-gradient(to bottom, 222222, #111111);
+  background-color: #e02987;
+  background-image: -moz-linear-gradient(top, #e02987, #e02987);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e02987), to(#e02987));
+  background-image: -webkit-linear-gradient(top, #e02987, #e02987);
+  background-image: -o-linear-gradient(top, #e02987, #e02987);
+  background-image: linear-gradient(to bottom, #e02987, #e02987);
   background-repeat: repeat-x;
-  border-color: #252525;
+  border-color: #e02987;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff222222', endColorstr='#ff111111', GradientType=0);
 }
 
 .navbar-inverse .brand,
 .navbar-inverse .nav > li > a {
-  color: #999999;
+  color: #FFFFFF;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
@@ -4815,6 +4816,7 @@ input[type="submit"].btn.btn-mini {
 .navbar-inverse .brand:focus,
 .navbar-inverse .nav > li > a:focus {
   color: #ffffff;
+
 }
 
 .navbar-inverse .brand {
@@ -4828,14 +4830,15 @@ input[type="submit"].btn.btn-mini {
 .navbar-inverse .nav > li > a:focus,
 .navbar-inverse .nav > li > a:hover {
   color: #ffffff;
-  background-color: transparent;
+  background-color: #901454;
+  /*background-color: transparent;*/
 }
 
 .navbar-inverse .nav .active > a,
 .navbar-inverse .nav .active > a:hover,
 .navbar-inverse .nav .active > a:focus {
   color: #ffffff;
-  background-color: #111111;
+  background-color: #901454;
 }
 
 .navbar-inverse .navbar-link {

@@ -100,18 +100,33 @@ if(!String.prototype.cut){
 	'<% for (var i = 0; i < list.length; i ++) { %> \
 		<% var u = list[i],indx = $unit(u.id,u),olnk = $outlnk(u); %> \
 		<% if(!indx) continue; %> \
-			<div class="woo">\
-				<div class="j"> \
+			<div class="woo"><div class="j"> \
 				<div class="mbpho" style="height:<%=u.iht > 800 ? 800 : u.iht%>px;"> \
 				<a target="_blank" class="a" href="/share/<%=u.id%>/"> \
 					<img <%=srcd ? "srcd" : "src"%>="/<%=u.isrc%>" height="<%=u.iht%>" width="<%=u.iwt%>" /> \
 					<%= u.iht > 800 ? "<u style=\'margin-top:-"+(u.iht-720)+"px\'></u>" : ""%> \
 				</a> \
-				<div class="price">￥<%=u.price%></div>\
 				</div> \
+			<div class="d"> \
+				<span class="d1 d1-done"><%=u.favc%></span>\
+				<span class="d2 d2-done"><%=u.zanc%></span>\
+				<span class="d3"><%=u.repc%></span> \
+			</div> \
+			<div class="g"> \
+				<%=u.msg%><% if(olnk){ %>&nbsp;<%=$price(u,olnk)%><% } %> \
+			</div> \
 			<ul> \
-				<li><%=u.title%></li>\
-				</ul>'+
+				<li class="f"><a target="_blank" href="/account/<%=u.user_id%>/default">\
+					<img width="24" height="24" src="<%=u.icon%>"></a> \
+					<p><a class="p" target="_blank" href="/account/<%=u.user_id%>/default"> \
+					<%=$cut(u.username,16)%></a>&nbsp;收集到&nbsp; \
+					<% if(u.albid)\
+					{ %>\
+						<a target="_blank" href="/account/<%=u.user_id%>/default"><%=$cut(u.albnm,12)%></a>&nbsp;专辑中<% \
+					}else{ %>\
+						<a target="_blank" href="/account/<%=u.user_id%>/default">默认专辑</a><% } %>\
+					</p>\
+				</li></ul>'+
 			'</div></div>' +
 	'<% } %>',
 	null,
