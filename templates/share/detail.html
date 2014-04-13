@@ -2,7 +2,13 @@
 {% block title %}
   {{ model.title }}
 {% endblock%}
-
+ {% block style %}
+<style>
+          body {
+            background-color: #FFF;
+          }
+        </style>
+ {% endblock %}
 {% block content %}
 <!-- begin left -->
 <div class="detail-left">
@@ -18,27 +24,26 @@
     <!-- other -->
     <div class="detail-info pull-right text-left">
         <div class="detail-title">
-          <p>
-            <a href="/share/{{ model.uuid }}" target="_bank">{{ model.title }}
+          <p class="f16_f">
+            <a href="/share/{{ model.uuid }}" target="_bank"><strong>{{ model.title }}</strong>
             </a>
           </p>
-          <small>
+          <span class="border_style_solid"></span>
+         <!--  <small>
             由<a href="/share/a/{{model.account.user.id}}">{{model.account.user.username}}</a> 分享到<a href="">精美蕾丝情</a>
-          </small>
+          </small> -->
           <p class="row-price">
-           价格:&nbsp;&nbsp;<span class="big-price">¥{{ model.price }}</span>
+           <span class="letter_spac4">价格</span><span class="big-price">¥{{ model.price }}</span>
           </p>
            <a href="/share/{{ model.uuid }}" target="_bank" class="buy">立即买入</a>
         </div>
-
-
-        <span class="btn">喜欢</span><span class="liked-num">{{model.add_up_love}}</span>
+        <!-- <span class="btn">喜欢</span><span class="liked-num">{{model.add_up_love}}</span> -->
 
         <div class="relate-item">
         </div>
 
-        <div class="detail-comment">评论
-        </div>
+      <!--   <div class="detail-comment">评论
+        </div> -->
     </div>
 
     <div class="clearfix"></div>

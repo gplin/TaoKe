@@ -5,6 +5,35 @@ body{
 	background: #f2f0f0;
 }
 
+a:link, a:hover, a:visited{
+  color:  #666;
+}
+
+.letter_spac4{
+  letter-spacing: 4px;
+}
+[class^="letter_spac"],
+[class*="letter_spac"]{
+  margin-right: 20px;
+}
+
+a.buy, .buy{
+  display: inline-block;
+  font-size: 20px;
+  color:#fff;
+  background-color:#e02987;
+  /*margin: 5px;*/
+  height: 30px;
+  line-height: 30px;
+  padding: 5px 20px;
+}
+
+.border_style_solid{
+  display: block;
+  border-top: 1px solid #E5E5E5;
+  margin: 20px 0;
+}
+
 /*.likes {
     cursor: pointer;
     height: 20px;
@@ -12,7 +41,7 @@ body{
 }*/
 .liked, .liked:hover{
   color: #C71585;
-  background: ##FAF0E6;
+  background: #FAF0E6;
 }
 
 .liked-num{
@@ -29,6 +58,8 @@ body{
 .f12_f{ font-size: 12px;}
 .f13_f{ font-size: 13px;}
 .f14_f{ font-size: 14px;}
+.f15_f{font-size: 15px;}
+.f16_f{font-size: 16px;}
 
 .trans07{ opacity: 0.7;}
 
@@ -62,9 +93,8 @@ span.is-hot{
   margin-top:20px;
   padding:10px 0;
   font-size: 12px;
-  /*border-top:solid 1px #e5e5e5;*/
-  border-top: 1px dashed #ccc;
-  /*background: #e5e5e5;*/
+  background: #e5e5e5;
+  /*border-top: 1px solid #E5E5E5;*/
 }
 
 
@@ -188,9 +218,9 @@ span.is-hot{
 
 .container .detail-left .detail{
   /*width: 668px;*/
-  padding: 20px 10px;
+  /*padding: 20px 10px;*/
   /*margin: 0 10px;*/
-  border: 1px solid #d0d0d0;
+  /*border: 1px solid #d0d0d0;*/
   height: auto;
   position: relative;
   /*background: #999999;*/
@@ -198,16 +228,23 @@ span.is-hot{
 
 .container .detail-left .detail .detail-pic{
   position: relative;
-  /*margin-right: 30px;*/
   max-width: 450px;
   min-height: 400px;
   width: 450px;
   height: auto;
+  overflow: hidden;
+  /*background-color: #999;*/
+}
+.container .detail-left .detail .detail-pic img{
+  width: 450px;
+  height: 600px;
 }
 
 .container .detail-left .detail .detail-info{
-  width: 438px;
-  padding: 20px 0 20px 30px;
+  width: 490px;
+  padding: 20px 0 20px 20px;
+  /*background-color: #d0d0d0;*/
+  line-height: 26px;
 
 }
 
@@ -216,23 +253,16 @@ span.is-hot{
 }
 
 .container .detail-left .detail .detail-title .row-price{
-  padding:5px 0;
+  /*padding:5px 0;*/
   line-height: 30px;
   height:30px;
 }
 .container .detail-left .detail .detail-title .row-price .big-price{
-  color: #FF00FF;
+  color: #e02987;
   font-size: 24px;
 }
 
-.container .detail-left .detail .detail-title .buy{
-  display: block;
-  font-size: 28px;
-  color:#f40;
-  margin: 5px 0;
-  height: 40px;
-  line-height: 40px;
-}
+
 
 .container .detail-left .detail .detail-info .detail-comment{
   margin:10px 0;
