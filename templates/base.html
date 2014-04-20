@@ -125,8 +125,10 @@
     
         $(".nav-collapse .nav").find("li").each(function(){
             var a = $(this).find("a:first")[0];
-            var currentURL = stripTrailingSlash(window.location.pathname)
-            if($(a).attr("href")==currentURL){
+            var currentURL = stripTrailingSlash(window.location.pathname);
+            var activeURL=$(a).attr("href");
+            // alert(currentURL);
+            if(activeURL == currentURL ||  (currentURL="" && activeURL=="/")){
                 $(this).addClass("active");
             }else{
                 $(this).removeClass("active")

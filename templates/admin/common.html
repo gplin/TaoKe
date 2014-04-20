@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{ LANGUAGE_CODE|default:"zh-cn"}}" lang="{{ LANGUAGE_CODE|default:"zh-cn"}}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock%}芭时尚</title>
+    <link rel="stylesheet" href="/static/style/reset.css" />
+    <link rel="stylesheet" href="/static/style/bootstrap.css" >
+    <link rel="stylesheet" href="/static/style/main.css" />
+    <link rel="stylesheet" href="/static/style/woo.css" />
+    <link rel="stylesheet" href="/static/style/gotop.css" />
+    <link rel="stylesheet" href="/static/style/pagine.css" />
+    <link rel="stylesheet" href="/static/style/resize.css" />
+    <link rel="stylesheet" href="/static/style/bootstrap-customer.css">
+    <style type="text/css">
+    body{
+        padding-top: 30px;
+        min-height: 800px;
+        background-color: #FFF;
+        /*color: #000;*/
+    }
+    </style>
+    {% block style %}{% endblock %}
+</head>
+<body>
+    <div class="navbar navbar-fixed-top overview">
+      <div class="logo pull-left text-center f14_f"><i class="icon-align-justify icon-white"></i>&nbsp;芭时尚</div>
+      <div class="top-Sidebar">
+        <ul class="inline pull-left">
+            <li>Overview &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+            <li>Daily</li>
+            <li>Weekly</li>
+            <li>Monthly</li>
+        </ul>
+       <span class="pull-right staff"><i class="icon-user icon-white"></i>&nbsp;Admin</span>
+      </div>  
+    </div>
+    
+<!--container-->
+<div class="ad-container">
+    <div class="left-menu pull-left  affix">
+        <ul class="nav nav-tabs nav-stacked">
+            <li><a href="#">Share Manager</a></li>
+            <li><a href="#">Account Settiing</a></li>
+            <li><a href="#">Messages</a></li>
+            <li><a href="#">Report</a></li>
+            <li><a href="#">Static Manager</a></li>
+            <li><a href="#">Utils</a></li>
+            <li><a href="#">Report</a></li>
+            <li><a href="#">Static Manager</a></li>
+            <li><a href="#">Utils</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        Content
+    </div>
+</div>
+<!--End container-->
+
+
+<script src="/static/js/jquery-1.9.1.min.js" ></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/jquery.grumble.min.js"></script>
+<script src="/static/js/taoke-base.js"></script>
+
+{% block javascript %}{% endblock %}
+</body>
+</html>
